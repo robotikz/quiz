@@ -1,0 +1,50 @@
+body {
+    overflow: hidden;
+    /* position: fixed;
+    left: 0;
+    right: 0;
+    transform: translate3d(0, 0, 0); */
+}
+
+
+/* GAMESCREEN */
+
+.master-wrapper {
+    overflow: hidden;
+}
+
+
+/* @media screen and (max-height: 620px) { */
+
+.header {
+    position: fixed;
+}
+
+.joker-wrapper {
+    position: fixed;
+}
+
+.question-nr-wrapper {
+    position: fixed;
+}
+
+.content-wrapper {
+    /*padding-top: 138px;*/
+}
+
+.ads {
+    padding-top: 10px;
+}
+
+div.footer {
+    position: fixed;
+}
+
+@media screen and (min-width: 361px) {
+    div.footer {
+        /* margin-bottom: 14px; */
+    }
+}
+
+
+/* } */

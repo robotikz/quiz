@@ -1,0 +1,92 @@
+{# twig #}
+{% extends 'default/res.init.html.twig' %}
+
+{% block og %}
+	 {{ parent() }} 
+	 {# <meta property="og:url" content="{{ absolute_url(path('fb_share')) }}"/>    #}
+	{# {% include 'default/highscore.user.og.html.twig' %} #}
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Highscore List',
+			'pageCategory' : 'Championship',
+			'pageURI' : '/championship/highscore.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/score.js') }}"></script>
+{% endblock %}
+
+{% block head2 %}
+{% endblock %}
+
+	{# for not activated user no links to user  #}
+	{% block my_user %}
+		{% if app.user and app.user.status==5 %}
+			<i class="fa fa-user-o" aria-hidden="true"></i>
+		{% else %}	
+			{{ parent() }}
+		{% endif %}
+    {% endblock %}
+
+{% block master_content %}
+    <div class="content-wrapper startseite">
+    	<h1>{{screen_highscore_head1}}</h1>
+    	<h2 class="highscore-h2">
+    		<span id="btn-score-month" >{{ ('month.'~"now"|date("m"))|trans ~ ' ' ~ "now"|date("Y")}}</span>
+    		| 
+    		<span id="btn-score-all" style="color:#337ab7;cursor:pointer">{{screen_highscore_head2}}</span>
+    	</h2>
+    	<p id="t-score-title" style="margin: 16px 0">
+			{% include 'default/highscore.user.title.html.twig' %}
+    	</p>
+
+		{% if pos > -1 %}
+			<button
+				type="button"
+				id="btn-score-my"
+				class="btn btn-mail-signup"
+			>{{screen_highscore_title4}}</button>
+		{% endif %}
+    	
+    	<div id="t-ajax" class="highscore-ajax" data-path="{{ path('hs_aj') }}" data-id="{{ quiz.id }}" data-act="month">
+    		{% include 'default/highscore.user.table.html.twig' with {'scores':scores, 'pos':pos} %}
+    	</div>
+    	
+    	<button id="btn-score-more"
+    		type="button"
+    		class="btn btn-grey"
+    		style="display:none"
+    	>{{screen_highscore_title5}}</button>
+    	
+		{% if quiz.share == 1 %}
+			{% if pos > -1 %}
+				<button
+					id="btn-score-fb"
+					type="button"
+					class="btn btn-facebook-signup"
+				>{{screen_sharee_title2}}</button>
+			{% endif %}
+		{% endif %}
+
+		<button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+
+    </div>
+    
+     <!-- close #content-wrapper -->
+        
+    <div class="minheight"></div>
+{% endblock %}
+

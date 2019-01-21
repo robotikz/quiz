@@ -1,0 +1,34 @@
+<div style="display:none;" class="content-wrapper" id="game-qn-a" 
+    data-qz="{{ quiz.id }}" 
+    data-qn="{{ question.id }}" 
+	data-dnd="{{question.dnd}}" 
+    data-dndnext="{{question_next.dnd}}" 
+    data-qnnext="{{ question_next.id }}"
+    data-path="{{ path('ani_dnd_aj') }}"
+    >
+	<script src="{{ asset('js/create.js') }}"></script>
+    <script src="{{ asset('js/ani.dnd.js') }}"></script>
+	<div id="cnt-dlg-ani-dnd" data-path="{{ path('ani_dnd_aj') }}">
+        <!-- The Modal -->
+        <div id="mdl-ani-dnd" class="mdl">
+            <!-- Modal content -->
+            <div class="mdl-content">
+                {# <span class="cls">&times;</span> #}
+                <br>
+                <div style="text-align:center" class="">
+                    <h3 id="" style="margin-top:-5px;" >{{dlg_ani_dnd_h1}}</h3>
+                </div>  
+                <div id="" style="line-height:18px;"> 
+                    {{dlg_ani_dnd_title1|ph|raw}}
+                </div>
+                <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:280px; height:330px">
+                    <canvas id="canvas" width="280" height="330" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+                    <div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:280px; height:330px; position: absolute; left: 0px; top: 0px; display: block;"></div>
+                </div>
+                <div id="" style="line-height:18px;"> 
+                    {{dlg_ani_dnd_title2|ph|raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

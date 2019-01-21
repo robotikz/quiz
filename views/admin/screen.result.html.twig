@@ -1,0 +1,44 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+        			<div class="col-sm-12">
+        				<h3 class="panel-title text-center">GAME RESULTS SCREEN</h3>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="row">
+    				<div class="col-sm-3">
+                		<select class="selectpicker sel-quiz" id="sel-quiz-result" data-mobile="true">
+                			<option value="">-</option>
+                			{% for quiz in quizs %}
+                          		<option 
+                          			{% if app.request.get('eid') == quiz.id %}selected="selected"{% endif %}
+                          			{% if quiz.result is null %}{% set result_id = 0 %}{% else %}{% set result_id = quiz.result.id %}{% endif %}
+                          			value="{{ path('admin_screen_result_ne',{'qid':quiz.id,'eid':result_id})}}">{{ quiz.title }}</option>
+                          	{% endfor %}
+                        </select>
+                	</div>
+                	<div class="col-sm-9">
+                	</div>
+                </div>
+        	</div>
+		</div>
+		
+	</div>
+{% endblock %} 

@@ -1,0 +1,40 @@
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '{{ fb_client_id }}', //FIXME for localhost get it from pars.remote.yml
+            xfbml      : true,
+            version    : 'v3.0'
+        });
+        FB.AppEvents.logPageView();
+    };
+    // Load the SDK asynchronously
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function fb_login(c,l) {
+        //gtm
+        gtmEPush(_,c,l);
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                // connected
+                //alert('Already connected, redirect to login page to create token.');
+                document.location = "{{ url('hwi_oauth_service_redirect', {service: 'facebook'}) }}";
+            } else {
+                // not_authorized
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        document.location = "{{ url('hwi_oauth_service_redirect', {service: 'facebook'}) }}";
+                    } else {
+                        alert('Es ist ein Fehler bei der Authentifikation aufgetreten.');
+                    }
+                }, {scope: 'email'});
+            }
+        });
+    }
+</script>

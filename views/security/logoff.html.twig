@@ -1,0 +1,65 @@
+{# src/Resources/views/security/reg.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+	{% block master_header %}
+        <div class="header">
+    		<div class="header-wrapper-top">
+    			<div class="quizlogo">
+					<a id="btn-home-logo">
+    					<img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+					</a>
+    			</div>
+				<div class="wrapper-icons">
+					<div class="result-wrapper">
+						<a id="btn-highscore">
+							<i class="fa fa-list-ol" aria-hidden="true"></i>
+							<span class="txt">{{screen_global_score}}</span>
+						</a>
+					</div>
+					<div class="feedback-wrapper">
+						<a id="btn-quiz-feedback">
+							<i class="fa fa-commenting-o" aria-hidden="true"></i>
+							<span class="txt">{{screen_global_feedback}}</span>
+						</a>
+					</div>
+					<div class="username-wrapper">
+						<div class="imagebox">
+							{% if app.user and app.user.status!=9 %}
+								<a id="btn-profile">
+									<i class="fa fa-user-o" aria-hidden="true"></i>
+									<span class="txt">{{screen_global_user}}</span>
+								</a>
+							{% else %}
+								{# <i class="fa fa-user-o" aria-hidden="true"></i> #}
+							{% endif  %}
+						</div>
+					</div>
+				</div>
+    		</div>
+    	</div>
+    {% endblock %}
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<div class="logo-container">
+            	<h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+        	</div>
+			<h3 class="panel-title">{{screen_logoff_reg}}</h3>
+            <a href="{{ path('logout') }}">{{nav_profile_logout}}</a> 
+		</div>
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 
+    
+{% block footer %} 
+{% endblock %}

@@ -1,0 +1,63 @@
+<span id="t-score-pos" style="display:none;visible:hidden;">{{pos}}</span>
+{% if title_m %}
+	<span id="t-score-month" style="">
+		{{title_m|replace({
+			'[$username$]':app.user.username, 
+			'[$user_score_top_now$]':score_now,
+			'[$user_score_top_thismonth$]':score.score,
+			'[$user_ranking_thismonth$]':'<span id="t-score-place">'~ pos ~'</span>'
+			})|raw}}
+	</span>
+	<span id="fb-description" style="display:none;">
+		{{title_m|replace({
+			'[$username$]':app.user.username, 
+			'[$user_score_top_now$]':score_now,
+			'[$user_score_top_thismonth$]':score.score,
+			'[$user_ranking_thismonth$]':''~ pos ~''
+			})|raw}}
+	</span>
+{% elseif title_a %}
+	<span id="t-score-all" style="">
+		{{title_a|replace({
+			'[$username$]':app.user.username, 
+			'[$user_score_top_now$]':score_now,
+			'[$user_score_top_alltime$]':score.score,
+			'[$user_ranking_alltime$]':'<span id="t-score-place">'~ pos ~'</span>'
+			})|raw}}
+	</span>
+	<span id="fb-description" style="display:none;">
+		{{title_a|replace({
+			'[$username$]':app.user.username, 
+			'[$user_score_top_now$]':score_now,
+			'[$user_score_top_alltime$]':score.score,
+			'[$user_ranking_alltime$]':''~ pos ~''
+			})|raw}}
+	</span>
+{% elseif title_def %}
+	<span id="t-score-def" style="">
+		{{title_def|replace({
+			'[$username$]':app.user.username, 
+			'[$user_score_top_now$]':score_now,
+			'[$user_ranking_alltime$]':'<span id="t-score-place">'~ pos ~'</span>'
+			})|raw}}
+	</span>
+	<span id="fb-description" style="display:none;">
+		{{title_def|replace({
+			'[$username$]':app.user.username, 
+			'[$user_score_top_now$]':score_now,
+			'[$user_ranking_alltime$]':''~ pos ~''
+			})|raw}}
+	</span>
+{% else %}
+	<span id="t-score-no" style="">
+		{{title_no|replace({
+			'[$username$]':app.user.username, 
+			})|raw}}
+	</span>
+	<span id="fb-description" style="display:none;">
+		{{title_no|replace({
+			'[$username$]':app.user.username, 
+			})|raw}}
+	</span>
+{% endif %}
+

@@ -1,0 +1,629 @@
+{# src/Resources/views/admin/q.tag.html.twig #}
+{% extends 'admin/init.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bs/css/bootstrap-colorpicker.min.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bs/js/bootstrap-colorpicker.min.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+            	<a class="" href="{{ path('admin_quiz') }}" style="">Back to Quizs</a>
+            </div>
+			<div class="panel-body">
+                <form action="{{ path('admin_quiz_ne',{'eid':quiz.id}) }}" method="post" id="f-admin-quiz" data-toggle="validator" role="form">
+
+            		<h3>Da kannst eine Quiz bearbeiten und speichern</h3>
+            		<br/>
+
+            		<div class="form-group">
+        				<label for="{{ form.title.vars.id }}">Quiz-Name</label>
+        				{{ form_widget(form.title) }}
+        				<div class="help-block with-errors">{{ form_errors(form.title) }}</div>
+        			</div>
+
+                	<div class="form-group">
+        				<label for="{{ form.guestallow.vars.id }}">Gast-Spiel möglich</label>
+        				{{ form_widget(form.guestallow, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.guestallow) }}</div>
+        			</div>
+
+        			<div class="form-group" style="display:none">
+        				<label for="{{ form.roundperday.vars.id }}">Runden pro Tag</label>
+        				<div class="range">
+            				{{ form_widget(form.roundperday, { 'attr': { 'class':'rangeslider' } } ) }}
+            				<output id="quiz_roundperdayInfo">{{ form.roundperday.vars.value }}</output>
+            			</div>
+        				<div class="help-block with-errors">{{ form_errors(form.roundperday) }}</div>
+        			</div>
+
+        			<div class="form-group">
+        				<label for="{{ form.hsnumber.vars.id }}">Highscore-Liste</label>
+        				<div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="{{ form.hsnumber.vars.id }}">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                          {{ form_widget(form.hsnumber, {'attr':{'class': 'form-control input-number','max':'50','min':'0','step':'10'}}) }}
+                          	<span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="{{ form.hsnumber.vars.id }}">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                          	</span>
+                  		</div>
+              			<div class="help-block with-errors">{{ form_errors(form.timelimit) }}</div>
+        			</div>
+        			
+
+        			<div class="form-group">
+        				<label for="{{ form.analysis.vars.id }}">Auswertung des Ergebnisses</label>
+        				{{ form_widget(form.analysis, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.analysis) }}</div>
+        			</div>
+        			
+        			<div class="form-group form-group-score form-group-analysisi">
+        				<label for="{{ form.analysisi.vars.id }}">Auswertung induviduell</label>
+        				{{ form_widget(form.analysisi, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.analysisi) }}</div>
+        			</div>
+        			<div 
+        				class="form-group form-group-score form-group-evaluations" 
+        				id="form-group-evaluations" 
+        				data-prototype="{{ form_widget(form.evaluations.vars.prototype)|e('html_attr') }}"
+        				data-index="{{ form.evaluations|length }}">
+        				<div class="row">
+        					<div class="col-xs-2">
+								<span class="btn btn-danger btn-xs btn-evaluation-add" id="btn-evaluation-add" style="">+ Auswertung</span>
+							</div>
+						</div>
+        				<div class="row">
+        					<label class="col-xs-2">Punktzahl</label>
+        					<label class="col-xs-10 text-left">Auswertung</label>
+        				</div>
+        				<div class="row-evaluations" id="row-evaluations">
+                            {% for evaluation in form.evaluations %}
+                            	<div class="row" id="row-evaluation-{{ loop.index0 }}">
+                                	<div class="col-xs-2 form-group">
+        	                            {{ form_widget(evaluation.score) }}
+        	                            <div class="help-block with-errors">{{ form_errors(evaluation.score) }}</div>
+        	                        </div>
+        	                        <div class="col-xs-8 form-group">
+        	                            {{ form_widget(evaluation.title) }}
+        	                            <div class="help-block with-errors">{{ form_errors(evaluation.title) }}</div>
+                                	</div>
+                                	<div class="col-xs-2">
+                                		<span class="btn btn-danger btn-xs btn-evaluation-remove" id="btn-evaluation-remove" data-index="{{ loop.index0 }}" style="">- Auswertung</span>
+                                	</div>
+                                </div>
+	                        {% endfor %}
+	                    </div>
+                    </div>
+                    
+
+        			<div class="form-group" style="display:none;">
+        				<label for="{{ form.reward.vars.id }}">Belohnung</label>
+        				{{ form_widget(form.reward, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.reward) }}</div>
+        			</div>
+
+        			<div class="form-group">
+        				<label for="{{ form.share.vars.id }}">Teilen</label>
+        				{{ form_widget(form.share, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.share) }}</div>
+        			</div>
+
+        			<div class="form-group form-group-share1" style="display:none;">
+        				<label for="{{ form.sharehs.vars.id }}">Highscore teilen</label>
+        				{{ form_widget(form.sharehs, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.sharehs) }}</div>
+        			</div>
+
+        			<div class="form-group form-group-share1" style="display:none;">
+        				<label for="{{ form.shareanalysis.vars.id }}">Auswertung teilen</label>
+        				{{ form_widget(form.shareanalysis, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.shareanalysis) }}</div>
+        			</div>
+
+        			<div class="form-group form-group-share1" style="display:none;">
+        				<label for="{{ form.sharereward.vars.id }}">Belohnung teilen</label>
+        				{{ form_widget(form.sharereward, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.sharereward) }}</div>
+        			</div>
+
+            		<div class="form-group">
+        				<label for="{{ form.joker.vars.id }}">Joker</label>
+        				{{ form_widget(form.joker, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.joker) }}</div>
+        			</div>
+
+            		<div class="form-group form-group-joker">
+        				<label for="{{ form.joker5050.vars.id }}">Joker "50:50"</label>
+        				{{ form_widget(form.joker5050, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.joker5050) }}</div>
+        			</div>
+
+        			<div class="form-group form-group-joker">
+        				<label for="{{ form.jokerpause.vars.id }}">Joker "Zeit stoppen"</label>
+        				{{ form_widget(form.jokerpause, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.jokerpause) }}</div>
+        			</div>
+
+            		<div class="form-group form-group-joker">
+        				<label for="{{ form.jokerskip.vars.id }}">Joker "Frage überspringen"</label>
+        				{{ form_widget(form.jokerskip, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.jokerskip) }}</div>
+        			</div>
+
+                	<div class="form-group" style="display:none;">
+            			<label for="{{ form.difficulty.vars.id }}">Schwierigkeitsgrad</label>
+            			<div class="range">
+            				{{ form_widget(form.difficulty, { 'attr': { 'class':'rangeslider' } } ) }}
+            				<output id="quiz_difficultyInfo">{{ form.difficulty.vars.value }}</output>
+            			</div>
+        				<div class="help-block with-errors">{{ form_errors(form.difficulty) }}</div>
+        			</div>
+
+        			<div class="form-group">
+        				<label for="{{ form.timelimit.vars.id }}">Zeitlimit in Sekunden</label>
+        				<div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="{{ form.timelimit.vars.id }}">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                          {{ form_widget(form.timelimit, {'attr':{'class': 'form-control input-number','max':'120','min':'10','step':'15'}}) }}
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="{{ form.timelimit.vars.id }}">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                          </span>
+                  		</div>
+              			<div class="help-block with-errors">{{ form_errors(form.timelimit) }}</div>
+        			</div>
+
+        			<div class="form-group">
+        				<label for="{{ form.qrandom.vars.id }}">Reihenfolge zufällig</label>
+        				{{ form_widget(form.qrandom, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.qrandom) }}</div>
+        			</div>
+
+        			<div class="form-group">
+        				<label for="{{ form.qrepeat.vars.id }}">Fragen wiederholen</label>
+        				{{ form_widget(form.qrepeat, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.qrepeat) }}</div>
+        			</div>
+
+        			<div class="form-group" style="display:none;">
+        				<label for="{{ form.trueanswer.vars.id }}">Frage-Typs</label>
+        				{{ form_widget(form.trueanswer, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.trueanswer) }}</div>
+        			</div>
+
+					<div class="form-group">
+        				<label for="{{ form.ads.vars.id }}">Werbung aktiv</label>
+        				{{ form_widget(form.ads, {'label_attr': {'class': 'radio-inline'}}) }}
+        				<div class="help-block with-errors">{{ form_errors(form.ads) }}</div>
+        			</div>
+
+					<div class="form-group form-group-ads">
+        				<label for="{{ form.adsafterqn.vars.id }}">Nach wie vielen Fragen</label>
+        				<div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="{{ form.adsafterqn.vars.id }}">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                          {{ form_widget(form.adsafterqn, {'attr':{'class': 'form-control input-number','max':'20','min':'1','step':'1'}}) }}
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="{{ form.adsafterqn.vars.id }}">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                          </span>
+                  		</div>
+              			<div class="help-block with-errors">{{ form_errors(form.adsafterqn) }}</div>
+        			</div>
+
+					<div class="form-group form-group-ads">
+        				<label for="{{ form.adsaftersec.vars.id }}">Nach wie vielen Sekunden erscheint der “Weiter”-Button</label>
+        				<div class="input-group">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="{{ form.adsaftersec.vars.id }}">
+                                  <span class="glyphicon glyphicon-minus"></span>
+                              </button>
+                          </span>
+                          {{ form_widget(form.adsaftersec, {'attr':{'class': 'form-control input-number','max':'20','min':'1','step':'1'}}) }}
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="{{ form.adsaftersec.vars.id }}">
+                                  <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                          </span>
+                  		</div>
+              			<div class="help-block with-errors">{{ form_errors(form.adsaftersec) }}</div>
+        			</div>
+
+            		<div class="form-group">
+        				<label for="{{ form.cats.vars.id }}">Kategorien</label>
+            			{{ form_widget(form.cats, { 'attr': { 'class':'selectpicker', 'data-live-search':'true' } } ) }}
+        				<div class="help-block with-errors">{{ form_errors(form.cats) }}</div>
+        			</div>
+        			
+        			<div class="form-group">
+        				<label for="{{ form.color1.vars.id }}">Farbe-Header</label>
+            			<div id="cp-color1" class="input-group colorpicker-component">
+                            {{ form_widget(form.color1, {'label_attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                        <div class="help-block with-errors">{{ form_errors(form.color1) }}</div>
+        			</div>
+        			
+        			<div class="form-group">
+        				<label for="{{ form.color2.vars.id }}">Farbe-Footer</label>
+            			<div id="cp-color2" class="input-group colorpicker-component">
+                            {{ form_widget(form.color2, {'label_attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                        <div class="help-block with-errors">{{ form_errors(form.color2) }}</div>
+        			</div>
+        			
+        			<div class="form-group">
+        				<label for="{{ form.color3.vars.id }}">Farbe-Score</label>
+            			<div id="cp-color3" class="input-group colorpicker-component">
+                            {{ form_widget(form.color3, {'label_attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                        <div class="help-block with-errors">{{ form_errors(form.color3) }}</div>
+        			</div>
+        			
+        			{# <div class="form-group">
+        				<label for="{{ form.color4.vars.id }}">Farbe-Antwort</label>
+            			<div id="cp-color4" class="input-group colorpicker-component">
+                            {{ form_widget(form.color4, {'label_attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                        <div class="help-block with-errors">{{ form_errors(form.color4) }}</div>
+        			</div>
+        			
+        			<div class="form-group">
+        				<label for="{{ form.color5.vars.id }}">Farbe-Antwort-Falsch</label>
+            			<div id="cp-color5" class="input-group colorpicker-component">
+                            {{ form_widget(form.color5, {'label_attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                        <div class="help-block with-errors">{{ form_errors(form.color5) }}</div>
+        			</div> #}
+
+					<div class="form-group">
+        				<label for="{{ form.color6.vars.id }}">Farbe-Joker</label>
+            			<div id="cp-color6" class="input-group colorpicker-component">
+                            {{ form_widget(form.color6, {'label_attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-addon"><i></i></span>
+                        </div>
+                        <div class="help-block with-errors">{{ form_errors(form.color6) }}</div>
+        			</div>
+        			
+        			{# LOGO-1-home BLOCK #}
+    				<div
+    					class="form-group img-logo"
+    					id="f-logo"
+    					style=""
+    				>
+    					<label for="{{ form.logo1.vars.id }}">Logo-Bild für Homepage hinzufügen</label>
+    					<span
+    						class="form-notes"
+    					> Minimal/Maximal Größe ist 480x200 px</span>
+    					<div
+    						id="images-logo1"
+    						class="imagelist image-drag-drop"
+    						data-path="{{ path('aj_quiz_logo1') }}"
+    						data-src2="{{ asset('ph-480.jpg','img') }}"
+    					>
+    
+    						<img id="img-logo1" src="
+    							{% if quiz.logo1!='' %}
+    								{{ asset('qz-'~quiz.id~'/'~quiz.logo1,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}
+    							{% else %}
+    								{{ asset('ph-480.jpg','img') }}
+    							{% endif %}"
+    							alt="no"
+    							style="width: 240px; height: 100px;"
+    							class="img-rounded"
+    							>
+    					</div>
+    					<div>
+    						<div
+    							class="uploader text-center  uploader-logo"
+    							style=""
+    						>
+    							<div
+    								class="uploader-sub"
+    								id="ctrl-up-logo1"
+    							>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-up-logo1"
+    									style="z-index: 0;"
+    								>Durchsuchen</span>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-rem-logo1"
+    									style="{% if quiz.logo1=='' %}display:none;{% endif %}"
+    								>Löschen</span>
+    								<div
+    									id=""
+    									class="filer"
+    								>
+    									{{ form_widget(form.logo1_f) }}
+    									{{ form_errors(form.logo1_f) }}
+    								</div>
+    							</div>
+    
+    							<div
+    								class="progress progress-logo1"
+    								style="display: none"
+    							>
+    								<div
+    									class="progress-bar"
+    									role="progressbar"
+    									aria-valuenow="0"
+    									aria-valuemin="0"
+    									aria-valuemax="100"
+    									style="width: 0%;"
+    								></div>
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+    				
+					{# LOGO-2-header BLOCK #}
+    				<div
+    					class="form-group img-logo"
+    					id="f-logo"
+    					style=""
+    				>
+    					<label for="{{ form.logo2.vars.id }}">Logo-Bild für Header hinzufügen</label>
+    					<span
+    						class="form-notes"
+    					> Minimal/Maximal Größe ist 240x100 px</span>
+    					<div
+    						id="images-logo2"
+    						class="imagelist image-drag-drop"
+    						data-path="{{ path('aj_quiz_logo2') }}"
+    						data-src2="{{ asset('ph-240.jpg','img') }}"
+    					>
+    
+    						<img id="img-logo2" src="
+    							{% if quiz.logo2!='' %}
+    								{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}
+    							{% else %}
+    								{{ asset('ph-240.jpg','img') }}
+    							{% endif %}"
+    							alt="no"
+    							style="width: 240px; height: 100px;"
+    							class="img-rounded"
+    							>
+    					</div>
+    					<div>
+    						<div
+    							class="uploader text-center  uploader-logo"
+    							style=""
+    						>
+    							<div
+    								class="uploader-sub"
+    								id="ctrl-up-logo2"
+    							>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-up-logo2"
+    									style="z-index: 0;"
+    								>Durchsuchen</span>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-rem-logo2"
+    									style="{% if quiz.logo2=='' %}display:none;{% endif %}"
+    								>Löschen</span>
+    								<div
+    									id=""
+    									class="filer"
+    								>
+    									{{ form_widget(form.logo2_f) }}
+    									{{ form_errors(form.logo2_f) }}
+    								</div>
+    							</div>
+    
+    							<div
+    								class="progress progress-logo2"
+    								style="display: none"
+    							>
+    								<div
+    									class="progress-bar"
+    									role="progressbar"
+    									aria-valuenow="0"
+    									aria-valuemin="0"
+    									aria-valuemax="100"
+    									style="width: 0%;"
+    								></div>
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+    				
+    				{# BACKGROUND BLOCK #}
+    				<div
+    					class="form-group img-background"
+    					id="f-background"
+    					style=""
+    				>
+    					<label for="{{ form.background.vars.id }}">Hintergrund-Bild hinzufügen</label>
+    					<span
+    						class="form-notes"
+    					> Minimal/Maximal Größe ist 1024x768 px</span>
+    					<div
+    						id="images-background"
+    						class="imagelist image-drag-drop"
+    						data-path="{{ path('aj_quiz_background') }}"
+    						data-src2="{{ asset('ph-1024.jpg','img') }}"
+    					>
+    
+    						<img id="img-background" src="
+    							{% if quiz.background!='' %}
+    								{{ asset('qz-'~quiz.id~'/'~quiz.background,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}
+    							{% else %}
+    								{{ asset('ph-1024.jpg','img') }}
+    							{% endif %}"
+    							alt="no"
+    							style="width: 1024px; height: 768px;"
+    							class="img-rounded"
+    							>
+    					</div>
+    					<div>
+    						<div
+    							class="uploader text-center  uploader-background"
+    							style=""
+    						>
+    							<div
+    								class="uploader-sub"
+    								id="ctrl-up-background"
+    							>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-up-background"
+    									style="z-index: 0;"
+    								>Durchsuchen</span>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-rem-background"
+    									style="{% if quiz.background=='' %}display:none;{% endif %}"
+    								>Löschen</span>
+    								<div
+    									id=""
+    									class="filer"
+    								>
+    									{{ form_widget(form.background_f) }}
+    									{{ form_errors(form.background_f) }}
+    								</div>
+    							</div>
+    
+    							<div
+    								class="progress progress-background"
+    								style="display: none"
+    							>
+    								<div
+    									class="progress-bar"
+    									role="progressbar"
+    									aria-valuenow="0"
+    									aria-valuemin="0"
+    									aria-valuemax="100"
+    									style="width: 0%;"
+    								></div>
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+
+					{# FB1 BLOCK #}
+    				<div
+    					class="form-group img-fb1"
+    					id="f-fb1"
+    					style=""
+    				>
+    					<label for="{{ form.fb1.vars.id }}">Facebook-Bild hinzufügen</label>
+    					<span
+    						class="form-notes"
+    					> Minimal/Maximal Größe ist 1200x630 px</span>
+    					<div
+    						id="images-fb1"
+    						class="imagelist image-drag-drop"
+    						data-path="{{ path('aj_quiz_fb1') }}"
+    						data-src2="{{ asset('ph-1200.jpg','img') }}"
+    					>
+    
+    						<img id="img-fb1" src="
+    							{% if quiz.fb1!='' %}
+    								{{ asset('qz-'~quiz.id~'/'~quiz.fb1,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}
+    							{% else %}
+    								{{ asset('ph-1200.jpg','img') }}
+    							{% endif %}"
+    							alt="no"
+    							style="width: 1100px; "
+    							class="img-rounded"
+    							>
+    					</div>
+    					<div>
+    						<div
+    							class="uploader text-center  uploader-fb1"
+    							style=""
+    						>
+    							<div
+    								class="uploader-sub"
+    								id="ctrl-up-fb1"
+    							>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-up-fb1"
+    									style="z-index: 0;"
+    								>Durchsuchen</span>
+    								<span
+    									class="btn btn-default btn-xs"
+    									id="but-rem-fb1"
+    									style="{% if quiz.fb1=='' %}display:none;{% endif %}"
+    								>Löschen</span>
+    								<div
+    									id=""
+    									class="filer"
+    								>
+    									{{ form_widget(form.fb1_f) }}
+    									{{ form_errors(form.fb1_f) }}
+    								</div>
+    							</div>
+    
+    							<div
+    								class="progress progress-fb1"
+    								style="display: none"
+    							>
+    								<div
+    									class="progress-bar"
+    									role="progressbar"
+    									aria-valuenow="0"
+    									aria-valuemin="0"
+    									aria-valuemax="100"
+    									style="width: 0%;"
+    								></div>
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+
+                	<div style="display: none">
+                	    {{ form_rest(form) }}
+                	    <input
+    						type="hidden"
+    						id="quiz_id"
+    						value="{{ quiz.id }}"
+    					>
+                	</div>
+            		<div class="f-admin">
+            			<button class="btn btn-success btn" type="submit">Speichern</button>
+            		</div>
+
+            		<script type="text/javascript">
+            		//
+            		$( "#" ).each(function(index) {
+
+            		});
+            		</script>
+            	</form>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

@@ -1,0 +1,229 @@
+{# app//Resources/views/Admin/init.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.cookie.js') }}"></script>
+    <script src="{{ asset('js/result.js') }}"></script>
+    <script>
+        var fb_href = "{{ absolute_url(path('home')) }}";
+        var fb_image = "{{ absolute_url(asset('qz-'~quiz.id~'/'~quiz.fb1,'img')) }}";
+        var fb_title = "{{ screen_sharee_fb_title|ph }}";
+    </script>
+    {{ app.session.set('quiz', '0') }}
+    <script type="text/javascript">
+        // jQuery
+        $(document).ready(function ($) {
+            if (window.history && window.history.pushState) {
+                window.history.pushState('forward', null, null);
+                $(window).on('popstate', function () {
+                    console.log('Back button was pressed.');
+                    Cookies.set("quiz", '');
+                    Cookies.set("question", '');
+                    Cookies.set("joker_pause", '');
+                    Cookies.set("joker_skip", '');
+                    Cookies.set("joker_5050", '');
+                    window.location.href = route_home;
+                });
+
+            }
+            {% if app.user %}
+                 {% if app.user.status == 9 %}
+                {% else %}
+                    {% if app.user.tel3=='1' %}
+                        Cookies.set("quiz_feedback", "1");
+                    {% endif %} 
+                {% endif %}
+		    {% endif %}
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {# 	{{ parent() }}#}
+    {# 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed"#}
+    {# 	rel="stylesheet">#}
+    <link href="{{ asset('css/fonts.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('bs/css/font-awesome.min.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('css/game.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('css/result.css') }}" type="text/css" rel="stylesheet"/>
+    <style>
+        .header, .msg-box-head, .msg-box-head-cookie, div.msg-box-head-user {
+            background: {{quiz.color1}} !important;
+        }
+        div.footer {
+            background: {{quiz.color2}} !important;
+        }
+        .footer .score .points {
+            background: {{quiz.color3}} !important;
+        }
+        .answer-wrapper .green-box-wrapper .green-box {
+            background: {{quiz.color4}} !important;
+        }
+        .answer-wrapper .green-box-wrapper .fold {
+            border-color: {{quiz.color4|clr(-50)}} transparent transparent transparent;
+        }
+        button.joker {
+            background: {{quiz.color5}} ;
+        }
+        @media screen and (min-width: 361px) {
+            .body-1,
+            .body-wrapper {
+                background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("{{ asset('qz-'~quiz.id~'/'~quiz.background,'img') }}");
+            }
+        }
+    </style>
+{% endblock %}
+
+{# head1 in layout#}
+{% block head1 %}
+    <div id="head1" data-quiz-title="{{ quiz.title }}">
+        <link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet"/>
+        {% include 'global/dlg.i.html.twig' %}
+        {% include 'global/dlg.quiz.feedback.html.twig' %}
+    </div>
+{% endblock %}
+
+{# head2 in layout#}
+{% block head2 %}
+    {# <div id="head2" data-quiz-title="{{ quiz.title }}">
+        {% include 'global/dlg.quiz.feedback.html.twig' %}
+    </div> #}
+{% endblock %}
+
+{% block body %}
+    <div class="body-wrapper">
+
+        <div class="master-wrapper">
+
+            <!-- HEADER START -->
+            {% if not app.request.cookies.has('quizpiggy_cookie')  %}
+                <div id="msg-box-cookie" class="msg-box-head-cookie" style="border-bottom: solid 1px #ffffff;">
+                    <div id="msg-box-close-cookie" class="msg-box-head-close-cookie">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                    <div id="msg-box-text-cookie" class="msg-box-head-text-cookie">
+                        {{"[#startscreen_cookie#]"|ph|pha|raw}}
+                    </div>
+                </div>
+                {% set msg_box_news = 'display:none;' %}
+            {% endif %}
+            
+            {% set user_status_style = '' %}
+            {% if app.user and app.user.status == 5 %}
+                {% set user_status_style = 'display:none;' %}
+                <div id="msg-box-user-status" class="msg-box-head-user">
+                    <div id="msg-box-user-status-close" class="msg-box-head-user-close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                    <div id="msg-box-user-status-text" class="msg-box-head-user-text">
+                        {{"[#user_status_5#]"|ph}}
+                    </div>
+                    <div id="msg-box-user-status-btn" class="msg-box-head-user-btn">
+                        {% if app.session.get('user_status_5_resend')is defined and app.session.get('user_status_5_resend') == '1' %}
+                            <span id="msg-box-user-status-resend">{{"[#user_status_5_resend#]"|ph}}</span>
+                        {% else %}
+                            <span id="msg-box-user-status-send" style="display:;">{{"[#user_status_5_btn#]"|ph}}</span>
+                            <a id="btn-msg-box-user-status-resend" data-path="{{ path('security_resend_aj') }}" data-username="{{ app.user.username }}" class="underline">{{screen_login_email_link_resend}}
+                            </a>
+                            <span id="msg-box-user-status-resend" style="display:none;">{{"[#user_status_5_resend#]"|ph}}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="header" id="header" style="{{user_status_style}}">
+                <div class="header-wrapper-top">
+                    <div class="quizlogo">
+                        <a id="btn-home-logo">
+                            <img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+                        </a>
+                    </div>
+                    <div class="wrapper-icons">
+                        <div class="result-wrapper">
+                            {% block highscore %}
+                                {# <a href="{{ path('highscore') }}"><img src="{{ asset('highscore-icon.png','img') }}" alt="Highscore"></a> #}
+                                <a id="btn-highscore">
+                                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                                    <span class="txt">{{screen_global_score}}</span>
+                                </a>
+                            {% endblock %}
+                        </div>
+                        <div class="feedback-wrapper">
+                            <a id="btn-quiz-feedback">
+                                <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                                <span class="txt">{{screen_global_feedback}}</span>
+                            </a>
+                        </div>
+                        <div class="username-wrapper">
+                            <div class="imagebox">
+                                {% if app.user and app.user.status!=9 %}
+                                    <a id="btn-profile"><i class="fa fa-user-o" aria-hidden="true"></i></a>
+                                    <span class="txt">{{screen_global_user}}</span>
+                                {% else %}
+                                    {# <i class="fa fa-user-o" aria-hidden="true"></i> #}
+                                {% endif  %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- HEADER END -->
+
+            {#     	CONTENT#}
+            {% block master_content %}{% endblock %}
+
+            <!-- FOOTER START -->
+            <div class="footer">
+                <div class="companylogo">
+                    <a href="{{ quiz_url_0 }}">
+                        <span>{{ 'now'|date('Y') }}
+                            by</span>
+                        <img src="{{ asset('quizpiggy-logo.png','img') }}" height="40"/>
+                    </a>
+                </div>
+                <div class="score"></div>
+                <div class="nav-right">
+                    <div class="extra-info">
+                        <a target="_blank" href="{{ path('info_imprint') }}" onclick="gtmEPush(_, 'i Icon Imprint Click','Info');" class="link-imprint">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <span class="txt">{{ dlg_i_links_imprint_a }}</span>
+                        </a>
+                        <span id="btn-i" class="btn-i">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                            <span class="txt">{{ screen_global_info }}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER END -->
+        </div>
+        <!-- MASTER END -->
+    </div>
+    <!-- MASTER BODY WRAPPER -->
+{% endblock %}
+
+{% block footer %}
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '{{ fb_client_id }}', //FIXME for localhost get it from pars.remote.yml
+                xfbml: true,
+                version: 'v2.9'
+            });
+            FB.AppEvents.logPageView();
+        };
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js,
+                fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+{% endblock %}

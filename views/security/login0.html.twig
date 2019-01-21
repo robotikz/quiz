@@ -1,0 +1,20 @@
+{% set visitorType = '' %}
+{% if app.user and app.user.status!=9 %}
+	{% set visitorType = 'Logged-in' %}
+{% elseif app.user and app.user.status==9 %}
+	{% set visitorType = 'Guest' %}
+{% endif %}
+
+{{ include('security/login.main.html.twig', { 'target_path': '/start1' }) }}
+
+{% block gtm_push %}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Home',
+			'pageCategory' : 'Home',
+			'pageURI' : '/home.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm_push %}

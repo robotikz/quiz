@@ -1,0 +1,56 @@
+<link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet" />
+
+<div id="mdl-question-new" style="" class="mdl-cnt">
+    <div style="text-align:center" class="">
+        <h3 id="dlg-question-new-h3">Eigene Frage eintragen</h3>
+    </div> 
+    <br>
+    <div id="dlg-question-new-title-1" style="line-height:18px;"> 
+        Möchtest du dich im Quiz mit einer eigenen Frage verewigen und uns dabei helfen, das KölnQuiz zu erweitern? Dann fülle einfach die Felder unten aus. 
+    </div>
+    <br>
+        <textarea rows="4" style="width:98%" placeholder="Frage" id="dlg-question-new" name="question">{{data.question}}</textarea> 
+        
+        <input style="width:98%" placeholder="Antwort 1" id="dlg-question-new-a1" name="answer1" value="{{data.answer1}}">
+        <input style="width:98%" placeholder="Antwort 2" id="dlg-question-new-a2" name="answer2" value="{{data.answer2}}">
+        <input style="width:98%" placeholder="Antwort 3" id="dlg-question-new-a3" name="answer3" value="{{data.answer3}}">
+        <input style="width:98%" placeholder="Antwort 4" id="dlg-question-new-a4" name="answer4" value="{{data.answer4}}">
+
+        <div class="radio-" style="margin-top:10px;">
+            <div style="width:100%;margin-bottom:5px;">Korrekte Antwort</div>
+            <div>
+                <label class="radio-in">
+                    <input id="a1" value="1" type="radio" name="answerc" {% if data.answerc=='1' %}checked{% endif  %}> 
+                        Antowrt 1
+                </label>
+            </div>
+            <div>
+                <label class="radio-in">
+                    <input id="a2" value="1" type="radio" name="answerc" {% if data.answerc=='2' %}checked{% endif  %}> 
+                        Antowrt 2
+                </label>
+            </div>
+            <div>  
+                <label class="radio-in">
+                    <input id="a3" value="1" type="radio" name="answerc" {% if data.answerc=='3' %}checked{% endif  %}> 
+                        Antowrt 3
+                </label>
+            </div>
+            <div>
+                <label class="radio-in">
+                    <input id="a4" value="1" type="radio" name="answerc" {% if data.answerc=='4' %}checked{% endif  %}> 
+                        Antowrt 4
+                </label>
+            </div>
+        </div>
+
+        <div class="checkbox-" style="margin-top:5px;">
+            <label>
+                <input id="an" value="1" type="checkbox" name="answern" {% if data.answern!="" %}checked{% endif  %}> 
+                    Als FragenstellerIn im Quiz benennen
+            </label>
+        </div>
+        <div>
+            {{data.user}}
+        </div>
+</div>

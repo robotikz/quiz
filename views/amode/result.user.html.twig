@@ -1,0 +1,94 @@
+{# twig #} 
+{% extends 'default/res.init.html.twig' %} 
+
+{% block og %}
+	{{ parent() }}
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Championship Results',
+			'pageCategory' : 'Championship',
+			'pageURI' : '/championship/results.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+	<script>
+    	var fb_href = "{{ absolute_url(path('resulta')) }}";
+		var fb_title = "{{ screen_sharee_fb_title|ph }}";
+  	</script>
+{% endblock %}
+
+
+	{# for not activated user no links to user  #}
+	{% block my_user %}
+		{% if app.user and app.user.status==5 %}
+			<i class="fa fa-user-o" aria-hidden="true"></i>
+		{% else %}	
+			{{ parent() }}
+		{% endif %}
+    {% endblock %}
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+        	<h1>{{screen_result_head1}}</h1>
+    		<h2 class="highscore-h2">{{screen_result_title2}}</h2>
+            <div class="panel panel-default">
+      			<div class="panel-body">
+				  	{{screen_result_head2|ph|raw}}
+      				{# <p>Du hast <strong>{{ app.session.get('quiz_score'~'_'~quiz.id) }} Punkte</strong> erreicht.</p> #}
+      			</div>
+    		</div>
+            <h2 class="highscore-h2">{{screen_result_title1}}</h2>
+            <div class="panel panel-default">
+      			<div class="panel-body">
+        			<p>
+        				{% if evaluation|default is not null and evaluation.typ == 'placeholder' %}
+          					<i class="fa fa-quote-left" aria-hidden="true"></i> 
+            				{{ evaluation.val|ph }}
+            				<i class="fa fa-quote-right" aria-hidden="true"></i>
+							<span id="fb-description" style="display:none;">
+								{{screen_result_title0|ph|raw}}
+								{# <center>&nbsp;</center> #}
+								{{ evaluation.val|ph }}
+							</span>
+          				{% else %}
+          					<p>{{ evaluation.title|ph }}</p>
+							<span id="fb-description" style="display:none;">
+								{{screen_result_title0|ph|raw}}
+								{# <center>&nbsp;</center> #}
+								{{ evaluation.title|ph }}
+							</span>
+          				{% endif %}
+        			</p>
+      			</div>
+    		</div>
+
+			{% if quiz.share == 1 %}
+            	<button type="submit" id="fb-share" class="btn btn-facebook-signup">{{screen_sharee_title2}}</button>
+            {% endif %}
+
+			<form method="get" action="{{ path('highscore') }}" style="width:100%">
+				<button type="submit" class="btn btn-highscore">{{screen_result_title5}}</button>
+			</form>
+		
+			<button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+			
+        </div> 
+        
+        <!-- close #content-wrapper -->
+        
+    	<div class="minheight"></div>
+    {% endblock %} 
+    

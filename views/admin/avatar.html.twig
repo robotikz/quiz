@@ -1,0 +1,42 @@
+<div d-idx="{{ id }}" class="imagelist-item toolbox" id="avatar">
+	
+	<div class="item-pre item-avatar" style="">
+		<img
+			id="img-avatar"
+			width=""
+			height=""
+			alt="avatar"
+			src="{{ asset(''~un~'/'~fnor,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}"
+			class=""
+			style="cursor:pointer;"
+		>
+	</div>
+	
+	<div class="imagelist-ctrl" id="f-avatar-content">
+{# 		<button type="button" class="btn btn-mail-signup" id="crop-avatar-{{ id }}" data-target="#modal-avatar" data-toggle="modal" style="cursor:pointer;">Schneiden#}
+{# 		</button>#}
+		<div style="float:left; width:50%; text-align:left;display:none;">
+			<button type="button" class="btn btn-profile-img-turn-left" id="modal-2-left">nach Links</button>
+		</div>
+		<div style="float:left; width:50%; text-align:right;display:none;">
+			<button type="button" class="btn btn-profile-img-turn-right" id="modal-2-right">nach Rechts</button>
+		</div>
+		<button type="button" class="btn btn-profile-img-save" id="modal-ok-avatar">Fertig</button>
+		<button type="button" class="btn btn-profile-img-new" id="change-avatar" style="cursor:pointer;">Neu auswählen</button>
+		<button type="button" class="btn btn-profile-img-remove" id="rem-avatar" style="cursor:pointer;">Entfernen</button>
+		<button
+			class="btn btn-mail-signup"
+			type="button"
+			id="but-up-avatar"
+			style="cursor:pointer;display:none;"
+		>Hochladen</button>
+		<img
+			id="img-avatar-def"
+			alt="avatar"
+			src="{{ asset('avatar.png','img') }}"
+			style="display:none;cursor:pointer;"
+		>
+	</div>
+</div>
+
+

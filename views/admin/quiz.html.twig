@@ -1,0 +1,69 @@
+{# src/Resources/views/admin/q.tag.html.twig #}
+{% extends 'admin/init.html.twig' %}
+
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row row-eq-height">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<a class="btn btn-danger btn" href="{{ path('admin_quiz_ne',{eid:'+'}) }}" style="">+ Quiz</a>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<div class="icon-addon addon-md">
+								  <input type="text" class="form-control form-search" placeholder="Suche nach..." id="filter">
+								  <label for="filter" class="btn-search glyphicon glyphicon-search" rel="tooltip" title="Filter"></label>
+							  </div>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<h3 class="panel-title text-right hidden-md hidden-sm hidden-xs">Da ist die ganze Liste von allen Frage, kLicken auf Titel zum Bearbeiten, , kLicken auf ID zum Fragenornden</h3>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="panel-scroll">
+					<table class="table table-bordered" fixed-header>
+						<thead>
+							<tr>
+							  <th style="width:10px">ID</th>
+							  <th style="width:250px">Titel</th>
+							  <th style="width:150px">Kategorie</th>
+							  <th style="width:25px">Anzahl Fragen</th>
+							  <th style="width:150px"></th>
+							</tr>
+						</thead>
+						{% for e in quizs %}
+							<tr>
+								<td style="width:10px">
+{#                         			<a class="" href="{{ path('admin_quizquestion_all',{'eid':e.id}) }}" style="">{{ e.id }}</a>#}
+									<span>{{ e.id }}</span>
+								</td>
+								<td style="width:250px">
+									<a class="filter" href="{{ path('admin_quiz_ne',{'eid':e.id}) }}" style="">{{ e.title }}</a>
+								</td>
+								<td style="width:150px">
+									<span class="filter">{{ e.cats|join(', ') }}</span>
+								</td>
+								<td style="width:25px">
+									<span>{{ e.qcount }}</span>
+								</td>
+								<td style="width:150px">
+									<a class="btn btn-success btn-xs" href="{{ path('admin_quizquestion_all',{'eid':e.id}) }}" style="">Fragen</a>
+									<a class="btn btn-success btn-xs" href="{{ path('admin_quiz_ne',{'eid':e.id}) }}" style="">Bearbeiten</a>
+									<a class="btn btn-default btn-xs btn-del" data-href="{{ path('admin_quiz_d',{'eid':e.id}) }}" style="">Entfernen</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

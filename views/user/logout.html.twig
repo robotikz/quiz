@@ -1,0 +1,40 @@
+{# twig #} 
+{% extends 'user/init.html.twig' %} 
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Log-out',
+			'pageCategory' : 'Profile',
+			'pageURI' : '/profile/logout.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+
+	{% block master_content %}
+		{% include 'user/nav.html.twig' with {'a': '4'}  %}
+		<div class="content-wrapper startseite">
+			<h1>{{screen_logout_h1}}</h1>
+            <p class="subheadline">{{screen_logout_subhead}}</p>
+			<button id="btn-logout" class="btn btn-mail-signup" style="width:90%">{{screen_logout_button_logout}}</button>
+            {# <form class="f-user" method="get" action="{{ path('logout') }}">
+            	<button type="submit" class="btn btn-mail-signup">{{screen_logout_button_logout}}</button>
+            </form> #}
+        </div> 
+        <!-- close #content-wrapper -->
+        
+        <div class="minheight"></div>
+    {% endblock %} 
+    

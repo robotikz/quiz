@@ -1,0 +1,132 @@
+{# app//Resources/views/Admin/init.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/validator.js') }}"></script>
+    <script src="{{ asset('js/user.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/fonts.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('css/game.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('css/user.css') }}" type="text/css" rel="stylesheet"/>
+    <style>
+        .header {
+            background: {{quiz.color1}} !important;
+        }
+        div.footer, .msg-box-head, .msg-box-head-cookie {
+            background: {{quiz.color2}} !important;
+        }
+        .footer .score .points {
+            background: {{quiz.color3}} !important;
+        }
+        .answer-wrapper .green-box-wrapper .green-box {
+            background: {{quiz.color4}} !important;
+        }
+        .answer-wrapper .green-box-wrapper .fold {
+            border-color: {{quiz.color4|clr(-50)}} transparent transparent transparent;
+        }
+        button.joker {
+            background: {{quiz.color5}};
+        }
+        @media screen and (min-width: 361px) {
+            .body-1,
+            .body-wrapper {
+                background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("{{ asset('qz-'~quiz.id~'/'~quiz.background,'img') }}");
+            }
+        }
+    </style>
+{% endblock %}
+
+{# put input + label of checkbox in the div#}
+{% if form is defined %}
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% endif %}
+
+{# head1 in layout#}
+{% block head1 %}
+    <link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet"/>
+    {% include 'global/dlg.i.html.twig' %}
+    {% include 'global/dlg.quiz.feedback.html.twig' %}
+{% endblock %}
+
+{# head2 in layout#}
+
+{% block body %}
+    <div class="body-wrapper">
+        <div class="master-wrapper">
+
+            <!-- HEADER START -->
+            <div class="header">
+                <div class="header-wrapper-top">
+                    <div class="quizlogo">
+                        <a id="btn-home-logo">
+                            <img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+                        </a>
+                    </div>
+                    <div class="wrapper-icons">
+                        <div class="result-wrapper">
+                            {% if quiz_hub != '1' %}
+                                <a id="btn-highscore">
+                                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                                    <span class="txt">{{screen_global_score}}</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="feedback-wrapper">
+                            <a id="btn-quiz-feedback">
+                                <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                                <span class="txt">{{screen_global_feedback}}</span>
+                            </a>
+                        </div>
+                        <div class="username-wrapper">
+                            <div class="imagebox">
+                                {% if app.user and app.user.status != 9 %}
+                                    <a id="btn-profile">
+                                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                                        <span class="txt">{{screen_global_user}}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- HEADER END -->
+
+            {#     	CONTENT#}
+            {% block master_content %}{% endblock %}
+
+            <!-- FOOTER START -->
+            <div class="footer">
+                <div class="companylogo">
+                    <a href="{{ quiz_url_0 }}">
+                        <span>{{ 'now'|date('Y') }}
+                            by</span>
+                        <img src="{{ asset('quizpiggy-logo.png','img') }}" height="40"/>
+                    </a>
+                </div>
+                <div class="score"></div>
+                <div class="nav-right">
+                    <div class="extra-info">
+                        <a target="_blank" href="{{ path('info_imprint') }}" onclick="gtmEPush(_, 'i Icon Imprint Click','Info');" class="link-imprint">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <span class="txt">{{ dlg_i_links_imprint_a }}</span>
+                        </a>
+                        <span id="btn-i" class="btn-i">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                            <span class="txt">{{ screen_global_info }}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER END -->
+        </div>
+        <!-- MASTER END -->
+    </div>
+    <!-- MASTER BODY WRAPPER -->
+{% endblock %}
+
+{% block footer %}{% endblock %}

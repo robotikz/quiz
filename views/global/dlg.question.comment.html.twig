@@ -1,0 +1,64 @@
+<!-- The Modal -->
+<div id="mdl-question-comment" class="mdl">
+    <!-- Modal content -->
+    <div class="mdl-content">
+        <span class="cls">&times;</span>
+        <div id="" style="" class="mdl-cnt">
+            <div style="text-align:center" class="">
+                <h3 id="dlg-question-comment-h3" style="margin-top:-5px;" >{{dlg_question_comment_h3}}</h3>
+            </div>  
+            <div id="dlg-question-comment-title-1" style="line-height:18px;"> 
+                {{dlg_question_comment_title1}}
+            </div>
+            <div id="dlg-question-comment-box" class="" style="font-weight:600;line-height:16px;">
+                &bdquo;<span id="question-text">{{ question.title|ph|raw|trim }}</span>&ldquo;
+            </div>
+            <br>
+            <div id="dlg-question-comment-title-2"> 
+                {{dlg_question_comment_title2}}
+            </div>
+            <form method="post" action="{{ path('dlg_question_comment_aj') }}" id="dlg-question-comment-form" >
+                
+                <div class="checkbox">
+                    <label>
+                        <input id="cb1" value="1" type="checkbox" name="opt1" required oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')"> 
+                            {{dlg_question_comment_opt1}}    
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input id="cb2" value="1" type="checkbox" name="opt2" required oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_question_comment_opt2}}
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input id="cb3" value="1" type="checkbox" name="opt3" required oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_question_comment_opt3}}
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input id="cb4" value="1" type="checkbox" name="opt4" required oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_question_comment_opt4}}
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input id="cb5" value="1" type="checkbox" name="opt5" required oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_question_comment_opt5}}
+                    </label>
+                </div>
+                <br>
+                <textarea  class="form-control" rows="4" style="width:98%" placeholder="{{dlg_question_comment_else}}" id="dlg-question-comment" name="comment"></textarea> 
+                <textarea style="display:none" id="dlg-question-comment-question" name="question">{{ question.title|ph|raw|trim }}</textarea> 
+                <button id="dlg-question-comment-send" type="submit" class="btn btn-mail-signup">{{dlg_question_button_send}}</button>
+            </form>
+            <button id="dlg-question-comment-x" class="btn btn-mail-signup" style="display:none">{{dlg_question_button_close}}</button>
+        </div>
+    </div>
+</div>

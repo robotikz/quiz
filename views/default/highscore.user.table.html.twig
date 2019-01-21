@@ -1,0 +1,41 @@
+<table id="tb-scores" class="table table-hover table-sm table-responsive" data-pos="{{ pos }}" data-count={{ count }}>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th></th>
+			<th class="text-right">Score</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% set idx = 0 %}
+		{% set score_prev = 9999999 %}
+		{% for e in scores %}
+			
+			{% if e.score < score_prev %}
+				{% set idx = idx + 1 %}
+			{% else %}
+				{% set idx = idx %}
+			{% endif %}
+			<tr data-user="{% if app.user.id == e.user.id %}my{% endif %}">
+				<td scope="row" class="score-position {{idx}}">{{ idx }}</td>
+				<td class="text-left">{{ e.user.username }}</td>
+				<td>
+					{% if e.user.avatar!='' %}
+						{% set img = ''~e.user.unid~'/'~ e.user.avatar %}
+					{% else %}
+						{% set img = 'avatar.png' %}
+					{% endif %}
+					<img
+						class="highscore-img"
+						src="{{ asset(img,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}"
+						alt="Profilbild"
+					>
+				</td>
+				<td class="text-right">{{ e.score }}</td>
+			</tr>
+			{% set score_prev = e.score %}
+		{% endfor %}
+		
+	</tbody>
+</table>

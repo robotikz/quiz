@@ -1,0 +1,54 @@
+{# twig #} 
+{% extends 'user/init.html.twig' %} 
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Mail Settings',
+			'pageCategory' : 'Profile',
+            'pageURI' : '/profile/mail-settings.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+
+	{% block master_content %}
+		{% include 'user/nav.html.twig' with {'a': '3'}  %}
+		<div class="content-wrapper startseite">
+			<h1>{{screen_emailsettings_h1}}</h1>
+        	<p class="subheadline">{{screen_emailsetting_subhead}}</p>
+        
+        	<div class="mail-settings">  
+                <form action="{{ path('my_email') }}" method="post" class="" id="f-my-email" data-toggle="validator" role="form">
+                    <div class="checkbox1">
+                        <label>
+                            {{ form_widget(form.noti1,{'label': screen_emailsettings_form_checkbox_notifications}) }} 
+        					{{ form_errors(form.noti1) }}
+                        </label>
+                    </div>
+                     <div class="checkbox1" style="margin-bottom:30px;margin-top:8px;">
+                        <label>
+                        	{{ form_widget(form.noti2,{'label': screen_emailsettings_form_checkbox_updates}) }} 
+        					{{ form_errors(form.noti2) }}
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-mail-signup">{{screen_editprofile_button_save}}</button>
+                </form>
+        	</div>
+        </div> 
+        <!-- close #content-wrapper -->
+        
+        <div class="minheight"></div>
+    {% endblock %} 
+    

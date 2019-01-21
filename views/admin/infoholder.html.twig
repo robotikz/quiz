@@ -1,0 +1,68 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-4">
+                    	<a class="btn btn-danger btn" href="{{ path('admin_infoholder_ne',{eid:'+'}) }}" style="">+ Infohalter</a>
+                    </div>
+        			<div class="col-sm-8">
+        				<h3 class="panel-title text-center">Info-Schablone</h3>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="panel-scroll" id="t-ajax">
+                    <table class="table table-bordered" fixed-header>
+                    	<thead>
+                            <tr>
+                              <th style="">#</th>
+							  <th style="">Quiz</th>
+                              <th style="">Name</th>
+                              <th style="">Wert</th>
+                            </tr>
+                        </thead>
+                        {% for e in infoholders %}
+                        	<tr>
+                        		<td style="width:50px">
+                        			<a class="" href="{{ path('admin_infoholder_ne',{'eid':e.id}) }}" style="">{{ e.id }}</a>
+                        		</td>
+								<td style="width:150px">
+									{% if e.quiz is null %}
+										<span>-</span>
+									{% else %}
+										<span>{{ e.quiz.title }}</span>
+									{% endif %}
+                            	</td>
+                        		<td style="width:50px">
+                        			<a class="filter" href="{{ path('admin_infoholder_ne',{'eid':e.id}) }}" style="">{{ e.tn }}</a>
+                        		</td>
+                        		<td style="width:250px">
+                            		<span>{{ e.val|slice(0,100) ~ '...'}}</span>
+                            	</td>
+                        		<td style="width:150px">
+                    				<a class="btn btn-success btn-xs" href="{{ path('admin_infoholder_ne',{'eid':e.id}) }}" style="">Bearbeiten</a>
+                        			<a class="btn btn-default btn-xs btn-del" data-href="{{ path('admin_infoholder_d',{'eid':e.id}) }}" style="">Entfernen</a>
+                            	</td>
+                    		</tr>
+                    	{% endfor %}
+                    </table>
+				</div>
+        	</div>
+		</div>
+		
+	</div>
+{% endblock %} 

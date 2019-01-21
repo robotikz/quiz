@@ -1,0 +1,173 @@
+{# src/Resources/views/default/index.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_index_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_index_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_index_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_index_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+	
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Hub',
+			'pageCategory' : 'Hub',
+			'pageURI' : '/hub.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+	{{ parent() }}
+	<script src="{{ asset('js/start1.js') }}"></script> 
+{% endblock %}
+
+{% block js_this %}
+	{# <script src="{{ asset('js/login.js') }}"></script>  #}
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({
+		google_ad_client: "ca-pub-5927247843247054",
+		enable_page_level_ads: true
+	});
+	</script>
+{% endblock js_this %}
+
+
+	{% block master_header %}
+		{% set msg_box_news = '' %}
+		{% if not app.request.cookies.has('quizpiggy_cookie')  %}
+			<div id="msg-box-cookie" class="msg-box-head-cookie">
+				<div id="msg-box-close-cookie" class="msg-box-head-close-cookie">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</div>
+				<div id="msg-box-text-cookie" class="msg-box-head-text-cookie">
+					{{"[#startscreen_cookie#]"|ph|pha|raw}}
+				</div>
+			</div>
+			{% set msg_box_news = 'display:none;' %}
+		{% endif %}
+
+		{% set user_status_style = msg_box_news %}
+		{% if app.user and app.user.status==5 %}
+			{% set user_status_style = 'display:none;' %}
+			<div id="msg-box-user-status" class="msg-box-head-user">
+				<div id="msg-box-user-status-close" class="msg-box-head-user-close">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</div>
+				<div id="msg-box-user-status-text" class="msg-box-head-user-text">
+					{{"[#user_status_5#]"|ph}}
+				</div>
+				<div id="msg-box-user-status-btn" class="msg-box-head-user-btn">
+					{% if app.session.get('user_status_5_resend') is defined and app.session.get('user_status_5_resend')=='1'  %}
+						<span id="msg-box-user-status-resend">{{"[#user_status_5_resend#]"|ph}}</span>
+					{% else %}
+						<span id="msg-box-user-status-send" style="display:;">{{"[#user_status_5_btn#]"|ph}}</span>
+						<a
+							id="btn-msg-box-user-status-resend"
+							data-path="{{ path('security_resend_aj') }}"
+							data-username="{{ app.user.username }}"
+							class="underline"
+						>{{screen_login_email_link_resend}}
+						</a>
+						<span id="msg-box-user-status-resend" style="display:none;">{{"[#user_status_5_resend#]"|ph}}</span>
+					{% endif %}
+				</div>
+			</div>
+		{% endif  %}
+		<div class="header" id="header" style="{{user_status_style}}">
+			<div class="header-wrapper-top">
+				<div class="quizlogo">
+					<a id="btn-home-logo">
+						<img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+					</a>
+				</div>
+				<div class="wrapper-icons">
+					<div class="result-wrapper">
+						{% if quiz_hub != '1' %}
+						{% endif %}
+					</div>
+					<div class="feedback-wrapper">
+					</div>
+					<div class="username-wrapper">
+						<div class="imagebox">
+							{% if app.user and app.user.status!=9 %}
+								<a id="btn-profile">
+									<i class="fa fa-user-o" aria-hidden="true"></i>
+									<span class="txt">{{screen_global_user}}</span>
+								</a>
+							{% else %}
+								{# <i class="fa fa-user-o" aria-hidden="true"></i> #}
+							{% endif  %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+    {% endblock %}
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<div class="tile">
+				<a id="btn-quiz-1" href="{{quiz_url_1}}">
+					<img alt="Quiz" height="250px" src="{{ asset('hub/hub-koelnquiz.jpg','img') }}">
+				</a>
+			</div>
+			<div class="tile">
+				<a id="btn-quiz-5" href="{{quiz_url_5}}">
+					<img alt="Quiz" height="250px" src="{{ asset('hub/hub-effzehquiz.jpg','img') }}">
+				</a>
+			</div>
+			<div class="tile">
+				<a id="btn-quiz-6" href="{{quiz_url_6}}">
+					<img alt="Quiz" height="250px" src="{{ asset('hub/hub-marioquiz.jpg','img') }}">
+				</a>
+			</div>
+			<div class="tile">
+				<a id="btn-quiz-2" href="{{quiz_url_2}}">
+					<img alt="Quiz" height="250px" src="{{ asset('hub/hub-kyotoquiz.jpg','img') }}">
+				</a>
+			</div>
+			{% if app.user and app.user.status!=9 %}
+				<div class="start-grey-line"></div>
+				<p>
+					<button id="btn-logout" class="btn btn-grey">{{screen_global_logout}}</button>
+				</p>
+			{% else %}
+				<a
+					id="btn-lgn"
+					class="btn btn-mail"
+					href="{{ path('lgn') }}"
+				>{{ screen_signup_disclaimer_login_in }}</a>
+				<div class="oder-box">
+					<div class="login-grey-line"></div>
+					<div class="login-oder">{{screen_login_separator_or}}</div>
+					<div class="login-grey-line"></div>
+				</div>
+				<a
+					id="btn-reg"
+					class="btn btn-grey"
+					href="{{ path('security_reg') }}"
+				>{{ screen_signup_button_signup }}</a>
+			{% endif  %}
+		</div>
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 
+    
+{% block footer %} 
+{% endblock %}

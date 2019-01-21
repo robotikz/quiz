@@ -1,0 +1,37 @@
+<table class="table table-bordered" fixed-header>
+	<thead>
+        <tr>
+       	  <th style="width:50px">
+          	<a class="btn btn-default btn-xs btn-sel-all" style="">Alle</a>
+		  </th>
+          <th style="width:50px">#</th>
+          <th style="width:250px">Titel</th>
+          <th style="width:50px">Anzahl Fragen</th>
+          <th style="width:50px">Status</th>
+          <th style="width:50px">Aktion</th>
+        </tr>
+    </thead>
+    {% for e in questiontags %}
+    	<tr>
+    		<td style="width:50px">
+    			<input type="checkbox" id="cb-e-{{ e.id }}" name="cb-e-{{ e.id }}" data-id="{{ e.id }}" class="cb-e"/>
+    		</td>
+    		<td style="width:50px">
+    			<a class="" href="{{ path('admin_question_tag_ne',{'eid':e.id}) }}" style="">{{ e.id }}</a>
+    		</td>
+    		<td style="width:250px">
+    			<a class="filter" href="{{ path('admin_question_tag_ne',{'eid':e.id}) }}" style="">{{ e.title }}</a>
+    		</td>
+    		<td style="width:50px">
+        		<span>{{ e.questions.count }}</span>
+        	</td>
+        	<td style="width:150px">
+    			<span>{{ e.status|replace({'1': 'aktiv', '0': 'inaktiv'}) }}</span>
+    		</td>
+        	<td style="width:150px">
+				<a class="btn btn-success btn-xs" href="{{ path('admin_question_tag_ne',{'eid':e.id}) }}" style="">Bearbeiten</a>
+    			<a class="btn btn-default btn-xs btn-del" data-href="{{ path('admin_question_tag_d',{'eid':e.id}) }}" style="">Entfernen</a>
+        	</td>
+		</tr>
+	{% endfor %}
+</table>

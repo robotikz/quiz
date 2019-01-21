@@ -1,0 +1,62 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+        			<div class="col-xs-12">
+        				<h3 class="panel-title text-center">CONTENT</h3>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="row">
+        			<div class="col-xs-4 text-center">
+                        <a class="btn btn-danger btn" href="{{ path('admin_emailholder') }}" style="">Emailhalter</a>	
+                	</div>
+					<div class="col-xs-4 text-center">
+                        <a class="btn btn-danger btn" href="{{ path('admin_infoholder') }}" style="">Infohalter</a>	
+                	</div>
+                	<div class="col-xs-4 text-center">
+                		<a class="btn btn-danger btn" href="{{ path('admin_placeholder') }}" style="">Platzhalter</a>	
+                	</div>
+                </div>
+				
+				<br/>
+				
+				<div class="row">
+        			<div class="col-xs-6 text-center">
+                        <a class="btn btn-danger btn" href="{{ path('admin_screen_sharee') }}" style="">Game Share Content</a>
+                	</div>
+                	<div class="col-xs-6 text-center">
+                		<a class="btn btn-danger btn" href="{{ path('admin_screen_gameover') }}" style="">Game Game Over Content</a>
+                	</div>
+                </div>
+
+                <br/>
+                
+                <div class="row">
+        			<div class="col-xs-6 text-center">
+                        <a class="btn btn-danger btn" href="{{ path('admin_screen_result') }}" style="">Game Results Content</a>
+                	</div>
+                	<div class="col-xs-6 text-center">
+                		<a class="btn btn-danger btn" href="{{ path('admin_screen_highscore') }}" style="">Game Highscore Over Content</a>
+                	</div>
+                </div>
+        	</div>
+		</div>
+		
+	</div>
+{% endblock %} 

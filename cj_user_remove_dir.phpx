@@ -1,0 +1,6 @@
+<?php
+    exec("/usr/bin/php72 bin/console qp:user-remove-dir  >> cj_users.log   2>&1", $out, $result);
+    echo "Returncode: " .$result ."<br>";
+    echo "Ausgabe des Scripts: " ."<br>";
+    echo "<pre>"; print_r($out);
+?>

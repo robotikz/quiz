@@ -1,0 +1,365 @@
+<?php
+// src/AppBundle/Entity/Question.php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\QuestionRepository")
+ * @ORM\Table(name="question")
+ * @ORM\HasLifecycleCallbacks
+ */
+class Question
+{
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	public $id;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="User")
+	 * @ORM\JoinColumn(name="user", referencedColumnName="id")
+	 */
+	public $user;
+
+	/**
+	 * Text der Frage
+	 *
+	 * @ORM\Column(type="string")
+	 */
+	public $title;
+
+	/**
+	 * @ORM\Column(type="string", length=50,nullable=true)
+	 */
+	public $avatar;
+
+	/**
+	 * @ORM\Column(type="string", length=50,nullable=true)
+	 */
+	public $avatar2;
+
+
+	/**
+	 * 0 = aktiv, nicht geprüft; 1 = aktiv, geprüft;
+	 *
+	 * @ORM\Column(type="smallint", nullable=true, options={"default":0})
+	 */
+	public $status = 1;
+
+	/**
+	 * 0 = nicht geprüft; 1 = geprüft
+	 *
+	 * @ORM\Column(type="smallint", nullable=true, options={"default":0})
+	 */
+	public $statuscheck = 0;
+
+	/**
+	 * @ORM\Column(type="smallint", nullable=true, options={"default":1})
+	 */
+	public $truecount = 1;
+
+	/**
+	 * Tag, an dem die Frage in die Datenbank eingetragen wurde (wird automatisch befüllt)
+	 *
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	public $published;
+
+	/**
+	 * Quelle, die die Frage hervorgebracht hat (z. B. "Wikipedia")
+	 *
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	public $source;
+
+	/**
+	 * Schwierigkeitsgrad von 0 = sehr enfach bis 9 = schwer (für den User als 1 bis 10 dargestellt)
+	 *
+	 * @ORM\Column(type="smallint", nullable=true, options={"default":5})
+	 */
+	public $difficulty = 5;
+	
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="QuestionCat", inversedBy="questions")
+	 * @ORM\JoinTable(name="questions_cats")
+	 */
+	public $cats;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="QuestionTag", inversedBy="questions")
+	 * @ORM\JoinTable(name="questions_tags")
+	 */
+	public $tags;
+
+
+	/**
+	 * 1 = aktiv solution; 0 = nicht aktiv;
+	 *
+	 * @ORM\Column(type="smallint", nullable=true, options={"default":0})
+	 */
+	public $solution = 0;
+
+	/**
+	 * 1 = aktiv dnd; 0 = dnd nicht aktiv;
+	 *
+	 * @ORM\Column(type="smallint", nullable=true, options={"default":0})
+	 */
+	public $dnd = 0;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Answer", mappedBy="parent", cascade={"persist", "remove"})
+	 */
+	public $answers;
+
+
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	public $created;
+
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	public $updated;
+
+	/**
+	 * temp value for count of answers in the form
+	 * @var integer
+	 */
+	public $answercount = 4;
+
+	/**
+	 * @var string
+	 */
+	public $typ = 'question';
+
+	public $cat = '';
+
+	public $tag = '';
+
+
+	public function __construct()
+	{
+		$this->id=0;
+
+		$this->answers = new ArrayCollection();
+
+		$this->setCreated(new \DateTime());
+		$this->setUpdated(new \DateTime());
+
+		$this->setPublished(new \DateTime());
+
+		$this->cats = new ArrayCollection();
+		$this->tags = new ArrayCollection();
+
+	}
+
+
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function setUpdatedValue()
+	{
+		$this->setUpdated(new \DateTime());
+	}
+
+
+	public function getId() {
+		return $this->id;
+	}
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
+	}
+	public function getUser() {
+		return $this->user;
+	}
+	public function setUser($user) {
+		$this->user = $user;
+		return $this;
+	}
+
+
+	public function __toString()
+	{
+		return "".$this->getId();
+	}
+
+	public function getTyp() {
+		return $this->typ;
+	}
+
+	public function addCat(QuestionCat $cat)
+	{
+		if (!$this->cats->contains($cat)) {
+			$cat->addQuestion($this); // synchronously updating inverse side
+			$this->cats[] = $cat;
+		}
+	}
+
+	public function addTag(QuestionTag $tag)
+	{
+		$tag->addQuestion($this); // synchronously updating inverse side
+		$this->tags[] = $tag;
+	}
+	public function getTitle() {
+		return $this->title;
+	}
+	public function setTitle($title) {
+		$this->title = $title;
+		return $this;
+	}
+	public function getStatus() {
+		return $this->status;
+	}
+	public function setStatus($status) {
+		$this->status = $status;
+		return $this;
+	}
+	public function getTruecount() {
+		return $this->truecount;
+	}
+	public function setTruecount($truecount) {
+		$this->truecount = $truecount;
+		return $this;
+	}
+	public function getPublished() {
+		return $this->published;
+	}
+	public function setPublished($published) {
+		$this->published = $published;
+		return $this;
+	}
+	public function getSource() {
+		return $this->source;
+	}
+	public function setSource($source) {
+		$this->source = $source;
+		return $this;
+	}
+	public function getDifficulty() {
+		return $this->difficulty;
+	}
+	public function setDifficulty($difficulty) {
+		$this->difficulty = $difficulty;
+		return $this;
+	}
+	public function getCats() {
+		return $this->cats;
+	}
+	public function setCats($cats) {
+		$this->cats = $cats;
+		return $this;
+	}
+	public function getTags() {
+		return $this->tags;
+	}
+	public function setTags($tags) {
+		$this->tags = $tags;
+		return $this;
+	}
+	public function getSolution() {
+		return $this->solution;
+	}
+	public function setSolution($solution) {
+		$this->solution = $solution;
+		return $this;
+	}
+	public function getDnd() {
+		return $this->dnd;
+	}
+	public function setDnd($dnd) {
+		$this->dnd = $dnd;
+		return $this;
+	}
+	public function getAnswers() {
+		return $this->answers;
+	}
+	public function setAnswers($answers) {
+		$this->answers = $answers;
+		return $this;
+	}
+	public function getArcount() {
+		return $this->answers->filter(function($a) {
+			return $a->getStatus() === 1;
+		})->count();
+	}
+	public function getCreated() {
+		return $this->created;
+	}
+	public function setCreated($created) {
+		$this->created = $created;
+		return $this;
+	}
+	public function getUpdated() {
+		return $this->updated;
+	}
+	public function setUpdated($updated) {
+		$this->updated = $updated;
+		return $this;
+	}
+
+	/**
+	 * Add answers
+	 *
+	 * @param \AppBundle\Entity\CarBookmark $answers
+	 * @return Car
+	 */
+	public function addAnswer(Answer $answer)
+	{
+		if (!$this->answers->contains($answer)) {
+			$this->answers->add($answer);
+			$answer->setParent($this);
+		}
+		return $this;
+	}
+
+	/**
+	 * Remove answers
+	 *
+	 * @param \AppBundle\Entity\CarBookmark $answers
+	 */
+	public function removeAnswer(Answer $answer)
+	{
+		if ($this->answers->contains($answer)) {
+			$this->answers->removeElement($answer);
+			$answer->setParent(null);
+		}
+		return $this;
+	}
+
+
+
+	public function getStatuscheck() {
+		return $this->statuscheck;
+	}
+	public function setStatuscheck($statuscheck) {
+		$this->statuscheck = $statuscheck;
+		return $this;
+	}
+	public function getAvatar() {
+		return $this->avatar;
+	}
+	public function setAvatar($avatar) {
+		$this->avatar = $avatar;
+		return $this;
+	}
+	public function getAvatar2() {
+		return $this->avatar2;
+	}
+	public function setAvatar2($avatar2) {
+		$this->avatar2 = $avatar2;
+		return $this;
+	}
+
+
+
+
+
+}

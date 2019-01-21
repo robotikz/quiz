@@ -1,0 +1,56 @@
+<link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet" />
+
+<div id="mdl-confirm" style="" class="mdl-cnt">
+	<div style="text-align:center" class="">
+		<h3 id="dlg-comment-h3">Frage melden</h3>
+	</div>  
+	<div id="dlg-comment-title-1" style="line-height:18px;"> 
+        Gab es Probleme bei der Frage
+	</div>
+	<div id="dlg-comment-question" class="question-textbox" style="font-weight:600;line-height:16px;">
+		<span id="question-text">{{ data.question }}</span>
+	</div>
+	<br>
+	<div id="dlg-comment-title-2"> 
+		Worin bestand das Problem?
+	</div>
+	
+		
+    <div class="checkbox">
+        <label>
+            <input id="cb1" value="1" type="checkbox" name="opt1" {% if data.opt1!="" %}checked{% endif  %}> 
+                Frage ungenau / missverständlich
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input id="cb2" value="1" type="checkbox" name="opt2" {% if data.opt2!="" %}checked{% endif  %}> 
+                Antworten unpassend
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input id="cb3" value="1" type="checkbox" name="opt3" {% if data.opt3!="" %}checked{% endif  %}> 
+                zu einfach
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input id="cb4" value="1" type="checkbox" name="opt4" {% if data.opt4!="" %}checked{% endif  %}> 
+                zu schwer
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input id="cb5" value="1" type="checkbox" name="opt5" {% if data.opt5!="" %}checked{% endif  %}> 
+                Rechtschreibfehler / Zeichensetzungsfehler
+        </label>
+    </div>
+    <br>
+    <textarea rows="4" style="width:98%" placeholder="Oder etwas anderes?" id="txt-comment" name="comment">{{data.comment}}</textarea> 
+            
+</div>

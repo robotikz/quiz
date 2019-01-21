@@ -1,0 +1,42 @@
+{% extends 'bmode/game.init.html.twig' %}
+
+{% block gtm %}
+    {{ parent() }}
+	{{ include('bmode/game.question.dl.html.twig') }}
+{% endblock gtm %}
+
+{% set path_select = path('qselb_aj') %} 
+
+
+{% block b_answer %}
+	<!-- ANSWER START -->
+	{% for a in question.answers %}
+		<div class="answer-wrapper">
+				<div class="green-box-wrapper">
+					<div 
+						class="green-box btn-game-a"
+						id="btn-game-answer-{{ a.id }}"
+							role="button"
+							data-a='{{ a.id }}'
+							data-qn='{{ question.id }}'
+							data-qz='{{ quiz.id }}'
+							data-qnnext=""
+						>
+						<p>{{ loop.index|abc }}</p>
+					</div>
+					<div class="fold"></div>
+				</div>
+				<div 
+					class="answer-textbox btn-game-a"
+					id="btn-game-answer-text-{{ a.id }}"
+						role="button"
+						data-a='{{ a.id }}'
+						data-qn='{{ question.id }}'
+						data-qz='{{ quiz.id }}'
+					>
+			{{ a.title|ph|raw }}
+			</div>
+		</div>
+	{% endfor %}
+	<!-- ANSWER END -->
+{% endblock %}

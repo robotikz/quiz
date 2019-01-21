@@ -1,0 +1,56 @@
+{# twig #} 
+{% extends 'default/res.init.html.twig' %} 
+
+{% block og %}
+	{{ parent() }}
+	<meta property="og:url" content="{{ absolute_url(path('nodata')) }}"/>  
+	<meta property="og:description" content="Du hast heute noch nicht gespielt oder die Zeit ist abgelaufen."/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Championship Results',
+			'pageCategory' : 'Championship',
+			'pageURI' : '/championship/results.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+	<script>
+    	var fb_href = "{{ absolute_url(path('nodata')) }}";
+		var fb_title = "{{ screen_sharee_fb_title|ph }}";
+  	</script>
+{% endblock %}
+
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+    		<h2 class="highscore-h2">{{screen_result_head4}}</h2>
+            <div class="panel panel-default">
+      			<div class="panel-body">
+        			<span id="t-score-no" style="">{{nd_msg}}</span>
+      			</div>
+    		</div>
+
+            <button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+			
+			{% if quiz.share == 1 %}
+				<button style="display:none;" type="submit" id="fb-share" class="btn btn-facebook-signup">{{screen_sharee_title2}}</button>
+			{% endif %}
+        </div> 
+        
+        <!-- close #content-wrapper -->
+        
+    	<div class="minheight"></div>
+    {% endblock %} 
+    

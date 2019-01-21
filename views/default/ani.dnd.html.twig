@@ -1,0 +1,33 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'default/ani.init.html.twig' %}
+
+{% block js_this %}
+    {# <script type="text/javascript">
+        $(document).ready(function() {
+            initAniDND();
+        })
+    </script> #}
+{% endblock js_this %}
+
+{% block ani_js %}
+    {# <script src="{{ asset('js/ani.dnd.js') }}"></script> #}
+    <script type="text/javascript">
+        var src_ani_dnd = "{{ asset('js/ani.dnd.js') }}";
+        var src_handgrab = "{{ asset('handgrab.png','img') }}";
+        var src_hand = "{{ asset('hand.png','img') }}";
+        var src_plusone = "{{ asset('plusone.png','img') }}";
+    </script>
+{% endblock %}
+
+{% block ani %}
+    <div id="cnt-dlg-ani-dnd" data-path="{{ path('ani_dnd_aj') }}">
+    </div>
+    <span id="btn-ani-dnd" data-path="{{ path('ani_dnd_aj') }}" style="cursor:pointer;">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+    </span>
+    {# <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:280px; height:330px">
+		<canvas id="canvas" width="280" height="330" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:280px; height:330px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div> #}
+{% endblock %}

@@ -1,0 +1,50 @@
+{# twig #} 
+{% extends 'user/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bs/js/bootstrap-box.min.js') }}"></script>
+{% endblock %}
+
+
+	{% block master_content %}
+		{% include 'user/nav.html.twig' with {'a': '1'}  %}
+		<div class="content-wrapper startseite">
+			<h1>{{screen_deleteprofile_h1|ph(app.user)}}</h1>
+            <p class="subhead">{{screen_deleteprofile_l1}}</p>
+            <ul class="list-disadvantages">
+                <li>{{screen_deleteprofile_li1}}</li>
+                <li>{{screen_deleteprofile_li2}}</li>
+           	</ul>
+            <button id="btn-my-remove" type="button" 
+                class="btn btn-red" data-path="{{ path('my_remove_aj') }}">{{ msg_user_still_delete_account }}</button>
+            <p>{{screen_deleteprofile_l2}}</p>
+            <button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+{#             <hr>#}
+			<div id="dlg-body-remove" style="display:none">
+                <h1>{{screen_deleteprofile_dlg_h1}}</h1>
+                <p>
+                    {{screen_deleteprofile_dlg_l1|raw}}
+                </p>
+                <p>
+                    {{screen_deleteprofile_dlg_l2}}
+                </p>
+                <form id="f-my-remove" name="f_my_remove" method="post" action="{{ path('my_remove_send') }}">
+                	<div class="form-group">
+               			<label for="remove-reason">{{screen_deleteprofile_dlg_l3}}</label>
+                		<textarea class="form-control" id="remove-reason" name="_remove_reason" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+{#             <button type="submit" class="btn btn-mail-signup">Absenden</button>#}
+        </div> 
+        <!-- close #content-wrapper -->
+        
+        <div class="minheight"></div>
+    {% endblock %} 
+    

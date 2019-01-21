@@ -1,0 +1,32 @@
+<div class="subnav-wrapper">
+    <nav class="subnav-layout">
+        <div class="subnav-content">
+            <h2 class="subnav-h2">
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                {{screen_info_nav_content_table}}
+            </h2>
+            <ul style="display:none;">
+                <li class="{% if a=='0' %}subnav-active{% endif %}"> 
+                    <a class="subnav-link" href="#grundsaetzliches"
+                    onclick="gtmEPush(_, 'Rules Menu Fundamentals Click','Rules');">{{screen_info_nav_rules_1}}</a>
+                </li>
+                <li class="{% if a=='2' %}subnav-active{% endif %}">
+                    <a class="subnav-link" href="#spielbildschirm"
+                    onclick="gtmEPush(_, 'Rules Menu Game Screen Click','Rules');">{{screen_info_nav_rules_2}}</a>
+                </li>
+                <li class="{% if a=='3' %}subnav-active{% endif %}">
+                    <a class="subnav-link" href="#spielmodi"
+                    onclick="gtmEPush(_, 'Rules Menu Game Modes Click','Rules');">{{screen_info_nav_rules_3}}</a>
+                </li>
+                <li class="{% if a=='4' %}subnav-active{% endif %}">
+                    <a class="subnav-link" href="#fragetypen"
+                    onclick="gtmEPush(_, 'Rules Menu Question Types Click','Rules');">{{screen_info_nav_rules_4}}</a>
+                </li>
+                <li class="{% if a=='5' %}subnav-active{% endif %}">
+                    <a class="subnav-link" href="#joker"
+                    onclick="gtmEPush(_, 'Rules Menu Joker Click','Rules');">{{screen_info_nav_rules_5}}</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

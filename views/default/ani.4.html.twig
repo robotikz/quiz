@@ -1,0 +1,13 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'default/ani.init.html.twig' %}
+
+{% block ani_js %}
+    <script src="{{ asset('js/ani.4.js') }}"></script>
+{% endblock %}
+
+{% block ani %}
+    <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:320px; height:375px">
+        <canvas id="canvas" width="320" height="375" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+        <div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:320px; height:375px; position: absolute; left: 0px; top: 0px; display: block;"></div>
+    </div>
+{% endblock %}

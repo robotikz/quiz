@@ -1,0 +1,76 @@
+<!-- CONTENT START -->
+{% set path_select = path('qselstart_aj') %} 
+
+{% for question in questions %}
+<div class="content-question" id="game-qn-a-{{ question.id }}" 
+    data-qz="{{ quiz.id }}" 
+    data-qn="{{ question.id }}" 
+    data-m="{{ question.m }}" 
+    data-dnd="{{question.dnd}}" 
+    data-path="{{ path_select }}"
+    >
+
+    <!-- QUESTION START -->
+    <div id="question-wrapper" class="question-wrapper" style="text-align:left">
+        <div class="red-box-wrapper">
+            <div class="red-box">
+                <i class="fa" aria-hidden="true">{{loop.index}}</i>
+            </div>
+        </div>
+        <div class="question-textbox">
+            {{ question.title|ph(question.arcount)|raw }}
+        </div>
+    </div>
+    <!-- QUESTION END -->
+
+    <!-- IMAGE START -->
+    <div id="question-image" class="question-image">
+        {% if not question.avatar is null and question.avatar != '' %}
+            <img alt="Quiz" src="{{ asset('q-'~question.id~'/'~question.avatar,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}" class="">
+        {% endif %}
+    </div>
+    <!-- IMAGE END -->
+
+    <!-- ANSWER START -->
+    {% for a in question.answers %}
+        <div class="answer-wrapper">
+            <div class="green-box-wrapper">
+                <div 
+                    class="green-box btn-game-a"
+                    id="btn-game-answer-{{ a.id }}"
+                        role="button"
+                        data-a='{{ a.id }}'
+                        data-qn='{{ question.id }}'
+                        data-qz='{{ quiz.id }}'
+                    >
+                    <p>{{ loop.index|abc }}</p>
+                </div>
+                <div class="fold"></div>
+            </div>
+            <div 
+                style="text-align:left"
+                class="answer-textbox btn-game-a"
+                id="btn-game-answer-text-{{ a.id }}"
+                    role="button"
+                    data-a='{{ a.id }}'
+                    data-qn='{{ question.id }}'
+                    data-qz='{{ quiz.id }}'
+                >
+            {{ a.title|ph|raw }}
+            </div>
+        </div>
+    {% endfor %}
+    <!-- ANSWER END -->
+</div>
+{% if loop.index is divisible by(5) %}
+    {% set bi = (loop.index / 5) %}
+    <p>
+        {{"[#start_text_button_" ~ bi ~ "#]"|ph|raw}}
+    </p>
+    {% if quiz.guestallow == 1 %}
+        <a id="btn-play-guest" style="" class="btn btn-mail" onclick="gtmEPush(_, 'Start CTA 5 Questions {{bi}} Click');" href="{{ path('start1') }}">{{ screen_login_link_playbig|ph(quiz)|raw }}</a>
+    {% endif %}
+{% endif %}
+
+{% endfor %}
+<!-- CONTENT END -->

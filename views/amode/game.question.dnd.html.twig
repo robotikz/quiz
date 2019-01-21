@@ -1,0 +1,43 @@
+{% extends 'amode/game.init.html.twig' %}
+
+{% block gtm %}
+    {{ parent() }}
+	{{ include('amode/game.question.dl.html.twig') }}
+{% endblock gtm %}
+
+{% set path_select = path('qseladnd_aj') %} 
+
+		{% block b_answer %}
+			<!-- ANSWER START -->
+			{# <div class="dnd-wrapper" style="" > #}
+			<div class="answer-box-dnd" style="" id="answer-box-dnd">
+				<div class="answer-drop left" id="answer-drop-left" data-side="2">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</div>
+				<div class="answer-drop right" id="answer-drop-right" data-side="1">
+					<i class="fa fa-circle-o" aria-hidden="true"></i>
+				</div>
+				{% for a in question.answers %}
+					<div class="answer-wrap"> 
+						<div class="answer-wrapper" 
+							style="{% if loop.index > 4 %}display:none;{% endif %}" 
+							id="answer-{{ loop.index }}"
+							data-a='{{ a.id }}'
+							data-qn='{{ question.id }}'
+							data-qz='{{ quiz.id }}'
+							>
+							<div 
+								class="answer-textbox btn-game-a"
+								id="btn-game-answer-text-{{ a.id }}"
+								role="button"
+								
+								>
+								{{ a.title|ph|raw }}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			{# </div> #}
+			<!-- ANSWER END -->
+		{% endblock b_answer %}

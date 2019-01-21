@@ -1,0 +1,128 @@
+{# src/Resources/views/security/activate.html.twig #}
+{% extends 'security/init.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/security.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/validator.js') }}"></script>
+    <script src="{{ asset('js/security.js') }}"></script>
+{% endblock %}
+
+{% block master_header %}
+    <div class="header">
+        <div class="header-wrapper-top">
+            <div class="quizlogo">
+                <a id="btn-home-logo">
+                    <img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+                </a>
+            </div>
+            <div class="wrapper-icons">
+                <div class="result-wrapper"></div>
+                <div class="feedback-wrapper">
+                </div>
+                <div class="username-wrapper">
+                    <div class="imagebox">
+                        {% if app.user and app.user.status != 9 %}
+                            <a href="{{ path('my_user') }}">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <span class="txt">{{screen_global_user}}</span>
+                            </a>
+                        {% else %}
+                            {# <i class="fa fa-user-o" aria-hidden="true"></i> #}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block master_content %}
+    <div class="content-wrapper startseite">
+        <h1>{{ screen_soi_h1 }}</h1>
+        <p class="subheadline">{{ screen_soi_subhead }}</p>
+
+        <button class="btn btn-grey" type="button" data-toggle="modal" data-target="#modal-resend" data-username="{{ ua.username }}">{{ screen_soi_button_activation_resend }}</button>
+
+        <br/>
+
+        <button class=" btn btn-grey" id="btn-activate">{{ screen_soi_button_activation_manually }}</button>
+
+        <form action="{{ path('security_activate') }}" method="post" class="" id="f-security-activate" data-toggle="validator" role="form" style="display:none;margin-top:20px">
+            <div class="form-group">
+                {{ form_widget(form.username, { 'attr': {
+						'placeholder': screen_signup_form_placeholder_username,
+						'class': 'form-control'
+						} }) }}
+                <div class="help-block with-errors">{{ form_errors(form.username) }}</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form.token, { 'attr': {
+						'placeholder': screen_soi_form_placeholder_activation,
+						'class': 'form-control'
+						} }) }}
+                <div class="help-block with-errors">{{ form_errors(form.token) }}</div>
+            </div>
+
+            <div style="display: none">
+                {{ form_rest(form) }}
+            </div>
+
+            <button type="submit" class="btn btn-mail-signup">{{ screen_soi_button_activation }}</button>
+            {% if app.session.get('security_activate_valid') %}
+                <div class="help-block with-errors">{{ app.session.get('security_activate_valid') }}</div>
+            {% endif %}
+
+        </br>
+        <div class="form-field">
+            <label>{{ screen_soi_label_activation_no_data }}</label>
+            <button class="btn btn-grey" type="button" data-toggle="modal" data-target="#modal-resend" data-username="{{ ua.username }}">{{ screen_soi_button_activation_resend }}</button>
+        </div>
+
+        <script type="text/javascript">
+            //
+            $("#").each(function (index) {});
+        </script>
+    </form>
+</div>
+<!-- close #content-wrapper -->
+<div class="minheight"></div>
+
+{% endblock %}
+
+{% block footer %}
+<div class="modal fade" id="modal-resend" tabindex="-1" role="dialog" aria-labelledby="modal-resend-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schliessen">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modal-resend-label">{{ screen_soi_button_activation_resend }}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="" id="f-security-resend-modal" data-toggle="validator" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="modal-username" placeholder="{{ screen_signup_form_placeholder_username }}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                {#             <button type="button" class="btn " data-dismiss="modal">Schliessen</button>#}
+                <button type="button" class="btn btn-mail-signup" id="modal-btn-resend" data-path="{{ path('security_resend_aj') }}">{{ screen_soi_button_activation_resend_do }}</button>
+                <div id="modal-resend-alert" class="alert alert-warning collapse" style="display:none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Fehler!</strong>
+                    <span class="text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

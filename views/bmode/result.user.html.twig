@@ -1,0 +1,83 @@
+{# twig #} 
+{% extends 'default/res.init.html.twig' %} 
+
+{% block og %}
+	{{ parent() }}
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Free Mode Results',
+			'pageCategory' : 'Free Mode',
+			'pageURI' : '/free-mode/results.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+	<script>
+    	var fb_href = "{{ absolute_url(path('resultb')) }}";
+		var fb_title = "{{ screen_sharee_fb_title|ph }}";
+  	</script>
+{% endblock %}
+
+{# for not activated user no links to user  #}
+	{% block my_user %}
+		{% if app.user and app.user.status==5 %}
+			<i class="fa fa-user-o" aria-hidden="true"></i>
+		{% else %}	
+			{{ parent() }}
+		{% endif %}
+    {% endblock %}
+
+	{% block highscore %}
+	
+	{% endblock %}
+
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+        	<h1>{{screen_result_head1}}</h1>
+            <div class="panel panel-default">
+      			<div class="panel-body">
+				  	{{screen_result_head3|ph|raw}}
+      				{# <p>Du hast {{ count_score }} von {{ count_play }} Fragen richtig beantwortet.</p> #}
+      			</div>
+				<span id="fb-description" style="display:none;">
+					{{screen_result_head3_fb|ph|raw}}
+				</span>
+    		</div>
+            <h2 class="highscore-h2">{{screen_result_title1}}</h2>
+
+			<div class="panel panel-default">
+      			<div class="panel-body">
+					<div id="analysis-percent" class="analysis" data-pct="{{percent}}">
+						<svg width="200" height="200">
+							<circle class="percent" id="" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+							<circle class="percent calc" id="percent" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+						</svg>
+					</div>
+				</div>
+			</div>
+
+			{% if quiz.share == 1 %}
+            	<button type="submit" id="fb-share" class="btn btn-facebook-signup">{{screen_sharee_title2}}</button>
+            {% endif %}
+
+			<button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+        </div> 
+        
+        <!-- close #content-wrapper -->
+        
+    	<div class="minheight"></div>
+    {% endblock %} 
+    

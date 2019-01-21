@@ -1,0 +1,35 @@
+<link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet"/>
+
+<div class="content-wrapper startseite">
+
+    <h1 class="logo-claim">Schreib uns!</h1>
+    <p>Fragen, Anregungen, Kritik! Wir sind für alles offen. Wir beantworten jede Anfrage innerhalb von 24 Stunden pers&ouml;nlich.</p>
+    <div class="info-contact" role="form" >
+        <div class="form-group">
+            <aside class="profile-label">
+                <label for="user_fname">Dein Name<br/>
+                    <small style="font-weight: normal;">Damit wir dich ansprechen können.</small>
+                </label>
+            </aside>
+            <input type="text" class="form-control" id="fullname" name="fullname" value="{{data.fullname}}">
+        </div>
+        <div class="form-group">
+            <aside class="profile-label">
+                <label for="user_fname">Dein E-Mail-Adresse<br/>
+                    <small style="font-weight: normal;">Damit wir dir Antworten können.</small>
+                </label>
+            </aside>
+            <input type="text" class="form-control" id="email" name="email" value="{{data.email}}">
+        </div>
+        <div class="form-group">
+            <aside class="profile-label">
+                <label for="user_fname">Was möchtest du uns sagen<br/>
+                    <small style="font-weight: normal;">Damit wir wissen, um was es geht.</small>
+                </label>
+            </aside>
+            <textarea cols="35" rows="10" style="height:auto;" class="form-control" id="comment">{{data.comment}}</textarea>
+        </div>
+    </div>
+    <hr/>
+
+</div>

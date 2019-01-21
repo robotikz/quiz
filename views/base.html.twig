@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block meta_desc %}<meta name="decription" content="{{meta_all_desc|ph|raw}}">{% endblock %}
+    
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv="cleartype" content="on">
+	<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	{# In der Testphase darf keine der Seiten über Google zu finden sein. noindex,follow #}
+	{% block meta_robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+	
+	<meta property="og:url" content="{{ absolute_url(path('home')) }}"/>
+	<meta property="og:type" content="website"/>
+
+	{% block og %}
+		<meta property="og:title" content="{{ meta_all_title|ph|raw }}"/>
+		<meta property="og:description" content="{{meta_all_desc|ph|raw}}"/>
+	{% endblock %}
+
+	{% block twitter %}
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:site" content="@Quizpiggy" />
+		<meta name="twitter:title" content="{{ meta_all_title|ph|raw }}" />
+		<meta name="twitter:description" content="{{meta_all_desc|ph|raw}}" />
+		<meta name="twitter:image" content="{{ absolute_url(asset('qz-'~quiz.id~'/twitter1.jpg','img')) }}" />
+	{% endblock %}
+
+
+	<title>{% block meta_title %}{{ meta_all_title|ph|raw }}{% endblock %}</title>
+
+{% set visitorType = '' %}
+{% if app.user and app.user.status!=9 %}
+	{% set visitorType = 'Logged-in' %}
+{% elseif app.user and app.user.status==9 %}
+	{% set visitorType = 'Guest' %}
+{% endif %}
+
+{% block gtm %}	
+	<!-- Google Data Layer -->
+	<script>
+		window.dataLayer = window.dataLayer || [];
+	</script>
+	<!-- End Google Data Layer -->	
+	<!-- Google Tag Manager -->
+	<script>
+	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);	})(window,document,'script','dataLayer','GTM-N7847BC');
+	</script>
+	<!-- End Google Tag Manager -->
+{% endblock gtm %}
+
+
+
+{% block stylesheets %}
+	<link href="{{ asset('css/fonts.css') }}" type="text/css" rel="stylesheet" />
+	{# !!! #}
+    <link href="{{ asset('bs/css/bootstrap.min.css') }}" type="text/css"	rel="stylesheet">
+    <link href="{{ asset('bs/css/font-awesome.min.css') }}" type="text/css"	rel="stylesheet">
+{% endblock %}
+
+
+<link rel="shortcut icon" href="{{ asset('qz-'~quiz.id~'/favicon1.ico','img')}}" />
+{% block js_var %}
+    <script>
+		var twig = twig || {};
+    	var u = u || {};
+    	var sm = sm || {};
+    	twig.msg_admin_delete_confirmation					= "{{ msg_admin_delete_confirmation|raw }}";
+    	twig.msg_admin_delete_confirmation					= "{{ msg_admin_delete_confirmation|raw }}";
+    	twig.msg_admin_bulk_edit_select_one					= "{{ msg_admin_bulk_edit_select_one|raw }}";
+    	twig.msg_admin_question_delete_success				= "{{ msg_admin_question_delete_success|raw }}";
+    	twig.msg_admin_question_update_success				= "{{ msg_admin_question_update_success|raw }}";
+    	twig.msg_admin_question_bulk_edit_select_one		= "{{ msg_admin_question_bulk_edit_select_one|raw }}";
+    	twig.msg_q_images_only								= "{{ msg_q_images_only|raw }}";
+    	twig.msg_q_insert_username							= "{{ msg_q_insert_username|raw }}";
+    	twig.msg_q_insert_title								= "{{ msg_q_insert_title|raw }}";
+    	twig.msg_q_img_remove_confirmation					= "{{ msg_q_img_remove_confirmation|raw }}";
+    	twig.msg_security_resend_activation_code			= "{{ msg_security_resend_activation_code|raw }}";
+    	twig.msg_user_delete_account						= "{{ msg_user_delete_account|raw }}";
+    	twig.msg_user_still_delete_account					= "{{ msg_user_still_delete_account|raw }}";
+		twig.msg_user_still_delete_account_send				= "{{ msg_user_still_delete_account_send|raw }}";
+		twig.msg_security_username_email_empty 				= "{{ msg_security_username_email_empty|raw }}";
+		twig.dlg_question_new_h3							= "{{ dlg_question_new_h3|raw }}";
+		twig.dlg_question_new_title1						= "{{ dlg_question_new_title1|raw }}";
+		twig.msg_dlg_question_new_thx1						= "{{ msg_dlg_question_new_thx1|raw }}";
+		twig.msg_dlg_question_new_thx2						= "{{ msg_dlg_question_new_thx2|raw }}";
+		twig.dlg_question_comment_h3						= "{{ dlg_question_comment_h3|raw }}";
+		twig.dlg_question_comment_title1					= "{{ dlg_question_comment_title1|raw }}";
+		twig.dlg_question_comment_title3					= "{{ dlg_question_comment_title3|raw }}";
+		twig.dlg_question_comment_title4					= "{{ dlg_question_comment_title4|raw }}";
+		twig.dlg_quiz_feedback_title3						= "{{ dlg_quiz_feedback_title3|raw }}";
+    	sm.fb_client_id										= "{{ fb_client_id|raw }}";
+		twig.game_button_next 								= "{{ game_button_next|raw }}";
+		twig.game_button_result 							= "{{ game_button_result|raw }}";
+		var route_home 										= "{{ path('home')|raw }}";
+		var route_logout 									= "{{ path('logout')|raw }}";
+		var route_user										= "{{ path('my_user')|raw }}";
+		var route_highscore									= "{{ path('highscore')|raw }}";
+	</script>
+{% endblock js_var %}
+
+{% block js %}
+    
+    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bs/js/bootstrap.min.js') }}"></script>
+    
+    {# <script src="{{ asset('js/modernizr.js') }}"></script>#}
+    <script type="text/javascript" src="{{ asset('js/sys.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/q.js') }}"></script>
+
+{% endblock %}
+
+{% block js_this %}
+	{# for some templates individual #}
+{% endblock js_this %}
+</head>
+
+<body>
+	
+	{% if app.user %}
+        {% set user_id = app.user.id %}
+    {% else %}
+        {% set user_id = 0 %}
+    {% endif %}
+
+	{% block head1 %}
+		{# for head-1 #}
+	{% endblock %}
+	
+	
+	{% block head2 %}
+		{# for head-2 #}
+	{% endblock %}
+	
+	
+	{% block body %}
+		{# all other content stuff #}
+	{% endblock %}
+
+	{% block footer %} 
+		<footer class="footer" >
+			<div class="container" style="text-align: center;">
+				<a href="{{ path('home') }}">Home</a> 
+				<a href="{{ path('admin') }}">Admin</a>
+				<a href="{{ path('logout') }}">Logout</a> 
+				<a href="javascript:alert('Help yourself!')">About</a>
+				<p>&copy;  {{ 'now'|date('Y') }} {{ app_web_name }}</p>
+			</div>
+		</footer>
+	 {% endblock %}
+	
+	
+	{% block javascripts %}
+	{% endblock %}
+</body>
+</html>

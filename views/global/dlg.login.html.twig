@@ -1,0 +1,77 @@
+{# <link href="{{ asset('css/login.css') }}" type="text/css" rel="stylesheet" /> #}
+<!-- The Modal -->
+<div id="mdl-lgn" class="mdl">
+    <!-- Modal content -->
+    <div class="mdl-content">
+        <span class="cls">&times;</span>
+        <div id="mdl-cnt" class="mdl-cnt">
+            <form action="{{ path('lgn') }}" method="post" style="padding-top:16px;" class="" id="f-dlg-lgn" data-toggle="validator" role="form">
+                
+                <div class="form-group ">
+                    <input
+                        type="text"
+                        id="username"
+                        name="_username"
+                        value="{{ not last_username is defined ? '' : last_username }}"
+                        class="form-control"
+                        required
+                        placeholder="{{ screen_login_form_placeholder_email }}"
+                        data-error="{{e_user_empty}}"
+                    />
+                    <div class="help-block with-errors">
+                    </div>
+                </div>
+
+                <div class="form-group form-group-password ">
+                    <input
+                        type="password"
+                        id="password"
+                        name="_password"
+                        class="form-control"
+                        required
+                        placeholder="{{ screen_login_form_placeholder_password }}"
+                        data-error="{{e_password_empty}}"
+                    />
+                    <div class="pw-vergessen">
+                        <a
+                            class="pw-vergessen-link"
+                            data-toggle="modal"
+                            data-target="#modal-password"
+                        >{{ screen_login_link_forgotpassword }}</a>
+                    </div>
+                    <div class="help-block with-errors">
+                    </div>
+                </div>
+
+                <div class="checkbox remember-me">
+                    <label for="remember_me">
+                        <input type="checkbox" id="remember_me" name="_remember_me" checked  class=""/>
+                        {{ screen_login_form_placeholder_remember }}
+                    </label>
+
+                    <div class="help-block with-errors"></div>
+                </div>
+
+
+                <div style="display: none">
+                    <input type="hidden" name="_target_path" value="/hs" />
+                    </div>
+                    
+                <button
+                    type="submit"
+                    class="btn btn-mail"
+                >{{ screen_login_button_login }}</button>
+            </form>
+            <div class="oder-box">
+				<div class="login-grey-line"></div>
+				<div class="login-oder">{{screen_signup_separator_or}}</div>
+				<div class="login-grey-line"></div>
+			</div>
+			<button class="btn btn-facebook" onclick="fb_login('Log-in as Guest via Facebook Click','Log-in');">{{screen_login_button_facebooklogin}}</button>
+			
+        </div>
+        
+        {# fb-login/registration #}
+		{# {% include 'security/reg.fb.html.twig' %}	 #}
+    </div>
+</div>

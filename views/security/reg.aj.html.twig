@@ -1,0 +1,125 @@
+{# src/Resources/views/security/reg.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript">
+    	Cookies.set("quiz", '');
+    	Cookies.set("question", '');
+    	Cookies.set("joker_pause", '');
+    	Cookies.set("joker_skip", '');
+    	Cookies.set("joker_5050", '');   
+  </script>
+{% endblock %}
+
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<div class="logo-container">
+				<img 
+					class="startscreen-logo"
+					alt="Logo" 
+					height="100px" 
+					src="{{ asset('qz-'~quiz.id~'/'~quiz.logo1,'img') }}" >
+            	<h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+        	</div>
+
+			<h1 class="top">{{ screen_signup_h1 }}</h1>
+
+			{% if app.session.get('fb_fid') == '' %}
+				<button class="btn btn-facebook-signup" onclick="fb_login('Sign-up as Guest via Password Click','Sign-up');">{{ screen_signup_button_facebooksignup }}</button>
+				<div class="oder-box">
+					<div class="login-grey-line"></div>
+					<div class="login-oder">{{screen_signup_separator_or}}</div>
+					<div class="login-grey-line"></div>
+				</div>
+			{% else %}
+				<h4 class="top">{{screen_signup_h3}}</h4>
+			{% endif %}
+			
+			{# fb-login/registration #}
+			{% include 'security/reg.fb.html.twig' %}	
+
+			<form action="{{ path('security_reg_aj') }}" method="post" class="" id="f-security-reg-aj" data-toggle="validator" role="form">
+				<div class="form-group">
+					{{ form_widget(form.email, { 'attr': {
+					    'data-error': msg_reg_email_empty,
+						'data-remote': path('admin_user_is'),
+						'data-remote-error': msg_signup_login_taken,
+						'aria-describedby': "emailHelp", 
+						'placeholder': screen_signup_form_placeholder_email,
+						'value': app.session.get('fb_email'),
+						'class':'form-control'
+						} }) }}
+        			<div class="help-block with-errors">{{ form_errors(form.email) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.username, { 'attr': {
+					    'data-error': msg_reg_username_empty,
+						'data-remote': path('admin_user_is'),
+						'data-remote-error': msg_signup_username_taken,
+						'aria-describedby': "emailHelp", 
+						'placeholder': screen_signup_form_placeholder_username,
+						'value': app.session.get('fb_username'),
+						'class':'form-control'
+						} }) }}
+        			<div class="help-block with-errors">{{ form_errors(form.username) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.password.first, { 'attr': {
+					    'data-error': msg_reg_password_empty,
+						'placeholder': screen_signup_form_placeholder_password,
+						'class':'form-control'
+						} }) }}
+        			<div class="help-block with-errors">{{ form_errors(form.password.first) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.password.second, { 'attr': {
+					    'data-error': msg_reg_password_empty,
+						'placeholder': screen_signup_form_placeholder_confirmpassword,
+						'class':'form-control'
+						} }) }}
+					<div class="help-block with-errors">{{ form_errors(form.password.second) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.fname, { 'attr': {
+						'placeholder': screen_signup_form_placeholder_firstname,
+						'value': app.session.get('fb_firstname'),
+						'class':'form-control'
+						} }) }}
+					<div class="help-block with-errors">{{ form_errors(form.fname) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.lname, { 'attr': {
+						'placeholder': screen_signup_form_placeholder_surename,
+						'value': app.session.get('fb_lastname'),
+						'class':'form-control'
+						} }) }}
+					<div class="help-block with-errors">{{ form_errors(form.lname) }}</div>
+				</div>
+				
+				<div style="display: none">
+            	    {{ form_rest(form) }}
+            	 </div>
+				<button
+					onclick="gtmEPush(_, 'Sign-up via Password Click', 'Sign-up');"
+					type="submit"
+					class="btn btn-mail-signup"
+				>{{ screen_signup_button_signup }}</button>
+			</form>
+			
+			<p class="exclaimer">
+				{{ screen_signup_disclaimer_terms|pha|raw }}
+			</p>
+
+			<button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+		</div>
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 

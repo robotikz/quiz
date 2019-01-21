@@ -1,0 +1,44 @@
+<table class="table table-bordered" fixed-header>
+	<thead>
+        <tr>
+        	<th style="width:50px">
+          		<a class="btn btn-default btn-xs btn-sel-all" style="">Alle</a>
+		  	</th>
+          	<th style="width:10px">ID</th>
+          	<th style="width:50px" class="hidden-sm hidden-xs">UNID</th>
+          	<th style="width:250px">Name</th>
+          	<th style="width:250px">Email</th>
+          	<th style="width:150px">Rolle</th>
+          	<th style="width:50px"></th>
+        </tr>
+    </thead>
+    {% for e in users %}
+    	<tr>
+    		<td style="width:50px">
+    			<input type="checkbox" id="cb-e-{{ e.id }}" name="cb-e-{{ e.id }}" data-id="{{ e.id }}" class="cb-e"/>
+    		</td>
+    		<td style="width:10px">
+    			<span>{{ e.id }}</span>
+    		</td>
+    		<td style="width:50px" class="hidden-sm hidden-xs">
+    			<span>{{ e.unid }}</span>
+    		</td>
+    		<td style="width:250px">
+    			<a class="filter" href="{{ path('admin_user_ne',{'eid':e.id}) }}" style="">{{ e.username }}</a>
+    		</td>
+    		<td style="width:250px">
+    			<span class="filter">{{ e.email }}</span>
+    		</td>
+    		<td style="width:150px">
+    			<span class="filter">{{ e.roles|join(', ') }}</span>
+    		</td>
+    		<td style="width:50px">
+    			{% if e.status!=1 %}
+    				<a class="btn  btn-default btn-xs " href="{{ path('admin_user_on',{'eid':e.id}) }}" style="">Aktivieren</a>
+    			{% else %}
+    				<a class="btn btn-success btn-xs " href="{{ path('admin_user_off',{'eid':e.id}) }}" style="">Deaktivieren</a>
+    			{% endif %}
+        	</td>
+		</tr>
+	{% endfor %}
+</table>

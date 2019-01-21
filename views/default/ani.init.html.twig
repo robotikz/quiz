@@ -1,0 +1,192 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'security/init.html.twig' %}
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_index_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_index_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_index_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_index_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        window.dataLayer.push({'pageTitle': 'Welcome', 'pageCategory': 'Animation', 'pageURI': '/ani.html', 'visitorType': '{{ visitorType }}', 'difficultyScore': ''});
+    </script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var route_start1 = "{{ path('start1')|escape('js') }}";
+        var src_bitmap4 = "{{ asset('Bitmap4.png','img') }}";
+        var src_hand = "{{ asset('hand.png','img') }}";
+        var src_plusone = "{{ asset('plusone.png','img') }}";
+    </script>
+    <script src="{{ asset('js/create.js') }}"></script>
+    {% block ani_js %}
+        {# animation js #}
+    {% endblock %}
+    <script type="text/javascript">
+        Cookies.set("quiz", '');
+        Cookies.set("question", '');
+        Cookies.set("joker_pause", '');
+        Cookies.set("joker_skip", '');
+        Cookies.set("joker_5050", '');
+        {# $(document).ready(function() {
+            initAni();
+        }) #}
+    </script>
+{% endblock %}
+
+{% block js_this %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            initAni();
+        })
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-5927247843247054",
+        enable_page_level_ads: true
+    });
+    </script>
+    {# animation-start-page game functions #}
+    <script src="{{ asset('js/game.start.js') }}"></script>
+{% endblock js_this %}
+
+{% block master_header %}
+    {% set msg_box_news = '' %}
+    {% if not app.request.cookies.has('quizpiggy_cookie') %}
+        <div id="msg-box-cookie" class="msg-box-head-cookie">
+            <div id="msg-box-close-cookie" class="msg-box-head-close-cookie">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div id="msg-box-text-cookie" class="msg-box-head-text-cookie">
+                {{"[#startscreen_cookie#]"|ph|pha|raw}}
+            </div>
+        </div>
+        {% set msg_box_news = 'display:none;' %}
+    {% endif %}
+
+    {% set user_status_style = msg_box_news %}
+    {% if app.user and app.user.status == 5 %}
+        {% set user_status_style = 'display:none;' %}
+        <div id="msg-box-user-status" class="msg-box-head-user">
+            <div id="msg-box-user-status-close" class="msg-box-head-user-close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div id="msg-box-user-status-text" class="msg-box-head-user-text">
+                {{"[#user_status_5#]"|ph}}
+            </div>
+            <div id="msg-box-user-status-btn" class="msg-box-head-user-btn">
+                {% if app.session.get('user_status_5_resend')is defined and app.session.get('user_status_5_resend') == '1' %}
+                    <span id="msg-box-user-status-resend">{{"[#user_status_5_resend#]"|ph}}</span>
+                {% else %}
+                    <span id="msg-box-user-status-send" style="display:;">{{"[#user_status_5_btn#]"|ph}}</span>
+                    <a id="btn-msg-box-user-status-resend" data-path="{{ path('security_resend_aj') }}" data-username="{{ app.user.username }}" class="underline">{{screen_login_email_link_resend}}
+                    </a>
+                    <span id="msg-box-user-status-resend" style="display:none;">{{"[#user_status_5_resend#]"|ph}}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="header" id="header" style="{{user_status_style}}">
+        <div class="header-wrapper-top">
+            <div class="quizlogo">
+                <a id="btn-home-logo">
+                    <img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+                </a>
+            </div>
+            <div class="wrapper-icons">
+                <div class="result-wrapper">
+                    {% if quiz_hub != '1' %}{% endif %}
+                </div>
+                {# <div class="feedback-wrapper">
+                </div> #}
+                {% if app.user and app.user.status != 9 %}
+                    <div class="username-wrapper">
+                        <div class="imagebox">
+                            <a id="btn-profile">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <span class="txt">{{screen_global_user}}</span>
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    {% if quiz.guestallow == 1 %}
+                        <a id="btn-play-guest" style="margin:-6px 0" class="btn btn-mail" onclick="gtmEPush(_, 'Play as Guest Click');" href="{{ path('start1') }}">{{ screen_login_link_playbig|ph(quiz)|raw }}</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- QUESTION-COUNT START -->
+    <div class="question-nr-wrapper"> 
+        <span >{{"[#quiz_question_count#]"|ph(quiz)|raw}}</span>
+    </div>
+    <!-- QUESTION-COUNT END -->
+
+{% endblock %}
+
+{% block master_content %}
+    <div class="content-wrapper startseite">
+
+        <div class="logo-container">
+            <a href="{{ path('home') }}">
+                <img 
+                    class="startscreen-logo"
+                    alt="Logo" 
+                    height="100px" 
+                    src="{{ asset('qz-'~quiz.id~'/'~quiz.logo1,'img') }}"> 
+            </a>
+            <h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+            <br/>
+            <h4 class="label-play">{{"[#quiz_description#]"|ph|raw}}</h4>
+        </div>
+
+            {% include "default/ani.questions.html.twig" %}
+
+        {% if app.user and app.user.status != 9 %}
+            <div class="start-grey-line"></div>
+            <p>
+                <button id="btn-logout" class="btn btn-grey">{{screen_global_logout}}</button>
+            </p>
+        {% else %}
+            {# <a id="btn-lgn" class="btn btn-mail" onclick="gtmEPush(_, 'Log-in Click');" href="{{ path('lgn') }}">{{ screen_signup_disclaimer_login_in }}</a> #}
+            {# <a id="btn-reg" class="btn btn-mail" onclick="gtmEPush(_, 'Sign-up CTA Click');" href="{{ path('security_reg') }}">{{ screen_signup_button_signup }}</a> #}
+        {% endif %}
+
+        <p>
+            {{"[#welcome_text_introduction#]"|ph|raw}}
+        </p>
+
+        {% block ani %}
+            {# animation html #}
+        {% endblock %}
+        
+        <p>
+            {{"[#seo_text_introduction#]"|ph|raw}}
+        </p>
+        
+        {% if quiz.guestallow == 1 %}
+            <a id="btn-play-guest" class="btn btn-mail" onclick="gtmEPush(_, 'Play as Guest Click');" href="{{ path('start1') }}">{{ screen_login_link_playasguest }}</a>
+        {% endif %}
+
+        
+    </div>
+    <!-- close #content-wrapper -->
+    <div class="minheight"></div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

@@ -1,0 +1,76 @@
+{# app//Resources/views/exception/error.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+{% block js %}
+	{{ parent() }}
+{% endblock js %}
+
+{% block js_this %}
+{% endblock js_this %}
+
+{# head1 in layout#}
+{% block master_header %} 
+	<div class="header" id="header" style="">
+		<div class="header-wrapper-top">
+			<div class="quizlogo">
+				<a id="btn-home-logo">
+					<img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+				</a>
+			</div>
+			<div class="result-wrapper">
+			</div>
+			<div class="feedback-wrapper">
+			</div>
+			<div class="username-wrapper">
+				<div class="imagebox">
+					{% if app.user and app.user.status!=9 %}
+						<a id="btn-profile"><i class="fa fa-user-o" aria-hidden="true"></i></a>
+					{% else %}
+						{# <i class="fa fa-user-o" aria-hidden="true"></i> #}
+					{% endif  %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{# head2 in layout#}
+
+{% block master_content %}
+<div class="content-wrapper startseite">
+	<div id="panel" class="" style="min-height: 1000px;">
+		<div class="" style="display:none;">
+        	<h1>
+				<span>Fehler! Oops!</span> 
+			</h1>
+        </div>
+
+		<div class="">
+			<div class="block-exception">
+				<div class="block-exception-detected clear-fix">
+					<div class="illustration-exception text-center">
+						<h1 style="font-size: 48px;font-weight: bold;">404</h1>
+					</div>
+					<div class="text-exception">
+						<h2>
+							{{ e_404_text }}
+						</h2>
+						<h2 style="display:none;">
+							{{ exception.message|nl2br|format_file_from_text }}
+						</h2>
+					</div>
+				</div>
+			</div>
+    
+            <div>
+              {{ e_contact }}
+            </div>
+        </div>
+
+	</div>
+</div>
+{% endblock %} 
+
+{% block footer %} 
+{% endblock %}

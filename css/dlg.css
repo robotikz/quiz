@@ -1,0 +1,163 @@
+    /* The Modal (background) */
+    
+    .mdl {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 999;
+        /* Sit on top */
+        /*margin-top: 100px;*/
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 360px;
+        /* mobile */
+        height: auto;
+        /* Full height */
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+    /* Modal Content */
+    
+    .mdl-content {
+        background-color: #fefefe;
+        margin: 0 auto;
+        padding: 10px;
+        border: 1px solid #888;
+        width: 80%;
+        border-radius: 6px;
+        font-size: 15px;
+        position: relative;
+        color: rgb(51, 51, 51);
+    }
+    
+    .mdl li {
+        margin: 10px 0;
+    }
+    
+    .mdl ul li::before {
+        font-family: 'FontAwesome';
+        content: '\f0c1';
+        margin: 0 5px 0 0;
+        color: #337ab7;
+        font-size: 13px;
+    }
+    
+    .mdl a {
+        color: #337ab7;
+        text-decoration: underline;
+    }
+    
+    .mdl h3 {
+        font-size: 24px;
+    }
+    /* The Close Button */
+    
+    .mdl .cls {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        right: 5px;
+        top: -1px;
+    }
+    
+    .mdl .cls:hover,
+    .cls:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .mdl .form-control {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        height: auto;
+        padding: 6px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    
+    .mdl .checkbox,
+    .mdl .radio {
+        /* margin: 4px 0 5px 7px; */
+        margin-top: 4px !important;
+        margin-right: 0;
+        margin-bottom: 5px;
+        margin-left: 7px;
+    }
+    
+    .mdl form div.form-group-password {
+        position: relative;
+    }
+    
+    .mdl textarea,
+    .mdl input {
+        margin: 10px 0;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+    
+    .mdl input[type="radio"] {
+        /*margin: 0; */
+        margin: 0 0 0 -16px;
+    }
+    
+    .mdl .checkbox label {
+        margin-left: 4px;
+    }
+    
+    .mdl .radio-in {
+        margin-left: 5px;
+    }
+    
+    .mdl label {
+        font-weight: 400;
+        padding-left: 20px;
+    }
+    
+    a.underline {
+        text-decoration: underline;
+    }
+    
+    .pw-vergessen {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        height: 100%;
+        position: absolute;
+        right: 8px;
+        top: 6px;
+        font: inherit;
+        vertical-align: baseline;
+    }
+    
+    .pw-vergessen-link {
+        font-size: 14px;
+        margin-right: 4px;
+        cursor: pointer;
+    }

@@ -1,0 +1,51 @@
+<!-- The Modal -->
+<div id="mdl-i" class="mdl">
+    <!-- Modal content -->
+    <div class="mdl-content">
+        <span class="cls">&times;</span>
+        <ul id="mdl-links" style="display:none;" class="mdl-cnt">
+            {% if quiz_hub != '1' %}
+                <li><a target="_blank" href="{{ path('info_rules') }}" onclick="gtmEPush(_, 'i Icon Game Rules Click','Info');">{{dlg_i_links_rules_a}}</a></li>
+            {% endif %}
+            {# <li><a target="_blank" href="{{ path('info_imprint') }}" onclick="gtmEPush(_, 'i Icon Imprint Click','Info');">{{dlg_i_links_imprint_a}}</a></li> #}
+            <li><a target="_blank" href="{{ path('info_dataprotection') }}" onclick="gtmEPush(_, 'i Icon Privacy Click','Info');">{{dlg_i_links_dataprotection_a}}</a></li>
+            <li><a target="_blank" href="{{ path('info_contact') }}" onclick="gtmEPush(_, 'i Icon Contakt Click','Info');">{{dlg_i_links_contact_a}}</a></li>
+        </ul>
+        <div id="mdl-confirm" style="display:none;" class="mdl-cnt">
+            <p>
+                <span id="mdl-confirm-title1">
+                    {{dlg_i_confirm_title1}}
+                </span>
+                <span id="mdl-confirm-title3" style="display:none;">
+                    {{dlg_i_confirm_title3}}
+                </span>
+            </p>
+            <button id="mdl-cancel" type="button" class="btn btn-mail-signup">{{dlg_i_cancel}}</button>
+            <form method="get" action="{{ path('home') }}" id="mdl-confirm-home">
+                <button type="submit" class="btn btn-grey">{{dlg_i_confirm_title2}}</button>
+            </form>
+            <form method="get" action="{{ quiz_url_0 }}" id="mdl-confirm-company">
+                <button type="submit" class="btn btn-grey">{{dlg_i_confirm_title2}}</button>
+            </form>
+            {# <a target="_self" id="mdl-confirm-company" href="{{quiz_url_0}}" class="btn btn-grey" style="display:none;height:18px;text-decoration:none;color:#fff;">Gehen</a>   #}
+        </div>
+        <div id="mdl-confirm-x-a" style="display:none;" class="mdl-cnt">
+            <p>
+                <span>{{'[#msg_game_quit_x#]'|ph}}</span>
+            </p>
+            <button id="mdl-cancel-x-a" type="button" class="btn btn-mail-signup">{{dlg_button_no}}</button>
+            <form method="get" action="{{ path('resulta') }}">
+                <button type="submit" class="btn btn-grey">{{dlg_button_yes}}</button>
+            </form>
+        </div>
+        <div id="mdl-confirm-x-b" style="display:none;" class="mdl-cnt">
+            <p>
+                <span id="mdl-confirm-x-b-text"></span>
+            </p>
+            <button id="mdl-cancel-x-b" type="button" class="btn btn-mail-signup">{{dlg_button_no}}</button>
+            <form id="mdl-ok-x-b"  method="get" action="{{ path('resultb') }}">
+                <button type="submit" class="btn btn-grey">{{dlg_button_yes}}</button>
+            </form>
+        </div>
+    </div>
+</div>

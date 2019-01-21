@@ -1,0 +1,58 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+        			<div class="col-sm-3">
+        				<div class="form-group">
+                        	<a class="btn btn-danger btn" href="{{ path('admin_userrole_ne',{eid:'+'}) }}" style="">+ Rolle</a>
+                         </div>
+                	</div>
+                	<div class="col-sm-4">
+                	</div>
+                	<div class="col-sm-5">
+                		<h3 class="panel-title text-right hidden-md hidden-sm hidden-xs">Da ist die ganze Liste von allen Rollen, KLicken zum Bearbeiten</h3>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="panel-scroll">
+    				<table class="table table-bordered" fixed-header>
+    					<thead>
+                            <tr>
+                              <th style="width:50px">#</th>
+                              <th style="width:250px">Role</th>
+                            </tr>
+                        </thead>
+                        {% for e in userroles %}
+                        	<tr>
+                        		<td style="width:50px">
+                        			<a class="" href="{{ path('admin_userrole_ne',{'eid':e.id}) }}" style="">{{ e.id }}</a>
+                        		</td>
+                        		<td style="width:250px">
+                        			<a class="" href="{{ path('admin_userrole_ne',{'eid':e.id}) }}" style="">{{ e.role }}</a>
+                        		</td>
+                    		</tr>
+                    	{% endfor %}
+    				</table>
+            	</div>
+            	<br/>
+            	<br/>
+				</div>
+		</div>
+		
+	</div>
+{% endblock %} 

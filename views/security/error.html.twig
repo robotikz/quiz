@@ -1,0 +1,47 @@
+{# src/Resources/views/securtiy/error.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+	{% block master_header %}
+        <div class="header">
+    		<div class="header-wrapper-top">
+    			<div class="quizlogo">
+    			</div>
+				<div class="wrapper-icons">
+					<div class="result-wrapper">
+					</div>
+					<div class="feedback-wrapper">
+					</div>
+					<div class="username-wrapper">
+						<div class="imagebox">
+						</div>
+					</div>
+				</div>
+    		</div>
+    	</div>
+    {% endblock %}
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<h3 class="panels-list-group">Fehler! Oops!</h3>
+			<div class="alert alert-danger" role="alert">
+				{{ app.session.get('m') }}
+			</div>
+
+			<button id="btn-home"  class="btn btn-grey">{{screen_global_home}}</button>
+		</div>
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 
+    
+{% block footer %} 
+{% endblock %}

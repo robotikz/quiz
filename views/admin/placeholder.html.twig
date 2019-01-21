@@ -1,0 +1,73 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-4">
+                    	<a class="btn btn-danger btn" href="{{ path('admin_placeholder_ne',{eid:'+'}) }}" style="">+ Platzhalter</a>
+                    </div>
+        			<div class="col-sm-8">
+        				<h3 class="panel-title text-center">PLATZHALTER</h3>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="panel-scroll" id="t-ajax">
+                    <table class="table table-bordered" fixed-header>
+                    	<thead>
+                            <tr>
+                              <th style="width:50px">#</th>
+							  <th style="width:100px">Quiz</th>
+                              <th style="width:150px">Name</th>
+                              <th style="width:150px">Wert</th>
+                              <th style="width:50px">Typ</th>
+                              <th style="width:100px">Aktion</th>
+                            </tr>
+                        </thead>
+                        {% for e in placeholders %}
+                        	<tr>
+                        		<td style="width:50px">
+                        			<a class="" href="{{ path('admin_placeholder_ne',{'eid':e.id}) }}" style="">{{ e.id }}</a>
+                        		</td>
+								<td style="width:150px">
+									{% if e.quiz is null %}
+										<span>-</span>
+									{% else %}
+										<span>{{ e.quiz.title }}</span>
+									{% endif %}
+                            	</td>
+                        		<td style="width:100px">
+                        			<a class="filter" href="{{ path('admin_placeholder_ne',{'eid':e.id}) }}" style="">{{ e.ph }}</a>
+                        		</td>
+                        		<td style="width:150px">
+                            		<span>{{ e.val }}</span>
+                            	</td>
+                            	<td style="width:50px">
+                        			<span>{{ e.what }}</span>
+                        		</td>
+                        		<td style="width:100px">
+                    				<a class="btn btn-success btn-xs" href="{{ path('admin_placeholder_ne',{'eid':e.id}) }}" style="">Bearbeiten</a>
+                        			<a class="btn btn-default btn-xs btn-del" data-href="{{ path('admin_placeholder_d',{'eid':e.id}) }}" style="">Entfernen</a>
+                            	</td>
+                    		</tr>
+                    	{% endfor %}
+                    </table>
+				</div>
+        	</div>
+		</div>
+		
+	</div>
+{% endblock %} 

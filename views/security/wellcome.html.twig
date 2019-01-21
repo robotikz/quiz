@@ -1,0 +1,132 @@
+{# src/Resources/views/security/wellcome.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+
+{% block stylesheets %}
+    {{ parent() }}
+	{# <link href="{{ asset('css/user.css') }}" type="text/css" rel="stylesheet"/> #}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+	<script type="text/javascript">
+    	Cookies.set("quiz", '');
+    	Cookies.set("question", '');
+    	Cookies.set("joker_pause", '');
+    	Cookies.set("joker_skip", '');
+    	Cookies.set("joker_5050", '');   
+  </script>
+{% endblock %}
+
+{% block js_this %}
+    <script src="{{ asset('js/validator.js') }}"></script> 
+	<script src="{{ asset('js/user.js') }}"></script>
+{% endblock js_this %}
+
+	{% block master_header %}
+        {{parent()}}
+		{% if app.request.get('_') == "a" %}
+    		<div class="msg-box-success">
+    			<div class="msg-box-close">
+    				<i
+    					class="fa fa-times"
+    					aria-hidden="true"
+    				></i>
+    			</div>
+    			<div class="msg-box-text">
+    				<i
+    					class="fa fa-check"
+    					aria-hidden="true"
+    				></i> {{msg_wellcome_email_confirmed|ph|raw}}
+    			</div>
+    		</div>
+		{% elseif app.request.get('_') == "b" %}
+			<div class="msg-box-success">
+    			<div class="msg-box-close">
+    				<i
+    					class="fa fa-times"
+    					aria-hidden="true"
+    				></i>
+    			</div>
+    			<div class="msg-box-text">
+    				<i
+    					class="fa fa-check"
+    					aria-hidden="true"
+    				></i> {{msg_wellcome_email_confirmed_already|ph|raw}}
+    			</div>
+    		</div>
+        {% endif %}
+		
+    {% endblock %}
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<div class="logo-container">
+            	<h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+        	</div>
+			<h1>{{screen_soi_wellcome_head1}}</h1>
+        	<p class="subheadline">{{screen_soi_wellcome_head2}}</p>
+        	<form action="{{ path('lgn') }}" method="post" class="" id="f-security-logon" data-toggle="validator" role="form">
+			
+				<div class="form-group {% if error %}has-error-server{% endif %}">
+					<input
+						type="text"
+						id="username"
+						name="_username"
+						value="{{ not last_username is defined ? '' : last_username }}"
+						class="form-control"
+						required
+						placeholder="{{ screen_login_form_placeholder_email }}"
+						data-error="{{e_user_empty}}"
+					/>
+					<div class="help-block with-errors">
+						{% if error %}
+							<ul class="list-unstyled"><li>{{ error.messageKey|trans(error.messageData, 'security') }}</li></ul>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="form-group form-group-password {% if error %}has-error-server{% endif %}">
+    				<input
+    					type="password"
+    					id="password"
+    					name="_password"
+    					class="form-control"
+    					required
+    					placeholder="{{ screen_login_form_placeholder_password }}"
+    					data-error="{{e_password_empty}}"
+    				/>
+					<div class="help-block with-errors">
+    					{% if error %}
+							<ul class="list-unstyled"><li>{{ error.messageKey|trans(error.messageData, 'security') }}</li></ul>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="checkbox">
+					<label for="remember_me">
+						<input type="checkbox" id="remember_me" name="_remember_me" checked  class=""/>
+						{{ screen_login_form_placeholder_remember }}
+					</label>
+
+					<div class="help-block with-errors"></div>
+				</div>
+
+
+				<div style="display: none">
+					<input type="hidden" name="_target_path" value="/hs" />
+				 </div>
+				 
+				<button
+					type="submit"
+					class="btn btn-mail"
+				>{{ screen_login_button_login }}</button>
+			</form>
+		</div>
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 
+    
+{% block footer %} 
+{% endblock %}

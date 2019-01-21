@@ -1,0 +1,63 @@
+form>div {
+    border-bottom: 1px solid #84dda5;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+}
+
+.panel-scroll {
+    max-height: 500px !important;
+    overflow-y: auto;
+}
+
+.form-group-share,
+.form-group-joker,
+.form-group-score,
+.form-group-ads {
+    margin-left: 20px;
+}
+
+.has-error .form-control .btn-group {
+    float: none;
+}
+
+
+/* For image-placeholder is not shown if smaller as 1200 : */
+
+@media (max-width: 1200px) {
+    .image-drag-drop {
+        display: none;
+    }
+    .uploader-1 {
+        width: none;
+    }
+    .uploader-2 {
+        width: none;
+    }
+}
+
+
+/* For image-placeholder is not shown if smaller as 600 : */
+
+@media (max-width: 600px) {
+    .image-drag-drop-logo {
+        display: none;
+    }
+    .uploader-logo {
+        width: none;
+    }
+}
+
+@media (min-width: 1201px) {
+    .uploader-1 {
+        width: 1000px;
+    }
+    .uploader-2 {
+        width: 500px;
+    }
+}
+
+@media (min-width: 601px) {
+    .uploader-logo {
+        width: 400px;
+    }
+}

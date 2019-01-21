@@ -1,0 +1,79 @@
+{# app//Resources/views/Admin/init.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+{# 	{{ parent() }}#}
+	<link href="{{ asset('css/fonts.css') }}" type="text/css" rel="stylesheet" />
+	<link href="{{ asset('bs/css/font-awesome.min.css') }}" type="text/css" rel="stylesheet" />
+	<link href="{{ asset('css/game.css') }}" type="text/css" rel="stylesheet" />
+	
+	<style>
+		.header,
+		.msg-box-head,
+		.msg-box-head-cookie {
+			background: {{quiz.color1}}!important;
+		}
+		div.footer {
+			background: {{quiz.color2}}!important;
+		}
+		.footer .score .points {
+			background: {{quiz.color3}}!important;
+		}
+		button.joker {
+			background: {{quiz.color6}};
+		}
+		@media screen and (min-width: 361px) {
+			.body-1,
+			.body-wrapper {
+				background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("{{ asset('qz-'~quiz.id~'/'~quiz.background,'img') }}");
+			}
+		}
+	</style>
+{% endblock %}
+
+{% block js %}
+	{# 	{{ parent() }}#}
+	<script>
+    	var twig = twig || {};
+    	var u = u || {};
+		var url_sss = "{{ path('sss_aj') }}";
+    	/* 
+    	twig.some_var				= "{{ app_web_name }}";
+    	*/
+  	</script>
+  	<script src="{{ asset('js/jquery.js') }}"></script>
+  	<script src="{{ asset('js/sys.js') }}"></script>
+	<script src="{{ asset('js/jquery.cookie.js') }}"></script>
+	<script src="{{ asset('js/game.js') }}"></script>
+	<script src="{{ asset('js/jquery.countdown.js') }}"></script>
+
+	<script src="{{ asset('js/jquery.ui.js') }}"></script>
+	<script src="{{ asset('js/jquery.ui.touch.js') }}"></script>
+{% endblock %}
+
+
+
+
+{# head1 in layout#}
+{% block head1 %}
+	<link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet" />
+	{% include 'global/dlg.i.html.twig' %}
+	{% include 'global/dlg.question.comment.html.twig' %}
+	{% include 'global/dlg.quiz.feedback.html.twig' %}
+	{# <div id="cnt-dlg-ani-dnd" data-path="{{ path('ani_dnd_aj') }}">
+    </div> #}
+	<span class="text-left" style="color:#000;font-size:12px;line-height:10px;width:50%;display:none;position:absolute;z-index:999;top:5px;left:5px;" id="logg">test</span>
+{% endblock %}
+
+
+{# head2 in layout#}
+
+
+{% block body %}
+
+{% endblock %}
+
+{# foot in layout#}
+{% block footer %}
+	
+{% endblock %}

@@ -1,0 +1,456 @@
+{# src/Resources/views/admin/q.tag.html.twig #}
+{% extends 'admin/init.html.twig' %}
+
+{% block stylesheets %}
+		{{ parent() }}
+		<link href="{{ asset('css/cropper.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+					<div class="panel-heading">
+				<h3 class="panel-title">Da ist die ganze Liste von allen Frage, welche noch nicht zu Quiz zugewiesen</h3>
+				<div class="row row-eq-height">
+						<div class="col-xs-8">
+								<div class="btn-toolbar" role="toolbar" aria-label="qq-toolbar">
+						<div class="btn-group" role="group" aria-label="qq-group-1">
+							<button class="btn btn-default btn-sm active" type="button" id="btn-qq-all">Alle Frage</button>
+							<button class="btn btn-danger btn-sm" type="button" id="btn-qq-new">+ Frage</button>
+						</div>
+					</div>
+					</div>
+					<div class="col-xs-4">
+						<div class="form-group">
+							<div class="icon-addon addon-md">
+						<input type="text" class="form-control form-search" placeholder="Suche nach..." id="filter">
+						<label for="filter" class="btn-search glyphicon glyphicon-search" rel="tooltip" title="Filter"></label>
+					</div>
+					</div>
+					</div>
+			</div>
+
+			</div>
+			<div class="panel-heading">
+				<div class="row row-eq-height">
+					<div class="col-xs-7">
+						<h4 class="panel-title"><span>Quizname: </span><strong>{{ quiz.title }}</strong> </h4>
+					</div>
+					<div class="col-xs-5">
+						{% set cats = [] %}
+						{% for c in quiz.cats %}
+							{% set cats = cats|merge([c.title]) %}
+						{% endfor %}
+						<h5>Kategorie: <strong>{{ cats|join(', ') }}</strong> </h5>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="panel-scroll" id="panel-qq-all">
+					<table class="table table-bordered" fixed-header>
+						<thead>
+							<tr>
+								<th style="width:10px">#</th>
+								<th style="width:250px">Titel</th>
+								<th style="width:50px">Antwort-1</th>
+								<th style="width:50px">Antwort-2</th>
+								<th style="width:50px">Antwort-3</th>
+								<th style="width:50px">Antwort-4</th>
+								<th style="width:50px">Antwort-5</th>
+								<th style="width:50px">Antwort-6</th>
+								<th style="width:50px">Antwort-7</th>
+								<th style="width:50px">Antwort-8</th>
+								<th style="width:100px">Kategorie</th>
+							</tr>
+						</thead>
+						{% for e in questions %}
+							<tr>
+								<td style="width:20px">
+									{{ e.id }}
+								</td>
+								<td style="width:250px">
+									<a class="filter" href="{{ path('admin_question_ne',{'eid':e.id}) }}" style="">{{ e.title }}</a>
+								</td>
+								{% for a in e.answers %}
+									<td style="width:50px" class="filter">
+										{{ a.title }}
+									</td>
+								{% endfor %}
+								{% if e.answers|length < 3 %}
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+								{% elseif e.answers|length < 4 %}
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+								{% elseif e.answers|length < 5 %}
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+								{% elseif e.answers|length < 6 %}
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+								{% elseif e.answers|length < 7 %}
+									<td style="width:50px">-</td>
+									<td style="width:50px">-</td>
+								{% elseif e.answers|length < 8 %}
+									<td style="width:50px">-</td>
+								{% endif %}
+								<td style="width:50px" class="filter">
+									{{ e.cats|join('; ') }}
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+
+{#             	Form for new Question        #}
+				<div class="" id="panel-qq-new" style="display:none;">
+					<form action="{{ path('admin_quizquestion_all',{'eid':quiz.id}) }}" method="post" 
+					id="f-admin-question" data-toggle="validator" role="form">
+
+						<h3>Da kannst eine neue Frage erstellen und speichern</h3>
+						<br/>
+
+						<div class="form-group">
+							<label for="{{ form.user.vars.id }}">Frage von</label>
+							{{ form_widget(form.user, { 'attr': { 'class':'select2' } } ) }}
+							<div class="help-block with-errors">
+								{{ form_errors(form.user) }}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="{{ form.title.vars.id }}">Fragetext</label>
+							{{ form_widget(form.title, { 'attr': {'data-error': 'Die Frage darf nicht leer sein' } }) }}
+							<div class="help-block with-errors">{{ form_errors(form.title) }}</div>
+						</div>
+
+						{# AVATAR BLOCK #}
+        				<div
+        					class="form-group"
+        					id="f-avatar"
+        				>
+        					<label for="{{ form.avatar.vars.id }}">Große Bild hinzufügen</label>
+        					<span
+        						class="form-notes"
+        					> Minimal/Maximal Größe ist 1000x333 px</span>
+        					<div
+        						id="images-avatar"
+        						class="imagelist"
+        						data-path="{{ path('aj_question_avatar') }}"
+        						data-src2="{{ asset('ph-1000.jpg','img') }}"
+        					>
+        
+        						<img id="img-avatar" src="
+        							{% if question.avatar!='' %}
+        								{{ asset('q-'~question.id~'/'~question.avatar,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}
+        							{% else %}
+        								{{ asset('ph-1000.jpg','img') }}
+        							{% endif %}"
+        							alt="no"
+        							style="width: 1000px; height: 333px;"
+        							class="img-rounded"
+        							>
+        					</div>
+        					<div>
+        						<div
+        							class="uploader text-right"
+        							style="width:500px"
+        						>
+        							<div
+        								class="uploader-sub"
+        								id="ctrl-up-avatar"
+        							>
+        								<span
+        									class="btn btn-default btn-xs"
+        									id="but-up-avatar"
+        									style="z-index: 0;"
+        								>Durchsuchen</span>
+        								<span
+        									class="btn btn-default btn-xs"
+        									id="but-rem-avatar"
+        									style="{% if question.avatar=='' %}display:none;{% endif %}"
+        								>Löschen</span>
+        								<div
+        									id=""
+        									class="filer"
+        								>
+        									{{ form_widget(form.avatar_f) }}
+        									{{ form_errors(form.avatar_f) }}
+        								</div>
+        							</div>
+        
+        							<div
+        								class="progress progress-avatar"
+        								style="display: none"
+        							>
+        								<div
+        									class="progress-bar"
+        									role="progressbar"
+        									aria-valuenow="0"
+        									aria-valuemin="0"
+        									aria-valuemax="100"
+        									style="width: 0%;"
+        								></div>
+        							</div>
+        						</div>
+        					</div>
+        				</div>
+
+				{# AVATAR2 BLOCK #}
+        				<div
+        					class="form-group"
+        					id="f-avatar2"
+        				>
+        					<label for="{{ form.avatar2.vars.id }}">Kleine Bild hinzufügen</label>
+        					<span
+        						class="form-notes"
+        					> Minimal/Maximal Größe ist 500x167 px</span>
+        					<div
+        						id="images-avatar2"
+        						class="imagelist"
+        						data-path="{{ path('aj_question_avatar2') }}"
+        						data-src2="{{ asset('ph-500.jpg','img') }}"
+        					>
+        						<img id="img-avatar2" src="
+        							{% if question.avatar2!='' %}
+        								{{ asset('q-'~question.id~'/'~question.avatar2,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}
+        							{% else %}
+        								{{ asset('ph-500.jpg','img') }}
+        							{% endif %}"
+        							alt="no"
+        							style="width: 500px; height: 167px;"
+        							class="img-rounded"
+        							>
+        					</div>
+        					<div>
+        						<div
+        							class="uploader text-right"
+        							style="width:500px"
+        						>
+        							<div
+        								class="uploader-sub"
+        								id="ctrl-up-avatar2"
+        							>
+        								<span
+        									class="btn btn-default btn-xs"
+        									id="but-up-avatar2"
+        									style="z-index: 0;"
+        								>Durchsuchen</span>
+        								<span
+        									class="btn btn-default btn-xs"
+        									id="but-rem-avatar2"
+        									style="{% if question.avatar2=='' %}display:none;{% endif %}"
+        								>Löschen</span>
+        								<div
+        									id=""
+        									class="filer"
+        								>
+        									{{ form_widget(form.avatar2_f) }}
+        									{{ form_errors(form.avatar2_f) }}
+        								</div>
+        							</div>
+        							<div
+        								class="progress progress-avatar2"
+        								style="display: none"
+        							>
+        								<div
+        									class="progress-bar"
+        									role="progressbar"
+        									aria-valuenow="0"
+        									aria-valuemin="0"
+        									aria-valuemax="100"
+        									style="width: 0%;"
+        								></div>
+        							</div>
+        						</div>
+        					</div>
+        				</div>
+						
+
+						<div class="form-group">
+							<label class="" for="{{ form.status.vars.id }}">Fragen-Status</label>
+							{{ form_widget(form.status, {'label_attr': {'class': 'radio-inline'}}) }}
+							<div class="help-block with-errors">
+								{{ form_errors(form.status) }}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="{{ form.statuscheck.vars.id }}">Pr�f-Status</label>
+							{{ form_widget(form.statuscheck, {'label_attr': {'class': 'radio-inline'}}) }}
+							<div class="help-block with-errors">{{ form_errors(form.statuscheck) }}</div>
+						</div>
+
+
+						<div class="form-group">
+							<label for="{{ form.published.vars.id }}">Publiziert</label>
+							<div class='input-group date datetimepicker' id='published-picker'>
+								{{ form_widget(form.published) }}
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+							{{ form_errors(form.published) }}
+						</div>
+
+						<div class="form-group">
+							<label for="{{ form.source.vars.id }}">Quelle</label>
+							{{ form_widget(form.source, { 'attr': {'data-error': 'Die Frage darf nicht leer sein' } }) }}
+							{{ form_errors(form.source) }}
+							<div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+							<label for="{{ form.difficulty.vars.id }}">Schwierigkeitsgrad</label>
+							<div class="range">
+								{{ form_widget(form.difficulty, { 'attr': { 'class':'rangeslider' } } ) }}
+								<output id="question_difficultyInfo">{{ form.difficulty.vars.value }}</output>
+							</div>
+							<div class="help-block with-errors">{{ form_errors(form.difficulty) }}</div>
+						</div>
+
+						<div class="form-group">
+							<label for="{{ form.tags.vars.id }}">Taggen</label>
+							{{ form_widget(form.tags, { 'attr': { 'class':'select2', 'style':'width: 100%;' } } ) }}
+							<div class="help-block with-errors">
+								{{ form_errors(form.tags) }}
+							</div>
+						</div>
+
+
+						<div
+        					class="btn-toolbar form-group"
+        					role="toolbar"
+        					aria-label="count-toolbar"
+        				>
+        					<div class="form-control form-control-div">
+        						<input
+        							style="display: none"
+        							type="text"
+        							id="question_answercount"
+        							value="4"
+        							data-correct="correct"
+									data-correct-error="{{msg_admin_question_at_least_one_correct_answer}}"
+									data-incorrect="incorrect"
+        							data-incorrect-error="{{msg_admin_question_at_least_one_incorrect_answer}}"
+        							required="required"
+        						>
+        						<div
+        							class="btn-group"
+        							role="group"
+        							aria-label="count-group"
+        						>
+    								<h3>Antworten</h3>
+    								<button
+        								class="btn btn-default btn-sm answers-count"
+        								type="button"
+        								id="answer-count-2"
+        							>2</button>
+    								<button class="btn btn-default btn-sm answers-count active" autofocus="true" type="button" id="answer-count-4">4</button>
+    								<button class="btn btn-default btn-sm answers-count" type="button" id="answer-count-6">6</button>
+    								<button class="btn btn-default btn-sm answers-count" type="button" id="answer-count-8">8</button>
+    							</div>
+        						<div class="help-block with-errors"></div>
+        					</div>
+        				</div>
+
+						
+
+						<div class="form-group">
+							<label
+								class=""
+								for="{{ form.solution.vars.id }}"
+							>Auflösung</label>
+							<div class="form-radio">
+								{{ form_widget(form.solution, {'label_attr': {'class': 'radio-inline'}}) }}
+							</div>
+							<div class="help-block with-errors">
+								{{ form_errors(form.solution) }}
+							</div>
+						</div>
+
+						<div class="list-group answers-group" >
+
+        					{# iterate over each existing tag and render its only field: name #}
+        					{% for answer in form.answers %}
+        						{% if question.id==0 and loop.index>4 %}
+        							{% set style="display:none;"%}
+        						{% elseif question.id==0 and answer.vars.value.title=='' and loop.index<5 %}
+        						    {% set style="display:;"%}
+        						{% elseif answer.vars.value.title=='' %}
+        							{% set style="display:none;"%}
+        						{% else %}
+        							{% set style="display:;" %}
+        						{% endif %}
+        						<div
+        							class="list-group-item"
+        							style="{{ style }}"
+        						>
+        							<div class="form-group">
+        								<label for="{{ answer.title.vars.id }}">Antwort-{{ loop.index }}</label>
+        								{{ form_widget(answer.title) }}
+        								<div class="help-block with-errors">{{ form_errors(answer.title) }}</div>
+        							</div>
+									<div class="form-group">
+										<label for="{{ answer.solution.vars.id }}">Auflösung-{{ loop.index }}</label>
+										{{ form_widget(answer.solution) }}
+										<div class="help-block with-errors">{{ form_errors(answer.solution) }}</div>
+									</div>
+        							{# - #}
+        							<div class="form-group">
+        								<label
+        									style="display: none"
+        									for="{{ answer.status.vars.id }}"
+        								>Antwort-{{ loop.index }}</label>
+        								{{ form_widget(answer.status, {'label_attr': {'class': 'radio-inline'}}) }}
+        								<div class="help-block with-errors">{{ form_errors(answer.status) }}</div>
+        							</div>
+        						</div>
+        					{% endfor %}
+        
+        				</div>
+
+
+						<div class="btn-group">
+							{{ form_widget(form.save, { 'label': 'Speichern','attr': { 'class':'btn btn-success btn-sm'} } ) }}
+						</div>
+						<div style="display: none">
+							{{ form_rest(form) }}
+							<input
+								type="hidden"
+								id="question_id"
+								value="0"
+							>
+						</div>
+
+						<script type="text/javascript">
+						//
+						$( "#" ).each(function(i) {
+
+						});
+						</script>
+					</form>
+				</div>
+
+				<br/>
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			//select checkboxes with image-names of all users which are not in the list from database
+
+		</script>
+
+	</div>
+{% endblock %}

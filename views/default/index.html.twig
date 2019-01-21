@@ -1,0 +1,152 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'security/init.html.twig' %}
+
+{% block gtm %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        window.dataLayer.push({'pageTitle': 'Start', 'pageCategory': 'Start', 'pageURI': '/start.html', 'visitorType': '{{ visitorType }}', 'difficultyScore': ''});
+    </script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript">
+        Cookies.set("quiz", '');
+        Cookies.set("question", '');
+        Cookies.set("joker_pause", '');
+        Cookies.set("joker_skip", '');
+        Cookies.set("joker_5050", '');
+    </script>
+    <script src="{{ asset('js/start1.js') }}"></script>
+{% endblock %}
+
+{% block js_this %}
+    {# ignore parent #}
+{% endblock js_this %}
+
+{# head1 in layout#}
+{% block head1 %}
+    {{ parent() }}
+    {# <link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet" /> #}
+    {% include 'global/dlg.question.new.html.twig' %}
+{% endblock %}
+
+{% block master_header %}
+    {% if not app.request.cookies.has('quizpiggy_cookie') %}
+        <div id="msg-box-cookie" class="msg-box-head-cookie" style="border-bottom: solid 1px #ffffff;">
+            <div id="msg-box-close-cookie" class="msg-box-head-close-cookie">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div id="msg-box-text-cookie" class="msg-box-head-text-cookie">
+                {{"[#startscreen_cookie#]"|ph|pha|raw}}
+            </div>
+        </div>
+        {% set msg_box_news = 'display:none;' %}
+    {% endif %}
+
+    {% set user_status_style = '' %}
+    {% if app.user and app.user.status == 5 %}
+        {% set user_status_style = 'display:none;' %}
+        <div id="msg-box-user-status" class="msg-box-head-user">
+            <div id="msg-box-user-status-close" class="msg-box-head-user-close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div id="msg-box-user-status-text" class="msg-box-head-user-text">
+                {{"[#user_status_5#]"|ph}}
+            </div>
+            <div id="msg-box-user-status-btn" class="msg-box-head-user-btn">
+                {% if app.session.get('user_status_5_resend')is defined and app.session.get('user_status_5_resend') == '1' %}
+                    <span id="msg-box-user-status-resend">{{"[#user_status_5_resend#]"|ph}}</span>
+                {% else %}
+                    <span id="msg-box-user-status-send" style="display:;">{{"[#user_status_5_btn#]"|ph}}</span>
+                    <a id="btn-msg-box-user-status-resend" data-path="{{ path('security_resend_aj') }}" data-username="{{ app.user.username }}" class="underline">{{screen_login_email_link_resend}}
+                    </a>
+                    <span id="msg-box-user-status-resend" style="display:none;">{{"[#user_status_5_resend#]"|ph}}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="header" id="header" style="{{user_status_style}}">
+        <div class="header-wrapper-top">
+            <div class="quizlogo">
+                <a id="btn-home-logo">
+                    <img alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+                </a>
+            </div>
+            <div class="wrapper-icons">
+                <div class="result-wrapper">
+                    <a id="btn-highscore">
+                        <i class="fa fa-list-ol" aria-hidden="true"></i>
+                        <span class="txt">{{screen_global_score}}</span>
+                    </a>
+                </div>
+                <div class="feedback-wrapper">
+                    <a id="btn-quiz-feedback">
+                        <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                        <span class="txt">{{screen_global_feedback}}</span>
+                    </a>
+                </div>
+                <div class="username-wrapper">
+                    <div class="imagebox">
+                        {% if app.user and app.user.status != 9 %}
+                            <a id="btn-profile">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <span class="txt">{{screen_global_user}}</span>
+                            </a>
+                        {% else %}
+                            {# <i class="fa fa-user-o" aria-hidden="true"></i> #}
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block master_content %}
+    <div class="content-wrapper startseite">
+        <div class="logo-container">
+            <h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+        </div>
+        <p>
+            <a class="btn btn-mail-signup btn-sky" href="{{ path('qfirsta') }}" id="btn-mode-a" onclick="gtmEPush(_, 'Start Championship Click');">
+                <i class="fa fa-trophy" aria-hidden="true"></i>
+                {{screen_global_play}}</a>
+            <h4 class="label-play">{{screen_global_mode}}</h4>
+            {# <button
+					type="submit"
+					class="btn btn-mail"
+				> >> Jetzt spielen</button> #}
+            {# <form method="get" action="{{ path('qfirsta') }}">
+            		<button type="submit" class="btn btn-mail-signup">>> Jetzt spielen</button>
+            	</form> #}
+        </p>
+        <p>
+            <a class="btn btn-mail-signup btn-sky" href="{{ path('start0b') }}" id="btn-mode-b" onclick="gtmEPush(_, 'Start Free Mode Click');">
+                {{screen_global_play_free}}
+            </a>
+            <h4 class="label-play">{{screen_global_mode_free}}</h4>
+        </p>
+        {% if app.user and app.user.status != 9 %}
+            <div class="start-grey-line"></div>
+            <p>
+                <a class="btn btn-mail-signup" id="btn-question-new" data-visitortype="{{visitorType}}">{{game_button_question_own}}</a>
+                <button id="btn-logout" class="btn btn-grey">{{screen_global_logout}}</button>
+            </p>
+        {% else %}
+            <button id="btn-home" class="btn btn-grey">{{screen_global_home}}</button>
+            <a id="btn-lgn" class="btn btn-mail" onclick="gtmEPush(_, 'Log-in Click');" href="{{ path('lgn') }}">{{ screen_signup_disclaimer_login_in }}</a>
+        {% endif %}
+    </div>
+    <!-- close #content-wrapper -->
+    <div class="minheight"></div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

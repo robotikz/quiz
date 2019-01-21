@@ -1,0 +1,18 @@
+	{% set visitorType = '' %}
+	{% if app.user and app.user.status!=9 %}
+		{% set visitorType = 'Logged-in' %}
+	{% elseif app.user and app.user.status==9 %}
+		{% set visitorType = 'Guest' %}
+	{% endif %}
+	{% set uri =  quiz.title ~'_'~ question.id ~'_'~ question.title[:30]|replace({" ": "_","ß":"ss","ü":"ue","ö":"oe","ä":"ae"}) %}
+
+	<script type="text/javascript">
+		window.dataLayer.push({
+			'event': 'virtualPageView',
+  			'virtualPageViewTitle' : '{{ uri }}',
+			'virtualPageViewCategory' : 'Free Mode',
+			'virtualPageViewURL' : '/free-mode/{{ uri|lower }}',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>

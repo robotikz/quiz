@@ -1,0 +1,114 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+            	<div class="row">
+        			<div class="col-sm-4">
+        				<div class="form-group">
+                        	<a class="btn btn-danger btn" href="{{ path('admin_question_ne',{eid:'+'}) }}" style="">+ Frage</a>
+                        	<div
+								class="btn-group"
+								role="group"
+							>
+								<button
+									type="button"
+									class="btn btn-default dropdown-toggle"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									Bearbeiten&nbsp;<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" id='dd-edit' data-path="{{ path('admin_question_aj') }}">
+									<li><a class="btn-sel-status-1" data-act="st1">Aktivieren</a></li>
+									<li><a class="btn-sel-status-0" data-act="st0">Pausieren</a></li>
+									<li><a class="btn-sel-del" data-act="del">Entfernen</a></li>
+									<li><a class="btn-sel-cat" data-act="cat" data-toggle="modal">Kategorie zuweisen</a></li>
+								</ul>
+							</div>
+							{% if app.request.get('_route') == 'admin_question_all' %}
+								<a class="btn btn-default btn" href="{{ path('admin_question') }}" style="">Teilen laden</a>	
+							{% else %}
+								<a class="btn btn-default btn" href="{{ path('admin_question_all') }}" style="">Alle laden</a>
+							{% endif %}
+                        </div>
+                	</div>
+                	<div class="col-sm-4">
+                		<div class="form-group">
+                			<div class="icon-addon addon-md">
+                          		<input type="text" class="form-control form-search" placeholder="Suche nach..." id="filter">
+                          		<label for="filter" class="btn-search glyphicon glyphicon-search" rel="tooltip" title="Filter"></label>
+                          	</div>
+                   		</div>
+                	</div>
+                	<div class="col-sm-2">
+                		<select class="selectpicker search-quiz" id="filter-quiz" data-mobile="true">
+                			<option data-cats="">-Alle Quiz-</option>
+                			{% for quiz in quizs %}
+                          		<option data-cats="{{ quiz.cats|join(',') }}">{{ quiz.title }}</option>
+                          	{% endfor %}
+                        </select>
+                	</div>
+                	<div class="col-sm-2 text-right">
+                		<span id="question_count_active" class=" hidden-xs" style="font-weight:bold;">
+                		    {{ ql_active }} aktive
+						</span>
+						<br/>
+						<span id="question_count_all" class=" hidden-xs" style="">
+                		    {{ questions|length }} ingesamt
+						</span>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="panel-scroll" id="t-ajax">
+    				{% include 'admin/question.table.html.twig' %}
+            	</div>
+				{% if app.request.get('_route') != 'admin_question_all' %}
+					{% include 'admin/pagination.html.twig' with {
+						'route': 'admin_question',
+						'parameters': {},
+						'page': page,
+						'pages': pages,
+					} %}
+				{% endif %}
+			</div>
+		</div>
+		
+	</div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-category">
+      <div class="modal-dialog modal-category" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Kategorie zuweisen</h4>
+          </div>
+          <div class="modal-body">
+          	<div class="row">
+              	<div class="col-sm-12">
+              		<select class="select2" id="sel-question-category" data-mobile="true" multiple="multiple" style="width:100%">
+{#             			<option value="">-</option>#}
+            			{% for cat in cats %}
+                      		<option value="{{ cat.id }}">{{ cat.title }}</option>
+                      	{% endfor %}
+                    </select>
+        		</div>
+          	</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="modal-cancel-category">Close</button>
+            <button type="button" class="btn btn-success" id="modal-ok-category" data-act="cat" >OK</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+{% endblock %} 
+

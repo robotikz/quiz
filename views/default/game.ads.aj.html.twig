@@ -1,0 +1,43 @@
+			<!-- CONTENT START -->
+    	<div 
+    		class="content-wrapper" 
+    		id="game-qn-a" 
+			data-qz="{{ quiz.id }}" 
+    		data-qn="{{ question.id }}" 
+    		{# data-path="{{ path('q_aj') }}"> #}
+			>
+        
+        	{# <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> #}
+			<div class="ads">
+				<!-- Homepage Leaderboard -->
+				{# <ins class="adsbygoogle"
+					style="display:inline-block;width:300px;height:250px"
+					data-ad-client="ca-pub-1234567890123456"
+					data-ad-slot="1234567890"
+					data-adtest="on">
+				</ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({
+						google_ad_client: "ca-pub-1060202961992153",
+						enable_page_level_ads: true
+					});
+				</script> #}
+				<img id="btn-ads-open" src="{{ asset('ads.gif','img') }}">
+
+				<div class="ads-timer">
+					<span>{{game_ads_next}}</span>
+					<div class="timer">
+						<h2 id="ads-counter-seconds">10</h2>
+						<svg width="50" height="50">
+							<circle id="ads-counter-circle" class="circle" r="20" cy="25" cx="25" />	
+						</svg>
+    				</div>
+					<span>{{game_ads_in}}</span>
+					<div class="ads-click-text">
+						{{game_ads_desc}}
+					</div>
+				</div>
+				
+			</div>
+    	</div>
+      <!-- CONTENT END -->

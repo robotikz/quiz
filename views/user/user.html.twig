@@ -1,0 +1,212 @@
+{# twig #} 
+{% extends 'user/init.html.twig' %} 
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Profile Settings',
+			'pageCategory' : 'Profile',
+			'pageURI' : '/profile/settings.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/cropper.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/qtip.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/cropper.js') }}"></script>
+    <script src="{{ asset('js/qtip.js') }}"></script>
+{% endblock %}
+
+
+	{% block master_content %}
+		{% include 'user/nav.html.twig' with {'a': '1'}  %}
+		<div class="content-wrapper startseite">
+        	<form action="{{ path('my_user') }}" method="post" class="f-user" id="f-user" role="form" data-toggle="validator">
+            	{# AVATAR BLOCK #}
+				<div class="col-xs-12 profile-wrapper toolbox" id="f-avatar">
+					<div class="row valign">
+						<div class="col-xs-4 profile-img-wrapper">
+        					<div id="images-avatar" class="imagelist " data-path="{{ path('aj_user_avatar') }}" data-src-def="{{ asset('avatar.png','img') }}">
+        						{% if app.user.avatar!='' %}
+            						<div d-idx="1" class="imagelist-item " id="avatar">
+            							<div class="item-pre item-avatar" style="">
+                    						<img
+                    							id="img-avatar"
+                    							width=""
+                    							height=""
+                    							alt="avatar"
+                    							src="{{ asset(''~app.user.unid~'/'~app.user.avatar,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}"
+                    							class=""
+                    							style="cursor:pointer;"
+                    						>
+                    					</div>
+            						</div>
+            					{% else %}
+            						<div d-idx="1" class="imagelist-item" id="avatar">
+            							<div class="item-pre item-avatar">
+                    						<img
+                    							id="img-avatar-def"
+                    							width=""
+                    							height=""
+                    							alt="avatar"
+                    							src="{{ asset('avatar.png','img') }}"
+                    							style="cursor:pointer;"
+                    						>
+                    					</div>
+            						</div>
+        						{% endif %}
+        					</div>
+        					
+        					<div>
+        						<div class="uploader" style="">
+                					<div
+                						class="uploader-sub"
+                						id="ctrl-up-avatar"
+                						style="{% if app.user.avatar!='' %}display:none;{% endif %}"
+                					>
+                						<div
+                							id=""
+                							class="filer"
+                						>
+                							{# <input type="file" accept="image/jpeg" id="generate_html5"> #}
+                							{{ form_widget(form.avatar_f) }}
+                							{{ form_errors(form.avatar_f) }}
+                						</div>
+                					</div>
+                					<div class="progress progress-avatar" style="display:none">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                    </div>
+        						</div>
+            				</div>
+            			</div>
+        				<div class="col-xs-8 profile-name center-block text-center">
+    						<h1 class="profile-name-h">{{ app.user.username }}</h1>
+    					</div>
+        			</div>
+				</div>
+        		
+        		<div class="form-group">
+    				<aside class="profile-label">
+                       <label for="{{ form.lname.vars.id }}">{{screen_editprofile_form_label_lname}}</label>
+                    </aside>
+    				{{ form_widget(form.lname) }}
+    				{{ form_errors(form.lname) }}
+    			</div>
+    			
+    			<div class="form-group">
+    				<aside class="profile-label">
+                       <label for="{{ form.fname.vars.id }}">{{screen_editprofile_form_label_fname}}</label>
+                    </aside>
+    				{{ form_widget(form.fname) }}
+    				{{ form_errors(form.fname) }}
+    			</div>
+    			
+    			<div class="form-group {% if not form.username.vars.valid  %}has-error-server{% endif %}">
+    				<aside class="profile-label">
+                       <label for="{{ form.username.vars.id }}">{{screen_editprofile_form_label_username}}</label>
+                    </aside>
+    				{{ form_widget(form.username, { 'attr': {
+						'placeholder': screen_editprofile_form_ph_username,
+						'data-error':msg_user_username_empty,
+						} }) }}
+    				<div class="help-block with-errors">{{ form_errors(form.username) }}</div>
+    			</div>
+    			
+    			<h2 class="profile-private-h2">{{screen_editprofile_subhead_private}}</h2>
+        		<div class="form-group {% if not form.email.vars.valid  %}has-error-server{% endif %}">
+    				<aside class="profile-label">
+                       <label for="{{ form.email.vars.id }}">{{screen_editprofile_form_label_email}}</label>
+                    </aside>
+    				{{ form_widget(form.email, { 'attr': {
+						'placeholder': screen_editprofile_form_ph_email,
+						'data-error':msg_user_email_empty,
+						} }) }}
+    				<div class="help-block with-errors">{{ form_errors(form.email) }}</div>
+    			</div>
+    			
+    			<div class="form-group">
+    				<aside class="profile-label">
+                       <label for="{{ form.sex.vars.id }}">{{screen_editprofile_form_label_sex}}</label>
+                    </aside>
+    				{{ form_widget(form.sex) }}
+    				{{ form_errors(form.sex) }}
+    			</div>
+        		
+        		
+        		
+            	
+            	<div style="display:none ">
+            		<input id="user_username" type="hidden" value="{{ app.user.username }}"></input>
+					<input id="user_unid" type="hidden" value="{{ app.user.unid }}"></input>
+            	    {{ form_rest(form) }}
+            	</div>
+            	<button type="submit" class="btn btn-mail-signup">{{screen_editprofile_button_save}}</button>
+            
+        		<script type="text/javascript">
+        		//
+        		$( "#" ).each(function(index) {
+        			
+        		 });
+        		</script>
+           	</form>
+           	<p class="exclaimer">
+		   		<a href="{{ path('my_delete') }}" onclick="gtmEPush(_, 'Delete Account Click', 'Profile');">{{screen_editprofile_link_account_delete}}</a>
+			</p>
+		   
+		   <button id="btn-home"  class="btn btn-mail-signup" style="width:90%">{{screen_global_home}}</button>
+		  
+        </div> 
+        <!-- close #content-wrapper -->
+        
+        <div class="minheight"></div>
+    {% endblock %} 
+    
+{% block footer %} 
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-avatar">
+  <div class="modal-dialog modal-avatar modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{screen_editprofile_dlg_avatar_h1}}</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="crop-avatar" style="display:none;" id="d-crop-avatar">
+		</div>
+		<div class="progress progress-avatar" style="display:none">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+{#         <button type="button" class="btn btn-default" id="modal-cancel-avatar">Close</button>#}
+        
+        <div class="" id="ctrl-avatar">
+		    {% if app.user.avatar!='' %}
+    			<div class="imagelist-ctrl" id="f-avatar-content">
+					<button type="button" class="btn btn-profile-img-new" id="change-avatar" style="cursor:pointer;">{{screen_editprofile_dlg_avatar_button_new}}</button>
+            		<button type="button" class="btn btn-profile-img-remove" id="rem-avatar" style="cursor:pointer;">{{screen_editprofile_dlg_avatar_button_del}}</button>
+					<img
+						id="img-avatar-def"
+						alt="avatar"
+						src="{{ asset('avatar.png','img') }}"
+						style="{% if app.user.avatar!='' %}display:none;{% endif %}cursor:pointer"
+					>
+				</div>
+			{% else %}
+				<div id="f-avatar-content" class="">
+				</div>
+			{% endif %}
+		</div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}    

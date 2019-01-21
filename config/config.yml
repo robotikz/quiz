@@ -1,0 +1,121 @@
+imports:
+    - { resource: "../../config/pars.yml" }
+    - { resource: "../../config/pars.de.yml" }
+    # - { resource: "../../config/pars.en.yml" }
+    #- { resource: "../../config/pars.local.yml" }
+    - { resource: "../../config/pars.local.yml" }
+    #- { resource: "../../config/pars.remote.yml"}
+    #- { resource: "../../config/pars.remote.1.yml"}
+    #- { resource: "../../config/pars.remote.2.yml"}
+    #- { resource: "../../config/pars.remote.3.yml"}
+    - { resource: "../../config/services.yml" }
+    - { resource: "../../config/security.yml" }
+    - { resource: "../../config/pars.twig.yml" }
+    #- { resource: "../../config/config.local.yml" }
+    - { resource: "../../config/config.local.yml" }
+    #- { resource: "../../config/config.remote.yml" }
+    
+
+framework:
+    #esi:             ~
+    translator:      
+        fallback: "%locale%"
+        paths: ['%kernel.project_dir%/../config']
+        # paths: ['%kernel.project_dir%/translations']
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.project_dir%/../config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        #save_path:   "%kernel.project_dir%/var/sessions/%kernel.environment%"
+        #cookie_domain: .w010ca9a.kasserver.com
+    fragments:       ~
+    http_method_override: true
+    assets: 
+        base_path: ~
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    encryption: "%mailer_encryption%"
+    logging:   "%kernel.debug%"
+    #spool:     { type: file }
+
+    
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    exception_controller:  app.twig.exception_controller:showAction
+    paths: ["%kernel.project_dir%/views"]
+    globals:
+      var_some: "value_some"
+      
+hwi_oauth:
+    # list of names of the firewalls in which this bundle is active, this setting MUST be set
+    firewall_names: [socials]
+    http_client: 
+      verify_peer:    false
+    # an optional setting to configure a query string parameter which can be used to redirect
+    # the user after authentication, e.g. /connect/facebook?_destination=/my/destination will
+    # redirect the user to /my/destination after facebook authenticates them.  If this is not
+    # set then the user will be redirected to the original resource that they requested, or
+    # the base address if no resource was requested.  This is similar to the behaviour of
+    # [target_path_parameter for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html).
+    # target_path_parameter: _destination
+
+    # an optional setting to use the HTTP REFERER header to be used in case no
+    # previous URL was stored in the session (i.e. no resource was requested).
+    # This is similar to the behaviour of
+    # [using the referring URL for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html#using-the-referring-url).
+    # use_referer: true
+    # grant_rule: 'IS_AUTHENTICATED_FULLY' # default 'IS_AUTHENTICATED_REMEMBERED'
+    # here you will add one (or more) configurations for resource owners
+    # and other settings you want to adjust in this bundle, just checkout the list below!
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           "%fb_client_id%"
+            client_secret:       "%fb_client_secret%"
+            scope:               "email"
+            infos_url:           "https://graph.facebook.com/me?fields=id,name,first_name,last_name,email,picture.type(square)"
+            paths:
+                email:          email
+                profilepicture: picture.data.url
+                name:           name
+                firstname:      first_name
+                lastname:       last_name
+            options:
+                auth_type: rerequest
+                csrf: true
+                display: popup #dialog is optimized for popup window
+                

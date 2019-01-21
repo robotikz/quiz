@@ -1,0 +1,98 @@
+<!-- The Modal -->
+<div id="mdl-quiz-feedback" class="mdl">
+    <!-- Modal content -->
+    <div class="mdl-content">
+        <span class="cls">&times;</span>
+        <div id="" style="" class="mdl-cnt">
+            <div style="text-align:center" class="">
+                <h3 id="dlg-quiz-feedback-h3" style="margin-top:-5px;">{{dlg_quiz_feedback_h3|ph|raw}}</h3>
+            </div>
+            <div id="dlg-quiz-feedback-title-1" style="line-height:18px;">
+                {{dlg_quiz_feedback_title1|ph|raw}}
+            </div>
+
+            <form method="post" action="{{ path('dlg_quiz_feedback_aj') }}" id="dlg-quiz-feedback-form">
+                <div id="dlg-quiz-feedback-q1-radio" class="radio-" style="margin-top:10px;">
+                    <div style="width:100%;margin-bottom:5px;">{{dlg_quiz_feedback_q1|ph|raw}}</div>
+                    <div class="radio">
+                        <label>
+                            <input id="q1opt1" value="1" type="radio" name="q1opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q1_opt1}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q1opt2" value="2" type="radio" name="q1opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q1_opt2}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q1opt3" value="3" type="radio" name="q1opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q1_opt3}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q1opt4" value="4" type="radio" name="q1opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q1_opt4}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q1opt5" value="5" type="radio" name="q1opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q1_opt5}}
+                        </label>
+                    </div>
+                </div>
+                <div id="dlg-quiz-feedback-q2-radio" class="radio-" style="margin-top:10px;">
+                    <div style="width:100%;margin-bottom:5px;">{{dlg_quiz_feedback_q2|ph|raw}}</div>
+                    <div class="radio">
+                        <label>
+                            <input id="q2opt1" value="1" type="radio" name="q2opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q2_opt1}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q2opt2" value="2" type="radio" name="q2opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q2_opt2}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q2opt3" value="3" type="radio" name="q2opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q2_opt3}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q2opt4" value="4" type="radio" name="q2opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q2_opt4}}
+                        </label>
+                    </div>
+
+                    <div class="radio">
+                        <label>
+                            <input id="q2opt5" value="5" type="radio" name="q2opt" required="required" oninvalid="this.setCustomValidity('Es muss mind 1. ausgewählt werden.')">
+                            {{dlg_quiz_feedback_q2_opt5}}
+                        </label>
+                    </div>
+                </div>
+                <br>
+
+                <textarea class="form-control" rows="4" style="width:98%" placeholder="{{dlg_quiz_feedback_q3}}" id="q3text" name="q3text"></textarea>
+                <textarea class="form-control" rows="4" style="width:98%" placeholder="{{dlg_quiz_feedback_q4}}" id="q4text" name="q4text"></textarea>
+                <button id="dlg-quiz-feedback-send" type="submit" class="btn btn-mail-signup">{{dlg_quiz_feedback_button_send}}</button>
+            </form>
+            <button id="dlg-quiz-feedback-x" class="btn btn-mail-signup" style="display:none">{{dlg_question_button_close}}</button>
+        </div>
+    </div>
+</div>

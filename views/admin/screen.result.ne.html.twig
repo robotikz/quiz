@@ -1,0 +1,101 @@
+{# src/AppBundle/Resources/views/Admin/screenresulte.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+{% block js %}
+	 {{ parent() }}
+    <script>
+    	var twig = twig || {};
+    	var u = u || {};
+    	twig.screen_result_title1				= "{{ screen_result_title1 }}";
+    	twig.screen_result_title2				= "{{ screen_result_title2 }}";
+    	twig.screen_result_title3				= "{{ screen_result_title3 }}";
+    	twig.screen_result_title4				= "{{ screen_result_title4 }}";
+    </script>
+{% endblock %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+            		<a class="btn btn-link" href="{{ path('admin_screen') }}" style="">Back to Content</a>
+            </div>
+			<div class="panel-body">
+               <form action="{{ path('admin_screen_result_ne',{
+               		'qid':screenresult.quiz.id,
+               		'eid':screenresult.id
+               		}) }}" method="post" id="f-admin-screen-result" data-toggle="validator" role="form">
+                	<div class="row">
+    				<div class="col-sm-3">
+                		<select class="selectpicker sel-quiz" id="sel-quiz-result" data-mobile="true">
+                			<option value="">-</option>
+                			{% for quiz in quizs %}
+                          		<option 
+                          			{% if app.request.get('qid') == quiz.id %}selected="selected"{% endif %}
+                          			{% if quiz.result is null %}{% set result_id = 0 %}{% else %}{% set result_id = quiz.result.id %}{% endif %}
+                          			value="{{ path('admin_screen_result_ne',{'qid':quiz.id,'eid':result_id})}}">{{ quiz.title }}</option>
+                          	{% endfor %}
+                        </select>
+                	</div>
+                	<div class="col-sm-3">
+                	</div>
+                	<div class="col-sm-3">
+                		<div class="form-field">
+                    		<div
+    							class="btn-group"
+    							role="group"
+    						>
+                    			<button class="btn btn-success btn" type="submit">Speichern</button>
+                    		</div>
+                    		<div
+    							class="btn-group"
+    							role="group"
+    						>
+                    			<span id="btn-screen-result-reset" class="btn btn-warning" >Alles auf Standard</span>
+                    		</div>
+                    	</div>
+                	</div>
+                	<div class="col-sm-3">
+                	</div>
+                </div>
+                <br/><br/>
+                	<div class="form-group">
+        				<label for="{{ form.title1.vars.id }}">Überschrift</label>
+        				{{ form_widget(form.title1) }}
+        				<div class="help-block with-errors">{{ form_errors(form.title1) }}</div>
+        			</div>
+        			
+        			<div class="form-group">
+        				<label for="{{ form.title2.vars.id }}">Überschrift Punktzahl</label>
+        				{{ form_widget(form.title2) }}
+        				<div class="help-block with-errors">{{ form_errors(form.title2) }}</div>
+        			</div>
+        			
+        			
+        			<div class="form-group">
+        				<label for="{{ form.title3.vars.id }}">Text Punktzahl</label>
+        				{{ form_widget(form.title3) }}
+        				<div class="help-block with-errors">{{ form_errors(form.title3) }}</div>
+        			</div>
+        			
+        			<div class="form-group">
+        				<label for="{{ form.title4.vars.id }}">Überschrift Auswertung</label>
+        				{{ form_widget(form.title4) }}
+        				<div class="help-block with-errors">{{ form_errors(form.title4) }}</div>
+        			</div>
+                	
+        			<div style="display: none">{{ form_rest(form) }}</div>
+            		
+                
+            		<script type="text/javascript">
+            		//
+            		$( "#" ).each(function(index) {
+            			
+            		});
+            		</script>
+               </form>
+    		</div>
+		</div>
+	</div>
+   
+{% endblock %} 

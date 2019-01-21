@@ -1,0 +1,162 @@
+{# src/Resources/views/security/login.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_lgn_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_lgn_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_lgn_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_lgn_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript">
+    	Cookies.set("quiz", '');
+    	Cookies.set("question", '');
+    	Cookies.set("joker_pause", '');
+    	Cookies.set("joker_skip", '');
+    	Cookies.set("joker_5050", '');   
+  </script>
+{% endblock js %}
+
+{% block js_this %}
+    <script src="{{ asset('js/login.js') }}"></script> 
+{% endblock js_this %}
+
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<div class="logo-container">
+				<a href="{{ path('home') }}">
+					<img 
+						class="startscreen-logo"
+						alt="Logo" 
+						height="100px" 
+						 src="{{ asset('qz-'~quiz.id~'/'~quiz.logo1,'img') }}"> 
+				</a>
+            	<h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+        	</div>
+			
+			<form action="{{ path('lgn') }}" method="post" class="" id="f-security-logon" data-toggle="validator" role="form">
+			
+				<div class="form-group {% if error %}has-error{% endif %}">
+					<input
+						type="text"
+						id="username"
+						name="_username"
+						value="{{ not last_username is defined ? '' : last_username }}"
+						class="form-control"
+						required
+						placeholder="{{ screen_login_form_placeholder_email }}"
+						data-error="{{e_user_empty}}"
+					/>
+					<div class="help-block with-errors">
+						{% if error %}
+							<ul class="list-unstyled"><li>{{ error.messageKey|trans(error.messageData, 'security') }}</li></ul>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="form-group form-group-password {% if error %}has-error{% endif %}">
+    				<input
+    					type="password"
+    					id="password"
+    					name="_password"
+    					class="form-control"
+    					required
+    					placeholder="{{ screen_login_form_placeholder_password }}"
+    					data-error="{{e_password_empty}}"
+    				/>
+					<div class="pw-vergessen">
+						{% if error and error.messageKey=='Account is disabled.' %}
+							<a
+								href="{{ path('security_activate', {'username': last_username}) }}"
+								style=""
+								class="pw-vergessen-link"
+							>{{ screen_soi_label_activation_no_data }}</a>
+						{% else %}
+							<a
+								class="activate-vergessen-link"
+								data-toggle="modal"
+								data-target="#modal-password"
+							>{{ screen_login_link_forgotpassword }}</a>
+						{% endif %}
+					</div>
+					<div class="help-block with-errors">
+    					{% if error %}
+							<ul class="list-unstyled"><li>{{ error.messageKey|trans(error.messageData, 'security') }}</li></ul>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="checkbox">
+					<label for="remember_me">
+						<input type="checkbox" id="remember_me" name="_remember_me" checked  class=""/>
+						{{ screen_login_form_placeholder_remember }}
+					</label>
+
+					<div class="help-block with-errors"></div>
+				</div>
+
+
+				<div style="display: none">
+					<input type="hidden" name="_target_path" value="{{ target_path }}" />
+				 </div>
+				 
+				<button
+					type="submit"
+					class="btn btn-mail"
+				>{{ screen_login_button_login }}</button>
+			</form>
+			
+			<div class="oder-box">
+				<div class="login-grey-line"></div>
+				<div class="login-oder">{{screen_login_separator_or}}</div>
+				<div class="login-grey-line"></div>
+			</div>
+{# 			<form method="get" action="{{ path('loginfb') }}">#}
+{# 				<button class="btn btn-facebook">Anmelden über Facebook</button>#}
+{# 			</form>#}
+			<button class="btn btn-facebook" onclick="fb_login('Log-in via Facebook Click','Log-in');">{{screen_login_button_facebooklogin}}</button>
+			<p>
+				{{screen_login_disclaimer_account}} 
+				<a
+					onclick="gtmEPush(_, 'Sign-up CTA Click', 'Sign-up');"
+					class="underline"
+					href="{{ path('security_reg') }}"
+				>{{ screen_signup_button_signup }}</a>
+			</p>
+			{% if quiz_hub != '1' %}
+				{% if quiz.guestallow == 1 %}
+					<p>
+						<a
+							onclick="gtmEPush(_, 'Play as Guest Click');"
+							class="playasguest underline"
+							href="{{ path('start1') }}"
+						>{{screen_login_link_playasguest}}
+						</a>
+						<br> 
+						{{screen_login_disclaimer_playasguest}}
+					</p>
+				{% endif %}
+			{% endif %}
+		</div>
+		
+		{# fb-login/registration #}
+		{% include 'security/reg.fb.html.twig' %}	
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 
+    
+{% block footer %} 
+	{% include 'security/modal.password.html.twig' %}
+{% endblock %}

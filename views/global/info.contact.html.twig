@@ -1,0 +1,106 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'user/init.html.twig' %}
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_info_contact_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_info_contact_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_info_contact_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_info_contact_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+    <script type="text/javascript">
+        window.dataLayer.push({'pageTitle': 'Contact', 'pageCategory': 'Information', 'pageURI': '/information/contact.html', 'visitorType': '{{ visitorType }}', 'difficultyScore': ''});
+    </script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/info.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/info.js') }}"></script>
+    <script type="text/javascript">
+        {# var grecaptcha = grecaptcha || {}; #}
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js?hl=de' async defer></script>
+{% endblock %}
+
+{% block master_content %}
+    <div class="content-wrapper startseite">
+        <div id="info-contact-before">
+            <h1 class="logo-claim">Schreib uns!</h1>
+            <p>Fragen, Anregungen, Kritik! Wir sind für alles offen. Wir beantworten jede Anfrage innerhalb von 24 Stunden pers&ouml;nlich.</p>
+            <form action="{{ path('info_contact_aj') }}" method="post" class="info-contact" id="info-contact" role="form" data-toggle="validator" style="width:100%">
+                <div class="form-group">
+                    <aside class="profile-label">
+                        <label for="user_fname">Dein Name<br/>
+                            <small style="font-weight: normal;">Damit wir dich ansprechen können.</small>
+                        </label>
+                    </aside>
+                    <input type="text" class="form-control" id="fullname" name="fullname" required="required" data-error="{{msg_user_username_empty}}">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <aside class="profile-label">
+                        <label for="user_fname">Dein E-Mail-Adresse<br/>
+                            <small style="font-weight: normal;">Damit wir dir Antworten können.</small>
+                        </label>
+                    </aside>
+                    <input type="email" class="form-control" id="email" name="email" required="required" data-error="{{msg_user_email_empty}}" value="">
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <aside class="profile-label">
+                        <label for="user_fname">Was möchtest du uns sagen<br/>
+                            <small style="font-weight: normal;">Damit wir wissen, um was es geht.</small>
+                        </label>
+                    </aside>
+                    <textarea cols="35" rows="10" style="height:auto;" class="form-control" id="comment" name="comment"  required="required" data-error="Bitte gib deinen Kommentar ein."></textarea>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <input
+						type="text"
+						id="grecaptcha"
+						value=""
+                        data-error="{{e_g_recaptcha}}"
+                        required="required" 
+                        style="visibility: hidden; height: 1px"
+					>
+                    <div class="g-recaptcha" 
+                        data-sitekey="{{ g_recaptcha_sitekey }}" 
+                        data-callback="grecaptcha_cb_info"
+                        data-size="normal"
+                        style=""></div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <button type="submit" class="btn btn-mail-signup">Absenden</button>
+                
+            </form>
+        </div>
+        {# <hr/> #}
+        <div id="info-contact-thx" style="display:none;">
+            <h1>Wir freuen uns!</h1>
+            <p>Danke, dass du Kontakt zu uns aufgenommen hast. Wir antworten dir so schnell wie m&ouml;glich, auf jeden Fall innerhalb der n&auml;chsten 24 Stunden.</p>
+            <p>Viele Gr&uuml;&szlig;e</p>
+            <p>Dein{{quiz.title}}-Team.</p>
+        </div>
+        <div class="form-group has-error has-danger" id="info-contact-error" >
+            <div class="help-block with-errors"></div>
+        </div>
+        <button id="btn-home" class="btn btn-grey">{{screen_global_home}}</button>
+    </div>
+    <!-- close #content-wrapper -->
+    <div class="minheight"></div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

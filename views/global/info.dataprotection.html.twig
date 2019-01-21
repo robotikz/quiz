@@ -1,0 +1,163 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'user/init.html.twig' %}
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_info_dataprotection_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_info_dataprotection_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_info_dataprotection_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_info_dataprotection_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+    <script type="text/javascript">
+        window.dataLayer.push({'pageTitle': 'Data Protection', 'pageCategory': 'Information', 'pageURI': '/information/data-protection.html', 'visitorType': '{{ visitorType }}', 'difficultyScore': ''});
+    </script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/info.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/info.js') }}"></script>
+{% endblock %}
+
+{% block master_content %}
+    {% include 'global/info.dataprotection.nav.html.twig' with {
+        'a' : '1'
+    } %}
+    <div class="content-wrapper startseite">
+        <i class="fa fa-arrow-circle-up arrow-up" id="btn-arrow-up"></i>
+        <div class="logo-container">
+            <h1 class="logo-claim">&mdash; Datenschutz &mdash;</h1>
+            <p>Wir, Alexandr Stoian und Sascha Jost von Web-Services Sascha Jost, Der Acker 40, 53894 Mechernich, (oder: &bdquo;{{'[#company_name#]'|ph}}&ldquo;), respektieren dein Recht auf Privatsphäre. Dein Vertrauen in den korrekten Umgang mit deinen Daten ist eine wichtige Voraussetzung für den Erfolg unseres Angebots.</p>
+            <p>Wir sind immer bemüht, dir mit dem {{quiz.title}} einen unterhaltsames Spiel und einen hervorragenden Service zu bieten. Dazu zählt für uns auch, dich durch diese Datenschutzerklärung über den Umgang mit personenbezogenen Daten zu informieren.</p>
+            <p>Wir werden alle persönlichen Daten, die du uns übermittelst, selbstverständlich so behandeln, wie es die geltenden Datenschutzbestimmungen fordern. Alle Details dazu erfährst du in dieser Datenschutzerklärung.</p>
+            <h2 id="1">Der Geltungsbereich</h2>
+            <p>Diese Datenschutzerklärung gilt für alle von {{'[#company_name#]'|ph}} betriebenen Websites unter der Domain &bdquo;{{'[#quiz_domain#]'|ph}}&ldquo; und &bdquo;{{'[#company_domain#]'|ph}}&ldquo; und richtet sich an die Nutzer dieses Angebots.</p>
+            <p>Von diesem Geltungsbereich sind die Websites Dritter, auf die unser Angebot möglicherweise durch Links verweist oder die mit unserem Angebot verbunden werden, ausgenommen. Für deren Inhalt sowie Beachtung des Datenschutzes übernehmen wir keine Verantwortung. Daher empfehlen wir dir, die Datenschutzerklärung verlinkter oder verbundener Websites gut durchzulesen.</p>
+            <h2 id="2">Die Datenkategorien und das Erheben von Daten</h2>
+            <p>Wir sind bemüht, unser Produkte und Dienstleistungen ständig zu verbessern. Deswegen ist es uns ein großes Anliegen, die Interessen und Wünsche unserer Nutzer besser zu verstehen.</p>
+            <h3>Personenbezogene Daten</h3>
+            <p>Bei personenbezogenen Daten handelt es sich um Informationen zur Identität einer Person, wie etwa Name, Anschrift, Telefon- und Faxnummer, Geburtsdatum oder E-Mail-Adresse.</p>
+            <p>Du kannst unsere Webseiten grundsätzlich ohne die Angabe von personenbezogener Daten einsehen. Das {{quiz.title}} lässt sich ohne Registrierung als &bdquo;Gast&ldquo; spielen.</p>
+            <p>Wir erheben und verarbeiten deine personenbezogene Daten nur, wenn wir annehmen, dass du sie uns freiwillig (zum Beispiel über Formulare) in elektronischer oder sonstiger Kommunikation mitgeteilt hast.</p>
+            <p>Personenbezogene Daten erheben und verarbeiten wir dann, wenn du dich bei uns registrierst und unser Angebot nutzt.</p>
+            <p>Für die Registrierung fragen wir folgende Daten ab:</p>
+            <ul>
+                <li>Vorname,</li>
+                <li>Nachname,</li>
+                <li>E-Mail-Adresse,</li>
+                <li>ein Passwort (das Passwort ist zu keinem Zeitpunkt im Klartext sichtbar) sowie</li>
+                <li>einen Benutzernamen</li>
+            </ul>
+            <p>Wir benötigen diese Daten, um die Nutzerkonten zu verwalten und die Nutzer, soweit erforderlich, kontaktieren zu können. Wir empfehlen, bei der Wahl des Benutzernamens und auch mit Blick auf die jeweilige E-Mail-Adresse zu prüfen, ob du deinen bürgerlichen Namen oder sonst einen Namen oder eine E-Mail-Adresse verwenden willst, die es Dritten erlaubt, auf deine Identität zu schließen. Bedenke bitte, dass wir deinen Benutzernamen zusammen mit deiner Punktzahl in Bestenlisten (&bdquo;Highscore-Listen&ldquo;) veröffentlichen.</p>
+            <p>Darüber hinaus werden entsprechende Daten auch dazu verwendet, um auf Funktionsstörungen oder eine missbräuchliche Inanspruchnahme des Angebots aufmerksam zu werden.</p>
+            <p>Die personenbezogenen Daten werden ohne deine ausdrückliche Zustimmung nicht an Dritte weitergegeben, es sei denn, wir sind gesetzlich oder gerichtlich dazu verpflichtet, persönliche Daten zu übermitteln.</p>
+            <h3>Empfehlungen / Einladungen</h3>
+            <p>Wir bieten dir die Möglichkeit, das {{quiz.title}} weiterzuempfehlen. Zum Beispiel kannst die E-Mail-Adresse eines Empfängers eingeben und wir senden diesem eine einmalige Einladung zum {{quiz.title}} zu. Wir verarbeiten die eingegebenen personenbezogenen Daten nur, um diese einmalige E-Mail-Einladung zu versenden und gegebenenfalls weitere solche Nachrichten zu blockieren. Du kannst auch Freunde über die sozialen Netzwerke wie zum Beispiel Facebook zum {{quiz.title}} einladen.</p>
+            <p>Wir empfehlen dir, sorgsam mit deinen Daten umzugehen und genau abzuwägen, was und mit wem du kommunizierst. Die Kommunikation über unser Angebot unterliegt regelmäßig keiner inhaltlichen Kontrolle durch {{'[#company_name#]'|ph}}. Gleichwohl behalten wir uns das Recht vor, nach eigenem Ermessen Einträge zu löschen und Nutzer von der weiteren Nutzung auszuschließen, insbesondere wenn Einträge strafrechtlich relevante Tatbestände erfüllen oder mit unseren Zielen nicht zu vereinbaren sind.</p>
+            <h3>Kontakt</h3>
+            <p>Wenn du uns per Kontaktformular Anfragen zukommen lässt, werden deine Angaben aus dem Anfrageformular inklusive der von dir dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht an Dritte weiter.</p>
+            <h3>Newsletter</h3>
+            <p>Wenn du den auf der Website angebotenen Newsletter beziehen möchtest, benötigen wir von dir eine E-Mail-Adresse sowie Informationen, welche uns die Überprüfung gestatten, dass du der Inhaber der angegebenen E-Mail-Adresse bist und mit dem Empfang des Newsletters einverstanden bist. Darüber hinausgehende Angaben im Rahmen des Newsletter-Dienstes sind freiwillig und werden verwendet, um dich persönlich anzusprechen und gegebenenfalls Rückfragen klären zu können. Diese Daten verwenden wir ausschließlich für den Versand der angeforderten Informationen und geben sie nicht an Dritte weiter.</p>
+            <p>Die erteilte Einwilligung zur Speicherung der Daten, der E-Mail-Adresse sowie deren Nutzung zum Versand des Newsletters kannst du jederzeit widerrufen, etwa über den &bdquo;Austragen&ldquo;-Link im Newsletter.</p>
+            <p>Wir verwenden für die Anmeldung zum Newsletter-Dienst das sogenannte Double-Opt-in-Verfahren. In diesem Verfahren erhältst du den Newsletter oder sonstige Informationen via E-Mail von uns erst, nachdem du eine an dich in Folge der Anmeldung übersandte E-Mail und einen darin enthaltenen Link durch Anklicken bestätigt hast. Hierdurch soll sichergestellt werden, dass du auch tatsächlich Inhaber der angemeldeten E-Mail-Adresse bist. Die Bestätigung der Anmeldung durch den Nutzer wird aus Sicherheitsgründen nur zeitnah zu dem Erhalt der Bestätigungsnachricht akzeptiert. Andernfalls löschen wir die Anmeldung aus unserer Datenbank. Bis zu einer Bestätigung der angemeldeten E-Mail-Adresse werden keine weiteren Anmeldungen dieser E-Mail-Adresse von uns angenommen.</p>
+            <h3>Nutzungsdaten</h3>
+            <p>Bei Nutzungsdaten handelt es sich um Daten, die bei dem Aufruf jeder Webseite erhoben werden können.</p>
+            <p>Beim Besuch des Angebots speichern wir kurzfristig deine Nutzungsdaten. Dabei speichern wir</p>
+            <ul>
+                <li>den Domain-Namen oder die IP-Adresse des anfragenden Rechners,</li>
+                <li>die Dateianfrage des Clients (Dateiname und URL),</li>
+                <li>den http-Antwort-Code,</li>
+                <li>die Internetseite, von der du uns besuchst sowie</li>
+                <li>das Datum und die Dauer deines Besuchs.</li>
+            </ul>
+            <p>Die Speicherung erfolgt zur Ermittlung von Störungen oder Missbrauch unseres Online-Angebots.</p>
+            <p>Eine Auswertung deiner Nutzungsdaten zur Erstellung personenbezogener Nutzungsprofile findet nicht statt.</p>
+            <p>Wir speichern deine IP-Adresse, die du bei deiner Anmeldung, beim Einloggen, bei der Teilnahme an einem Quiz sowie im Fall der Deaktivierung des Benutzerkontos eingibst. Wir verwenden sie zur Session-Erkennung und für die Abwehr von Attacken.</p>
+            <h3>Cookies</h3>
+            <p>Unsere Seiten verwenden teilweise so genannte Cookies. Cookies richten auf deinem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf deinem Rechner abgelegt werden und die dein Browser speichert. Die meisten der von uns verwendeten Cookies sind so genannte &bdquo;Session-Cookies&ldquo;. Sie werden nach Ende deines Besuchs automatisch gelöscht.</p>
+            <p>Andere Cookies bleiben auf deinem Endgerät gespeichert, bis du diese löschst. Diese Cookies ermöglichen es uns, deinen Browser beim nächsten Besuch wiederzuerkennen. Du kannst deinen Browser so einstellen, dass du über das Setzen von Cookies informiert wirst und Cookies nur im Einzelfall erlaubst, die Annahme von Cookies für bestimmte Fälle oder generell ausschließt sowie das automatische Löschen der Cookies beim Schließen des Browser aktivierst. Bei der Deaktivierung von Cookies kann die Funktionalität dieser Website eingeschränkt sein.</p>
+            <h3>Google Analytics</h3>
+            <p>Diese Website nutzt Funktionen des Webanalyse-Dienstes Google Analytics. Anbieter ist die Google Inc., 1600 Amphitheatre Parkway Mountain View, CA 94043, USA.</p>
+            <p>Google Analytics verwendet Cookies. Das sind Textdateien, die auf deinem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch dich ermöglichen. Die durch den Cookie erzeugten Informationen über deine Benutzung unserer Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert.</p>
+            <h4>IP-Anonymisierung</h4>
+            <p>Wir haben auf dieser Website die Funktion IP-Anonymisierung aktiviert. Dadurch wird deine IP-Adresse von Google innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum vor der Übermittlung in die USA gekürzt. Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und dort gekürzt. Im Auftrag des Betreibers dieser Website wird Google diese Informationen benutzen, um deine Nutzung der Website auszuwerten, um Reports über die Website-Aktivitäten zusammenzustellen und um weitere mit der Websitenutzung und der Internetnutzung verbundene Dienstleistungen gegenüber dem Websitebetreiber zu erbringen.</p>
+            <p>Die im Rahmen von Google Analytics von deinem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.</p>
+            <h4>Browser-Plugin</h4>
+            <p>Du kannst die Speicherung der Cookies durch eine entsprechende Einstellung deiner Browser-Software verhindern. Wir weisen dich jedoch darauf hin, dass du in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich nutzen kannst. Du kannst darüber hinaus die Erfassung der durch den Cookie erzeugten und auf deine Nutzung der Website bezogenen Daten (inklusive deiner IP-Adresse) an Google sowie die Verarbeitung dieser Daten durch Google verhindern, indem du das unter dem folgenden Link verfügbare Browser-Plugin herunterlädst und installierst:
+                <a href="https://tools.google.com/dlpage/gaoptout?hl=de" target="blank">https://tools.google.com/dlpage/gaoptout?hl=de</a>.</p>
+            <h4>Widerspruch gegen Datenerfassung</h4>
+            <p>Du kannst die Erfassung deiner Daten durch Google Analytics verhindern, indem du auf folgenden Link klickst. Es wird ein Opt-out-Cookie gesetzt, der die Erfassung deiner Daten bei zukünftigen Besuchen dieser Website verhindert:
+                <a onclick="alert('Google Analytics wurde deaktiviert');" href="javascript:gaOptout()">Google Analytics deaktivieren</a>.</p>
+            <p>Mehr Informationen zum Umgang mit Nutzerdaten bei Google Analytics findest du in der Datenschutzerklärung von Google:
+                <a href="https://support.google.com/analytics/answer/6004245?hl=de" target="_blank">https://support.google.com/analytics/answer/6004245?hl=de</a>.</p>
+            <h4>Auftragsdatenverarbeitung</h4>
+            <p>Wir haben mit Google einen Vertrag zur Auftragsdatenverarbeitung abgeschlossen und setzen die strengen Vorgaben der deutschen Datenschutzbehörden bei der Nutzung von Google Analytics vollständig um.</p>
+            <h4>Demografische Merkmale bei Google Analytics</h4>
+            <p>Diese Website nutzt die Funktion &bdquo;demografische Merkmale&ldquo; von Google Analytics. Dadurch können Berichte erstellt werden, die Aussagen zu Alter, Geschlecht und Interessen der Seitenbesucher enthalten. Diese Daten stammen aus interessenbezogener Werbung von Google sowie aus Besucherdaten von Drittanbietern. Diese Daten können keiner bestimmten Person zugeordnet werden. Du kannst diese Funktion jederzeit über die Anzeigeneinstellungen in deinem Google-Konto deaktivieren oder die Erfassung deiner Daten durch Google Analytics wie im Punkt &bdquo;Widerspruch gegen Datenerfassung&ldquo; dargestellt generell untersagen.</p>
+            <h3>Facebook</h3>
+            <h4>Plug-ins (z. B. &bdquo;Gefällt mir&ldquo;-Button)</h4>
+            <p>Auf unseren Seiten sind Plugins des sozialen Netzwerks Facebook, Anbieter Facebook Inc., 1 Hacker Way, Menlo Park, California 94025, USA, integriert. Die Facebook-Plugins erkennst du an dem Facebook-Logo oder dem &bdquo;Like-Button&ldquo; (&bdquo;Gefällt mir&ldquo;) auf unserer Seite. Eine Übersicht über die Facebook-Plugins findest du hier:
+                <a href="https://developers.facebook.com/docs/plugins/" target="_blank">https://developers.facebook.com/docs/plugins/</a>.</p>
+            <p>Wenn du unsere Seiten besuchst, wird über das Plugin eine direkte Verbindung zwischen deinem Browser und dem Facebook-Server hergestellt. Facebook erhält dadurch die Information, dass du mit deiner IP-Adresse unsere Seite besucht hast. Wenn du den Facebook &bdquo:Like-Button&ldquo; anklickst, während du in deinem Facebook-Account eingeloggt bist, kannst du die Inhalte unserer Seiten auf deinem Facebook-Profil verlinken. Dadurch kann Facebook den Besuch unserer Seiten deinem Benutzerkonto zuordnen.</p>
+            <p>Wir weisen darauf hin, dass wir als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Facebook erhalten. Weitere Informationen hierzu findest du in der Datenschutzerklärung von Facebook unter
+                <a href="https://de-de.facebook.com/policy.php" target="_blank">https://de-de.facebook.com/policy.php</a>.</p>
+            <p>Wenn du nicht wünschst, dass Facebook den Besuch unserer Seiten deinem Facebook-Nutzerkonto zuordnen kann, log dich bitte aus deinem Facebook-Benutzerkonto aus.</p>
+            <h4>Facebook-Connect (&bdquo;Über Facebook registrieren / anmelden&ldquo;:)</h4>
+            <p>Wir bieten dir die Möglichkeit, dich für unser Quiz mit Facebook-Connect anzumelden. Zur Anmeldung wirst du auf die Seite von Facebook weitergeleitet, wo du dich mit deinen Nutzungsdaten anmelden kannst. Hierdurch wird dein Facebook-Profil und unsere Anwendung verknüpft. Durch die Verknüpfung erhalten wir automatisch von der Facebook Inc. folgende Informationen:</p>
+            <ul>
+                <li>Vorname</li>
+                <li>Nachname</li>
+                <li>E-Mail-Adresse</li>
+            </ul>
+            <p>Diese Informationen sind für die Nutzung der Anwendung zwingend erforderlich, um dich identifizieren zu können.</p>
+            <p>Weitere Informationen zu Facebook-Connect und den Privatsphäre-Einstellungen entnimmst du bitte den Datenschutzhinweisen und den Nutzungsbedingungen der Facebook Inc.</p>
+            <h3>Instagram</h3>
+            <p>Auf unseren Seiten sind Funktionen des Dienstes Instagram eingebunden. Diese Funktionen werden angeboten durch die Instagram Inc., 1601 Willow Road, Menlo Park, CA, 94025, USA integriert. Wenn du in deinem Instagram-Account eingeloggt bist, kannst du durch Anklicken des Instagram-Buttons die Inhalte unserer Seiten mit deinem Instagram-Profil verlinken. Dadurch kann Instagram den Besuch unserer Seiten deinem Benutzerkonto zuordnen.</p>
+            <p>Wir weisen darauf hin, dass wir als Anbieter der Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Instagram erhalten. Weitere Informationen hierzu findest du in der Datenschutzerklärung von Instagram:
+                <a href="https://instagram.com/about/legal/privacy/" target="_blank">https://instagram.com/about/legal/privacy/</a>.</p>
+            <h3>Server-Log-Files</h3>
+            <p>Unser Provider erhebt und speichert automatisch Informationen in sogenannten &bdquo;Server-Log-Files&ldquo;, die dein Browser automatisch an uns übermittelt.</p>
+            <p>Das sind:</p>
+            <ul>
+                <li>Browser-Typ und Browser-Version</li>
+                <li>verwendetes Betriebssystem</li>
+                <li>Referrer-URL</li>
+                <li>Hostname des zugreifenden Rechners</li>
+                <li>Uhrzeit der Serveranfrage</li>
+            </ul>
+            <p>Diese Daten sind nicht bestimmten Personen zuordenbar. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Wir behalten uns vor, diese Daten nachträglich zu prüfen, wenn uns konkrete Anhaltspunkte für eine rechtswidrige Nutzung bekannt werden.</p>
+            <h3>Werbung, Markt- und Meinungsforschung</h3>
+            <p>Wir erheben, verarbeiten und nutzen personenbezogen Daten von Nutzern neben den nach den gesetzlichen Vorschriften zulässigen Maße für Zwecke der Werbung und/oder Zwecke der Markt- und Meinungsforschung nur, soweit du in ein Erheben, Verarbeiten und Nutzen für Zwecke der Markt- und Meinungsforschung eingewilligt bzw. in ein Verarbeiten und Nutzen für Zwecke der Werbung vorher ausdrücklich eingewilligt hast.</p>
+            <h2 id="3">SSL-Verschlüsselung</h2>
+            <p>Diese Seite nutzt aus Gründen der Sicherheit und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel der Anfragen, die du an uns als Seitenbetreiber sendest, eine SSL-Verschlüsselung. Eine verschlüsselte Verbindung erkennst du daran, dass die Adresszeile des Browsers von "http://" auf "https://" wechselt und an dem Schloss-Symbol in der Browser-Zeile. Wenn die SSL-Verschlüsselung aktiviert ist, können die Daten, die du an uns übermittelst, nicht von Dritten mitgelesen werden.</p>
+            <h2 id="4">Deine Rechte</h2>
+            <p>Du hast nach Maßgabe der gesetzlichen Bestimmungen ein Recht auf Berichtigung, Sperrung und Löschung deiner personenbezogenen Daten. Soweit du nicht selbst die Daten änderst oder löschst, stehen wir dir unter der am Ende dieser Datenschutzerklärung genannten Adresse gerne für entsprechende Anträge zur Verfügung. Wir werden die personenbezogenen Daten schnellstmöglich entsprechend ändern oder löschen.</p>
+            <p>Insbesondere kannst du deine Einwilligung in die Verwendung deiner E-Mail-Adresse zum Empfang von Newslettern jederzeit widerrufen, ohne dass dir hierfür Kosten entstehen.</p>
+            <p>Wir weisen dich sowohl bei Erhebung der E-Mail-Adresse als auch bei jeder Verwendung in Newslettern oder sonstigen Informationen klar und deutlich auf dein Widerspruchsrecht hin.</p>
+            <h2 id="5">Kontakt</h2>
+            <p>Hast du Fragen zur Datenschutzerklärung? So erreichst du uns:</p>
+            <p>Web-Services Sascha Jost<br/>
+                Der Acker 40<br/>
+                53894 Mechernich<br/>
+                Deutschland<br/>
+                E-Mail-Adresse:
+                <a href="mailto:{{mail_to_info}}">{{mail_to_info}}</a>
+
+            </div>
+            <button id="btn-home" class="btn btn-grey">{{screen_global_home}}</button>
+        </div>
+        <!-- close #content-wrapper -->
+        <div class="minheight"></div>
+
+    {% endblock %}
+
+    {% block footer %}{% endblock %}

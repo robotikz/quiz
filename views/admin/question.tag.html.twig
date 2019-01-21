@@ -1,0 +1,63 @@
+{# src/Resources/views/admin/q.tag.html.twig #} 
+{% extends 'admin/init.html.twig' %} 
+
+{# pure theme from bootstrap #}
+{% if form is defined %}
+{#     {% block checkbox_widget %}#}
+{#             <div class="checkbox">#}
+{#                 {{- form_label(form, null, { widget: parent() }) -}}#}
+{#             </div>#}
+{#     {% endblock checkbox_widget %}#}
+{% endif %}
+
+{% block body %}
+	<div id="" class="container">
+
+		<div id="panel" class="panel panel-default">
+			<div class="panel-heading">
+            	<div class="row">
+        			<div class="col-sm-3">
+        				<div class="form-group">
+                    		<a class="btn btn-danger btn" href="{{ path('admin_question_tag_ne',{eid:'+'}) }}" style="">+ Tag</a>
+                    		<div
+								class="btn-group"
+								role="group"
+							>
+								<button
+									type="button"
+									class="btn btn-default dropdown-toggle"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									Bearbeiten&nbsp;<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" id='dd-edit' data-path="{{ path('admin_question_tag_aj') }}">
+									<li><a class="btn-sel-status-1" data-act="st1">Aktivieren</a></li>
+									<li><a class="btn-sel-status-0" data-act="st0">Pausieren</a></li>
+									<li><a class="btn-sel-del" data-act="del">Entfernen</a></li>
+								</ul>
+							</div>
+                         </div>
+                	</div>
+                	<div class="col-sm-4">
+                		<div class="form-group">
+                			<div class="icon-addon addon-md">
+                      			<input type="text" class="form-control form-search" placeholder="Suche nach..." id="filter">
+                      			<label for="filter" class="btn-search glyphicon glyphicon-search" rel="tooltip" title="Filter"></label>
+                      		</div>
+                   		</div>
+                	</div>
+                	<div class="col-xs-5">
+                		<h3 class="panel-title text-right hidden-md hidden-sm hidden-xs">Da ist die ganze Liste von allen Tags, KLicken zum Bearbeiten</h3>
+                	</div>
+                </div>
+            </div>
+			<div class="panel-body">
+				<div class="panel-scroll" id="t-ajax">
+    				{% include 'admin/question.tag.table.html.twig' %}
+            	</div>
+			</div>
+		</div>
+	</div>
+{% endblock %} 

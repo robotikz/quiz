@@ -1,0 +1,67 @@
+{% extends 'admin/init.html.twig' %}
+
+{% block body %}
+<div id="wrapper" class="container">
+	<div id="panel" class="panel panel-default">
+
+		<div class="panel-heading" style="text-align:center;">
+        	<h3 class="panel-title">Was soll da sein?????</h3>
+        </div>
+		<div class="panel-body" style=";">
+            {{ p }}
+            <table class="table table-bordered" fixed-header>
+                <thead>
+                    <tr>
+                    <th style="width:50px">
+                        
+                    </th>
+                    <th style="width:250px">1</th>
+                    <th style="width:250px">2</th>
+                    <th style="width:50px">3</th>
+                    <th style="width:50px">a1</th>  
+                    <th style="width:50px">a2</th>
+                    <th style="width:50px">a3</th>
+                    <th style="width:50px">a4</th>
+                    <th style="width:50px">p</th>
+                    </tr>
+                </thead>
+                {% for e in qqs %}
+                    <tr>
+                        <td style="width:50px">
+                            <a class="" href="#" style="">{{ e.id }}</a>
+                        </td>
+                        <td style="width:250px">
+                            <a class="filter" href="#" style="">{{ e.question }}</a>
+                        </td>
+                        <td style="width:250px">
+                            <span>{{ e.subcategory }}</span>
+                        </td>
+                        <td style="width:50px">
+                            <span>{{ e.rightanswer }}</span>
+                        </td>
+                        <td style="width:50px">
+                            <span>{{ e.a1 }}</span>
+                        </td>
+                        <td style="width:50px">
+                            <span>{{ e.a2 }}</span>
+                        </td>
+                        <td style="width:50px">
+                            <span>{{ e.a3 }}</span>
+                        </td>
+                        <td style="width:50px">
+                            <span>{{ e.a4 }}</span>
+                        </td>
+                        <td style="width:50px">
+                            <span>{{ e.picture }}</span>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+            </table>
+
+		</div>
+
+	</div>
+</div>
+{% endblock %}
+

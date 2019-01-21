@@ -1,0 +1,104 @@
+{# twig #}
+{% extends 'default/res.init.html.twig' %}
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Highscore List',
+			'pageCategory' : 'Championship',
+			'pageURI' : '/championship/highscore.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+	<link href="{{ asset('bs/css/bootstrap.min.css') }}" type="text/css"	rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/score.js') }}"></script>
+{% endblock %}
+
+{% block head2 %}
+	<div id="fb-script">
+		{% include 'security/reg.fb.html.twig' %}	
+	</div>
+	<link href="{{ asset('css/login.css') }}" type="text/css" rel="stylesheet" />
+	<div id="cnt-dlg-lgn" data-path="{{ path('lgn_aj') }}">
+		{# content by ajax  #}
+	</div>
+	<div id="cnt-dlg-reg" data-path="{{ path('security_reg_aj') }}">
+		{# content by ajax  #}
+	</div>
+{% endblock %}
+
+
+{% block master_content %}
+    <div class="content-wrapper startseite">
+    	<h1>{{screen_highscore_head1}}</h1>
+    	<h2 class="highscore-h2">
+    		<span id="btn-score-month" >{{ ('month.'~"now"|date("m"))|trans ~ ' ' ~ "now"|date("Y")}}</span>
+    		| 
+    		<span id="btn-score-all" style="color:#337ab7;cursor:pointer">{{screen_highscore_head2}}</span>
+    	</h2>
+    	<p id="t-score-title" style="margin: 16px 0">
+			{% include 'default/highscore.user.title.html.twig' with {'title_m':title_m} %}
+    	</p>
+    	
+		{% if pos > -1 %}
+			<!-- GUEST WARNING PART START -->
+			<div class="alert alert-danger">
+				<h4><i class="fa fa-warning" aria-hidden"true"></i> {{screen_highscore_head3}}</h4>
+
+				{# Wenn du Gast bist, werden diese Punkte und Platzierung nicht gespeichert. 
+				Wenn du sie speichern möchtest, 
+				<a href="{{ path('security_reg_aj') }}">registriere dich</a>. 
+				Bist du schon registriert, <a id="btn-lgn" style="cursor:pointer;">melde dich einfach an</a>.  	 #}
+				{{ screen_highscore_warn|pha|raw }}
+			</div>
+			<!-- GUEST WARNING PART END -->
+		{% endif %}
+
+    	<button
+    		type="button"
+    		id="btn-score-my"
+    		class="btn btn-mail-signup"
+    	>{{screen_highscore_title4}}</button>
+    	 
+    	<div id="t-ajax" class="highscore-ajax" data-path="{{ path('hs_aj') }}" data-id="{{ quiz.id }}" data-act="month">
+    		{% include 'default/highscore.user.table.html.twig' with {'scores':scores, 'pos':pos} %}
+    	</div>
+    	
+    	<button id="btn-score-more"
+    		type="button"
+    		class="btn btn-grey"
+    		style="display:none"
+    	>{{screen_highscore_title5}}</button>
+    	
+		{% if quiz.share == 1 %}
+			{% if pos > -1 %}
+				<button
+					id="btn-score-fb"
+					type="button"
+					class="btn btn-facebook-signup"
+				>{{screen_sharee_title2}}</button>
+			{% endif %}
+		{% endif %}
+    
+		<button id="btn-home" class="btn btn-grey">{{screen_global_home}}</button>
+
+    </div>
+    
+     <!-- close #content-wrapper -->
+        
+    <div class="minheight"></div>
+{% endblock %}
+
+{% block footer %} 
+	{% include 'security/modal.password.html.twig' %} 
+{% endblock %}

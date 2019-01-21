@@ -1,0 +1,306 @@
+{% extends 'default/game.init.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/gamer.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/game.a.js') }}"></script>
+    {% if app.session.get('quiz') == '' %}
+        <script type="text/javascript">
+            Cookies.set("quiz", '');
+            Cookies.set("question", '');
+            Cookies.set("joker_pause", '');
+            Cookies.set("joker_skip", '');
+            Cookies.set("joker_5050", '');
+        </script>
+    {% endif %}
+    {# flag to stop the game by refresh #}
+    {{ app.session.set('quiz', '0') }}
+    <script type="text/javascript">
+        // jQuery
+        $(document).ready(function ($) {
+            if (window.history && window.history.pushState) {
+                window.history.pushState('forward', null, null);
+                $(window).on('popstate', function () {
+                    console.log('Back button was pressed.');
+                    Cookies.set("quiz", '');
+                    Cookies.set("question", '');
+                    Cookies.set("joker_pause", '');
+                    Cookies.set("joker_skip", '');
+                    Cookies.set("joker_5050", '');
+                    window.location.href = route_home;
+                });
+
+            }
+            if ($('#backbuttonstate').val() == "0") {
+                // Page has been loaded for the first time - Set marker
+                $('#backbuttonstate').val('1')
+                console.log('First time load');
+            } else {
+                // Back button has been fired.. Do Something different..
+                console.log('Previously loaded - Returned from Back button');
+                Cookies.set("quiz", '');
+                Cookies.set("question", '');
+                Cookies.set("joker_pause", '');
+                Cookies.set("joker_skip", '');
+                Cookies.set("joker_5050", '');
+                window.location.href = route_home;
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        var src_ani_dnd = "{{ asset('js/ani.dnd.js') }}";
+        var src_handgrab = "{{ asset('handgrab.png','img') }}";
+        var src_hand = "{{ asset('hand.png','img') }}";
+        var src_plusone = "{{ asset('plusone.png','img') }}";
+    </script>
+{% endblock %}
+
+{% block body %}
+    <input id="backbuttonstate" type="text" value="0" style="display:none;" />
+    <div class="body-wrapper">
+	
+        <!-- MASTER START -->
+        <div class="master-wrapper">
+
+            <!-- HEADER START -->
+            <div class="header">
+
+                <div class="header-wrapper-top">
+                    <div class="quizlogo">
+                        <a id="link-quiz-logo">
+                            <img style="cursor:pointer;" alt="Logo" height="50px" src="{{ asset('qz-'~quiz.id~'/'~quiz.logo2,'img') }}">
+                        </a>
+                    </div>
+                    <div class="useravatar-wrapper">
+                        <div class="imagebox">
+                            {% if app.user.avatar != '' %}
+                                {% if app.user.status == 9 %}
+                                    {% set pathi = asset(app.user.avatar,'img') %}
+                                {% else %}
+                                    {% set pathi = asset(''~app.user.unid~'/'~app.user.avatar,'img') %}
+                                {% endif %}
+                                <img src="{{ pathi }}" class="userimage" alt="Avatar">
+                            {% endif %}
+                        </div>
+                        <div class="usertext">
+                            <div class="username">
+                                {{ app.user.username }}
+                            </div>
+                            {% if app.user.status != 9 %}
+                                <div class="scoresum">
+                                    {{ screen_global_score_sum|ph|raw }} 
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="timer">
+                        <h2 id="counter-seconds">{{ quiz.timelimit }}</h2>
+                        <i id="start-counter-pause" class="fa fa-pause" aria-hidden="true" style="display:none;"></i>
+                        <svg width="50" height="50">
+                            <circle id="counter-circle" class="circle" r="20" cy="25" cx="25"/>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+            <!-- HEADER END -->
+
+            <!-- JOKER START -->
+            <div class="joker-wrapper">
+                {% if quiz.joker == 1 %}
+                    {% if quiz.jokerpause == 1 %}
+                        <button class="joker" id="joker-pause">
+                            <i class="fa fa-pause" aria-hidden="true"></i><br/>{{game_button_joker_pause}}
+                        </button>
+                    {% endif %}
+                    {% if quiz.jokerskip == 1 %}
+                        <button class="joker" id="joker-skip">
+                            <i class="fa fa-step-forward" aria-hidden="true"></i><br/>{{game_button_joker_skip}}
+                        </button>
+                    {% endif %}
+                    {% if quiz.joker5050 == 1 %}
+                        <button class="joker" id="joker-5050" data-path="{{ path('joker_5050_aj') }}">
+                            <i class="fa fa-star-half-o" aria-hidden="true"></i><br/>{{game_button_joker_5050}}
+                        </button>
+                    {% endif %}
+                {% endif %}
+                <button class="weiter" style="display:none;" data-path="{{ path('qnexta_aj') }}" id="btn-game-next">
+                    <span id="txt-game-next">{{game_button_next}}</span>&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                </button>
+            </div>
+            <!-- JOKER END -->
+
+            <!-- QUESTION-NR START -->
+            <div class="question-nr-wrapper" style="display:none;">
+                <span id="question-nr">1</span>
+                <span>
+                    von
+                    {{qncount}}</span>
+            </div>
+            <!-- QUESTION-NR END -->
+
+            <!-- CIRCLES START -->
+            <div id="game-flash-holder" style="display:none;">
+                <svg version="1.1" x="0px" y="0px" width="50" height="50" viewbox="0 0 268.945 268.945" enable-background="new 0 0 268.945 268.945" xml:space="preserve" style="" class="game-flash-right" id="game-flash-right">
+                    <g id="Ebene_5">
+                        <circle fill="#70d170" cx="134.473" cy="134.473" r="134.473"/>
+                        <circle fill="#FFFFFF" cx="134.473" cy="134.473" r="93.973"/>
+                    </g>
+                    <g id="Ebene_3">
+                        <g>
+                            <path fill="#70d170" d="M105.901,94.878v35.841h34.561v13.121h-34.561V180h-13.44v-36.161H57.9v-13.121h34.561V94.878H105.901z"/>
+                            <path fill="#70d170" d="M175.5,95.678h-0.32l-17.6,9.12l-3.521-16.48l23.841-12.32h18.4V180H175.5V95.678z"/>
+                        </g>
+                    </g>
+                </svg>
+                <svg version="1.1" x="0px" y="0px" width="50" height="50" viewbox="0 0 268.945 268.945" enable-background="new 0 0 268.945 268.945" xml:space="preserve" style="" class="game-flash-wrong" id="game-flash-wrong">
+                    <g id="Ebene_5">
+                        <circle fill="#e45a5a" cx="134.473" cy="134.473" r="134.473"/>
+                        <circle fill="#FFFFFF" cx="134.473" cy="134.473" r="93.973"/>
+                    </g>
+                    <g id="Ebene_2">
+                        <polygon fill="#e45a5a" points="177.315,127.764 144.575,127.764 164.218,58.031 91.629,141.182 124.37,141.182 104.727,210.914"/>
+                    </g>
+                </svg>
+            </div>
+            <!-- CIRCLES END -->
+
+            <!-- CONTENT START -->
+            <div class="content-wrapper" id="game-qn-a" 
+                data-qz="{{ quiz.id }}" 
+                data-qn="{{ question.id }}" 
+                data-m="{{ m }}" 
+                data-dnd="{{question.dnd}}" 
+                data-path="{{ path_select }}"
+                data-qnnext=""
+                >
+
+                <!-- QUESTION START -->
+                <div id="question-wrapper" class="question-wrapper">
+                    <div class="red-box-wrapper">
+                        <div class="red-box">
+                            <i class="fa" aria-hidden="true">?</i>
+                        </div>
+                    </div>
+                    <div class="question-textbox">
+                        {{ question.title|ph(question.arcount)|raw }}
+                    </div>
+                </div>
+                <!-- QUESTION END -->
+
+                <!-- IMAGE START -->
+                <div id="question-image" class="question-image">
+                    {% if not question.avatar is null and question.avatar != '' %}
+                        <img alt="Quiz" src="{{ asset('q-'~question.id~'/'~question.avatar,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}" class="">
+                    {% endif %}
+                </div>
+                <!-- IMAGE END -->
+
+                <!-- ANSWER START -->
+                {% block b_answer %}{% endblock %}
+                <!-- ANSWER END -->
+            </div>
+            <!-- CONTENT END -->
+
+            <!-- NEEDED FOR FIXED FOOTER -->
+            <div class="minheight"></div>
+
+            <!-- FOOTER START -->
+            <div class="footer">
+                <div class="companylogo">
+                    <a id="link-company-logo" class="link-company-logo">
+                        <span>{{ 'now'|date('Y') }}
+                            by</span>
+                        <img src="{{ asset('quizpiggy-logo.png','img') }}"/>
+                    </a>
+                    <a target="_blank" href="{{ path('info_imprint') }}" onclick="gtmEPush(_, 'i Icon Imprint Click','Info');" class="link-imprint">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <span class="txt">{{ dlg_i_links_imprint_a }}</span>
+                    </a>
+                </div>
+                <div class="score">
+                    <button class="weiter weiter-bottom" style="display:none;" id="btn-game-next-2" data-path="{{ path('qnexta_aj') }}">
+                        <span id="txt-game-next-2">{{game_button_next}}</span>&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </button>
+                    <div class="points">
+                        {% if app.session.get('quiz_score'~'_'~quiz.id) < 0 %}
+                            {% set quiz_score = 0 %}
+                        {% else %}
+                            {% set quiz_score = app.session.get('quiz_score'~'_'~quiz.id) %}
+                        {% endif %}
+                        <span class="big" id="game-score">{{quiz_score}}</span>
+                        <span class="small">{{game_title_points}}</span>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div id="qn-scroll" style="display:none;">
+                        <div id="" class="scroll">
+                            <i class="fa fa-arrow-down"></i>
+                            <span>{{game_button_question_scroll}}</span>
+                        </div>
+                    </div>
+                    <div class="user-info" id="user-info">
+                        {% if question.user %}
+                            {% set qu_admin = false %}
+                            {% for role in question.user.roles if role == 'ROLE_ADMIN' %}
+                                {% set qu_admin = true %}
+                            {% endfor %}
+                            {% if not qu_admin %}
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span class="from">{{game_title_question_by}}
+                                    {{question.user.username}}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="extra-info">
+                        <span id="btn-question-comment" class="btn-question-comment" data-visitortype="{{visitorType}}">
+                            <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                            <span class="txt">{{ screen_global_question_comment }}</span>
+                        </span>
+                        <span id="btn-i" class="btn-i">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                            <span class="txt">{{ screen_global_info }}</span>
+                        </span>
+                    </div>
+                    <div class="close-x">
+                        <a id="btn-quiz-x-a" class="btn-quiz-x">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <span class="txt">{{ screen_global_close }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER END -->
+
+            <script type="text/javascript">
+                var route = "{{ path('qfirsta')|escape('js') }}";
+                var route_rt = "{{ path('resulta')|escape('js') }}";
+                var route_hs = "{{ path('highscore')|escape('js') }}";
+                var seconds = "{{ quiz.timelimit }}";
+
+                // if there's a cookie with the quiz-id_question-id
+                // var cookie_qq = "{{'q'~quiz.id~'q'~question.id}}";
+                var quiz_id = '{{quiz.id}}';
+                var question_id = '{{question.id}}';
+
+                $(document).ready(function () {
+                    //@see -> initX
+                })
+            </script>
+            {# LOADING #}
+            <div id="loading" style="display:none;position: absolute; left: 50%; top: 50%; margin: -50px 0 0 -64px;">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size:100px;color:#cacaca;"></i>
+            </div>
+        </div>
+        <!-- MASTER END -->
+    </div>
+    <!-- MASTER BODY WRAPPER -->
+
+    {# white bg #}
+    {# <div id="bg-white" style="background-color: white; position: absolute; width: 360px; height:100%; left: 0; right: 0; margin-left: auto; margin-right: auto; bottom: 0;">
+	</div> #}
+{% endblock %}

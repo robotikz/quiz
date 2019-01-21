@@ -1,0 +1,51 @@
+		{% if a=='1' %}
+			{% set t=nav_profile_editprofile %}
+		{% elseif a=='2' %}
+			{% set t=nav_profile_changepassword %}
+		{% elseif a=='3' %}
+			{% set t=nav_profile_emailsettings %}
+		{% elseif a=='4' %}
+			{% set t=nav_profile_logout %}
+        {% endif %}
+		<div class="subnav-wrapper">
+        	<nav class="subnav-layout">
+            	<div class="subnav-content">
+                	<h2 class="subnav-h2">
+                    	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                        {{nav_profile_h1}}
+                        <span class="subnav-separator" style="display:inline";>•</span>
+                        <span class="subnav-subtitle" style="display:inline";>{{ t }}</span>
+                    </h2>
+                    <ul style="display:none;">
+                    	<li class="{% if a=='1' %}subnav-active{% endif %}">
+                        	<a class="subnav-link" href="{{ path('my_user') }}">{{nav_profile_editprofile}}</a>
+                        </li>
+                        <li class="{% if a=='2' %}subnav-active{% endif %}">
+                        	<a class="subnav-link" href="{{ path('my_password') }}">{{nav_profile_changepassword}}</a>
+                        </li>
+                        <li class="{% if a=='3' %}subnav-active{% endif %}">
+                        	<a class="subnav-link" href="{{ path('my_email') }}">{{nav_profile_emailsettings}}</a>
+                        </li>
+                        <li class="{% if a=='4' %}subnav-active{% endif %}">
+                        	<a class="subnav-link" href="{{ path('my_logout') }}">{{nav_profile_logout}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        {% if app.request.get('_') == "y" %}
+    		<div class="msg-box-success">
+    			<div class="msg-box-close">
+    				<i
+    					class="fa fa-times"
+    					aria-hidden="true"
+    				></i>
+    			</div>
+    			<div class="msg-box-text">
+    				<i
+    					class="fa fa-check"
+    					aria-hidden="true"
+    				></i> {{nav_profile_h2}}
+    			</div>
+    		</div>
+        {% endif %}

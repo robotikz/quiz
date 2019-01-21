@@ -1,0 +1,72 @@
+		{{ include('amode/game.question.dl.html.twig') }}
+		<!-- CONTENT START -->
+    	<div 
+    		class="content-wrapper" 
+    		id="game-qn-a" 
+    		data-qz="{{ quiz.id }}" 
+    		data-qn="{{ question.id }}" 
+    		data-m="{{ m }}"
+			data-dnd="{{question.dnd}}"
+    		data-path="{{ path('qseladnd_aj') }}"
+			data-qnnext=""
+			>
+        
+        	<!-- QUESTION START -->
+    		<div id="question-wrapper" class="question-wrapper">
+    			<div class="red-box-wrapper">
+    				<div class="red-box">
+{#     					<p class="glyphicon glyphicon-question-sign" aria-hidden="true"></p>#}
+							{# <i class="fa fa-question-circle-o" aria-hidden="true"></i> #}
+						<i class="fa" aria-hidden="true">?</i>
+					</div>
+    			</div>
+    			<div class="question-textbox">
+            		{{ question.title|ph(question.arcount)|raw }}
+            	</div>
+    		</div>
+            <!-- QUESTION END -->
+            
+			<!-- IMAGE START -->
+			<div id="question-image" class="question-image">
+				{% if not question.avatar is null and question.avatar!='' %}
+					<img
+						alt="Quiz"
+						src="{{ asset('q-'~question.id~'/'~question.avatar,'img') }}?timestamp={{ 'now'|date("s.u")|round(3) }}"
+						class=""
+					>
+				{% endif %}
+			</div>
+			<!-- IMAGE END -->
+            
+			<!-- ANSWER START -->
+			<div class="answer-box-dnd" style="" id="answer-box-dnd">
+				<div class="answer-drop left" id="answer-drop-left" data-side="2">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</div>
+				<div class="answer-drop right" id="answer-drop-right" data-side="1">
+					<i class="fa fa-circle-o" aria-hidden="true"></i>
+				</div>
+				{% for a in question.answers %}
+					<div class="answer-wrap"> 
+						<div class="answer-wrapper" 
+							style="{% if loop.index > 4 %}display:none;{% endif %}" 
+							id="answer-{{ loop.index }}"
+							data-a='{{ a.id }}'
+							data-qn='{{ question.id }}'
+							data-qz='{{ quiz.id }}'
+							>
+							<div 
+								class="answer-textbox btn-game-a"
+								id="btn-game-answer-text-{{ a.id }}"
+								role="button"
+								
+								>
+								{{ a.title|ph|raw }}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<!-- ANSWER END -->
+    	</div>
+      	<!-- CONTENT END -->

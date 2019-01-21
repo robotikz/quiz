@@ -1,0 +1,188 @@
+{# src/Resources/views/security/reg.html.twig #} 
+{% extends 'security/init.html.twig' %} 
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_reg_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_reg_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_reg_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_reg_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+	<script type="text/javascript">
+		window.dataLayer.push({
+  			'pageTitle' : 'Sign-up',
+			'pageCategory' : 'Sign-up',
+			'pageURI' : '/signup.html',
+			'visitorType' : '{{ visitorType }}',
+			'difficultyScore' : ''
+		});
+	</script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script type="text/javascript">
+    	Cookies.set("quiz", '');
+    	Cookies.set("question", '');
+    	Cookies.set("joker_pause", '');
+    	Cookies.set("joker_skip", '');
+    	Cookies.set("joker_5050", '');   
+  </script>
+  <script src='https://www.google.com/recaptcha/api.js?hl=de' async defer></script>
+  <script src="{{ asset('js/validator.js') }}"></script>
+  <script src="{{ asset('js/login.js') }}"></script> 
+{% endblock js %}
+
+{% block js_this %}
+	{{ parent() }}
+{% endblock js_this %}
+
+
+	{% block master_content %}
+		<div class="content-wrapper startseite">
+			<div class="logo-container">
+				<a href="{{ path('home') }}">
+					<img 
+						class="startscreen-logo"
+						alt="Logo" 
+						height="100px" 
+						src="{{ asset('qz-'~quiz.id~'/'~quiz.logo1,'img') }}">
+				</a>
+            	<h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
+        	</div>
+
+			<h1 class="top">{{ screen_signup_h1 }}</h1>
+			{% if app.session.get('fb_fid') == '' %}
+				<button class="btn btn-facebook-signup" onclick="fb_login('Sign-up via Facebook Click','Sign-up');">{{ screen_signup_button_facebooksignup }}</button>
+				<div class="oder-box">
+					<div class="login-grey-line"></div>
+					<div class="login-oder">{{screen_signup_separator_or}}</div>
+					<div class="login-grey-line"></div>
+				</div>
+			{% else %}
+				<h4 class="top">{{screen_signup_h3}}</h4>
+			{% endif %}
+			
+
+			{# fb-login/registration #}
+			{% include 'security/reg.fb.html.twig' %}	
+
+			<form action="{{ path('security_reg') }}" method="post" class="" id="f-security-reg" data-toggle="validator" role="form">
+				<div class="form-group {% if form.email.vars.errors|length %}has-error{%endif%}">
+					{{ form_widget(form.email, { 'attr': {
+					    'data-error': msg_reg_email_empty,
+						'data-remote': path('admin_user_is'),
+						'data-remote-error': msg_signup_login_taken,
+						'aria-describedby': "emailHelp", 
+						'placeholder': screen_signup_form_placeholder_email,
+						'class':'form-control'
+						} }) }}
+        			<div class="help-block with-errors">{{ form_errors(form.email) }}</div>
+				</div>
+				<div class="form-group {% if form.username.vars.errors|length %}has-error{%endif%}">
+					{{ form_widget(form.username, { 'attr': {
+					    'data-error': msg_reg_username_empty,
+						'data-remote': path('admin_user_is'),
+						'data-remote-error': msg_signup_username_taken,
+						'aria-describedby': "emailHelp", 
+						'placeholder': screen_signup_form_placeholder_username,
+						'class':'form-control'
+						} }) }}
+        			<div class="help-block with-errors">{{ form_errors(form.username) }}</div>
+				</div>
+				<div class="form-group {% if form.password.first.vars.errors|length %}has-error{%endif%}">
+					{{ form_widget(form.password.first, { 'attr': {
+					    'data-error': msg_reg_password_empty,
+						'placeholder': screen_signup_form_placeholder_password,
+						'class':'form-control'
+						} }) }}
+        			<div class="help-block with-errors">{{ form_errors(form.password.first) }}</div>
+				</div>
+				<div class="form-group {% if form.password.second.vars.errors|length %}has-error{%endif%}">
+					{{ form_widget(form.password.second, { 'attr': {
+					    'data-error': msg_reg_password_repeat_empty,
+						'placeholder': screen_signup_form_placeholder_confirmpassword,
+						'class':'form-control'
+						} }) }}
+					<div class="help-block with-errors">{{ form_errors(form.password.second) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.fname, { 'attr': {
+						'placeholder': screen_signup_form_placeholder_firstname,
+						'class':'form-control'
+						} }) }}
+					<div class="help-block with-errors">{{ form_errors(form.fname) }}</div>
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.lname, { 'attr': {
+						'placeholder': screen_signup_form_placeholder_surename,
+						'class':'form-control'
+						} }) }}
+					<div class="help-block with-errors">{{ form_errors(form.lname) }}</div>
+				</div>
+				<div class="form-group">
+                    <input
+						type="text"
+						id="grecaptcha"
+						name="grecaptcha"
+						value=""
+                        data-error="{{e_g_recaptcha}}"
+                        required="required" 
+                        style="visibility: hidden; height: 1px"
+					>
+                    <div class="g-recaptcha" 
+                        data-sitekey="{{ g_recaptcha_sitekey }}" 
+                        data-callback="grecaptcha_cb_reg"
+                        data-size="normal"
+                        style=""></div>
+					{% for message in app.flashes('error') %}
+						<div class="help-block with-errors">
+							{{ message }}
+						</div>
+					{% else %}
+						{# for client side js #}
+						<div class="help-block with-errors"></div>
+					{% endfor %}
+                </div>
+				
+				<div style="display: none">
+            	    {{ form_rest(form) }}
+            	 </div>
+				<button
+					type="submit"
+					class="btn btn-mail-signup"
+				>{{ screen_signup_button_signup }}</button>
+			</form>
+			
+			<p class="exclaimer">
+				{{ screen_signup_disclaimer_terms|pha|raw }}
+				{# {{ screen_signup_disclaimer_terms }} #}
+{# 				Durch deine Registrierung stimmst du unseren #}
+{# 				<a#}
+{# 					href="nutzungsbedingungen.html"#}
+{# 				>Nutzungsbedingungen</a>#}
+{# 				 und #}
+{# 				<a href="datenrichtlinie">Datenrichtlinie</a>#}
+{# 				zu.#}
+			</p>
+			<p>
+				{{ screen_signup_disclaimer_no_user }}
+				<a
+					class="underline"
+					href="{{ path('lgn') }}"
+				>{{ screen_signup_disclaimer_login_in }}</a>
+			</p>
+		</div>
+		<!-- close #content-wrapper -->
+		<div class="minheight"></div>
+		
+    {% endblock %} 

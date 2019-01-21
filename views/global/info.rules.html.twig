@@ -1,0 +1,259 @@
+{# src/Resources/views/default/index.html.twig #}
+{% extends 'user/init.html.twig' %}
+
+{# meta #}
+{% block meta_desc %}<meta name="decription" content="{{meta_info_rules_desc|ph|raw}}">{% endblock %}
+{% block meta_robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block meta_title %}{{ meta_info_rules_title|ph|raw }}{% endblock %}
+
+{% block og %}
+    <meta property="og:title" content="{{ meta_info_rules_title|ph|raw }}"/>
+    <meta property="og:description" content="{{meta_info_rules_desc|ph|raw}}"/>
+{% endblock %}
+
+{% block gtm %}
+    {{ parent() }}
+    <script type="text/javascript">
+        window.dataLayer.push({'pageTitle': 'Rules', 'pageCategory': 'Information', 'pageURI': '/information/rules.html', 'visitorType': '{{ visitorType }}', 'difficultyScore': ''});
+    </script>
+{% endblock gtm %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/info.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('js/info.js') }}"></script>
+{% endblock %}
+
+{% block master_content %}
+    {% include 'global/info.rules.nav.html.twig' with {
+        'a' : '1'
+    } %}
+    <div class="content-wrapper startseite">
+        <i class="fa fa-arrow-circle-up arrow-up" id="btn-arrow-up"></i>
+        {# <strong>Inhaltsverzeichnis</strong>
+
+			<ul>
+				<li><a href="#grundsaetzliches">Grunds&auml;tzliches</a></li>
+				<li><a href="#spielbildschirm">Spielbildschirm</a></li>
+				<li><a href="#spielmodi">Spielmodi</a></li>
+				<li><a href="#fragetypen">Fragetypen</a></li>
+				<li><a href="#joker">Joker</a></li>
+			</ul> #}
+        <h1>Spielregeln</h1>
+        <p>Willkommen beim
+            {{quiz.title}}! Damit du dich gleich zurechtfindest, haben wir dir hier die Spielregeln zusammengefasst. Bedenk bitte, dass das Quiz noch in den Kinderschuhen steckt und wir viel testen. Daher kann es sein, dass wir hier Regeln ab und an anpassen oder neue einarbeiten.
+        </p>
+        <p>Damit du nachvollziehen kannst, wann wir was an den Spielregeln ver&auml;ndert haben, findest du hier eine Versions&uuml;bersicht:</p>
+        <ul>
+            <li>
+                <p>13.02.2018<br/>
+                    Version 1: Regeln zum Start</p>
+            </li>
+        </ul>
+
+        <a name="grundsaetzliches"></a>
+        <h2>Grunds&auml;tzliches</h2>
+        <p>Grunds&auml;tzlich geht es in unserem Quiz darum, m&ouml;glichst viele Fragen in Folge richtig zu beantworten.</p>
+        <p>Das ist nicht Ungewöhnliches für ein Quiz-Spiel und sollte dafür sorgen, dass du dich schnell bei uns zurechtfindest. Wir haben uns aber ein paar Spezialitäten ausgedacht, die unser Quiz von anderen abheben. In diesem Spielanleitung gehen wir auf diese besonderen Elemente ein.</p>
+        <p>Hab viel Spa&szlig; beim Lesen!</p>
+
+        <a name="spielbildschirm"></a>
+        <h2>Spielbildschirm</h2>
+
+        <p>Der Spielbildschirm ist das Herzst&uuml;ck des Quiz. Umso wichtiger ist es, dass du wei&szlig;t, wozu die einzelnen Elemente da sind. Hier ist die Übersicht.</p>
+
+        <h3>Benutzer</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-benutzer.jpg','img') }}" alt="Benutzer"/></div>
+
+        <p>Oben in der Mitte blenden wir dein Profilbild und deinen Benutzernamen ein.</p>
+
+        <h3>Stoppuhr</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-stoppuhr.jpg','img') }}" alt="Stoppuhr"/></div>
+
+        <p>Du hast f&uuml;r die Beantwortung der Frage nicht unbegrenzt Zeit. Oben rechts zeigt dir der Timer an, wie viele Sekunden noch verbleiben.</p>
+
+        <h3>Punktzahl</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-punktzahl.jpg','img') }}" alt="Punktzahl"/></div>
+
+        <p>F&uuml;r jede richtig beantwortete Frage erh&auml;ltst du einen Punkt. Die Punktzahl findest du unten in der Mitte.</p>
+
+        <h3>Weiter</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-weiter.jpg','img') }}" alt="Weiter"/></div>
+
+        <p>Der Weiter-Button erscheint oberhalb und unterhalb des Spielbereichs, sobald du eine Frage beantwortet hast. Wenn du die Frage korrekt gel&ouml;st hast, gelangst du &uuml;ber den Weiter-Button zur n&auml;chsten Frage. War die Antwort falsch, erscheint die Auswertungsseite.</p>
+
+        <h3>Frage melden</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-frage-melden.jpg','img') }}" alt="Frage melden"/></div>
+
+        <p>Nobody is perfect. Ganz besonders wir nicht. Wenn du der Meinung bist, dass die Frage missverst&auml;ndlich gestellt ist, die Antworten unpassend sind oder sonst irgendwelche Fehler vorliegen, dann nutze das Sprechblasen-Symbol unten rechts. F&uuml;r diese Hilfe sind wir sehr dankbar.</p>
+
+        <h3>Info</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-info.jpg','img') }}" alt="Info"/></div>
+
+        <p>Du m&ouml;chtest noch einmal einen Blick in die Spielregeln werfen oder mit uns Kontakt zu uns aufnehmen? Ber&uuml;hre einfach das i-Symbol und w&auml;hle einen der Inhalte aus.</p>
+
+        <h3>Spielrunde beenden</h3>
+
+        <div class="joker-icons"><img src="{{ asset('info/spielbildschirm-beenden.jpg','img') }}" alt="Spiel beenden"/></div>
+
+        <p>Genug vom Quiz? Dann hast du zwei M&ouml;glichkeiten, die aktuelle Spielrunde zu beenden.</p>
+        <ol>
+            <li>Ber&uuml;hre das x-Symbol unten rechts.</li>
+            <li>Ber&uuml;hre das Quiz-Logo oben links.</li>
+        </ol>
+        <p>Wir fragen in beiden F&auml;llen nat&uuml;rlich noch einmal nach, ob du dir wirklich sicher bist.</p>
+
+        <div class="infobox">Meisterschaft: Bitte bedenke, dass die Punkte dieser Runde nicht gespeichert werden, wenn du den Meisterschaftsmodus abbrichst. Du gelangst direkt zur Startseite zur&uuml;ck und nicht zur Auswertung.</div>
+
+        <div class="infobox">So verh&auml;lt es sich auch im Freien Modus, wenn du eine konkrete Anzahl von Fragen ausw&auml;hlst. Ausnahme: Wenn du bei der Anzahl der Fragen “alle” ausw&auml;hlst und dann die Spielrunde &uuml;ber das x-Symbol (bitte nicht &uuml;ber das Logo) abbrichst, schicken wir dich zur Auswertung.</div>
+
+        <a name="spielmodi"></a>
+        <h2>Spielmodi</h2>
+        <h3>Meisterschaft</h3>
+        <p>Im Championship-Modus spielst du um die Spitze der Highscore-Tabelle. Du darfst dir beim Quizzen aber keinen Fehler erlauben: Bei nur einer Falschantwort ist die Spielrunde beendet!</p>
+        <p>So ganz ohne Hilfsmittel schicken wir dich aber nicht ins Rennen. Dir stehen drei
+            <a href="#joker">Joker</a>
+            zur Verfügung, die du weise einsetzen solltest. Du hast von jedem nur ein Exemplar. Hier erf&auml;hrst du mehr über die
+            <a href="#joker">Joker</a>.</p>
+
+        <p>Wenn du eine falsche Antwort gegeben hast, erfährst du auf der Auswertungsseite, wie viele Punkte du erreicht hast.</p>
+
+        <p>Danach folgt die Highscore-Seite. Diese besteht aus zwei Teilen:</p>
+        <ul>
+            <li>Highscore-Liste des aktuellen Monats:<br/>
+                Die Liste beinhaltet alle Spielrunden des aktuellen Monats. Sie wird jeden Monat zurückgesetzt.</li>
+            <li>All-Time-Highscore-Liste<br/>
+                Hier trifft sich die Quiz-Elite. In dieser ewigen Liste werden die besten Leistungen seit Anbeginn des KölnQuiz aufgeführt. Schaffst du es unter die Top 10?</li>
+        </ul>
+
+        <div class="screenshotbox"><img src="{{ asset('info/highscore-liste.jpg','img') }}" alt="Meisterschaft: Highscore-Liste"/></div>
+
+        <h3>Freier Modus</h3>
+        <p>Im Freien Modus spielst du ganz ohne Konkurrenzdruck. Zudem endet das Spiel nicht nach der ersten Falschantwort, sondern l&auml;uft so lange weiter, wie du es m&ouml;chtest.</p>
+
+        <p>Vor der Spielrunde stellst du ein, wie viele Fragen du beantworten willst: 10, 20, 50, 100 oder alle verf&uuml;gbaren Fragen.</p>
+
+        <div class="screenshotbox"><img src="{{ asset('info/freier-modus-anzahl.jpg','img') }}" alt="Freier Modus: Wie viele Fragen m&ouml;chtest du beantworten?"/></div>
+
+        <p>W&auml;hlst du eine bestimmte Zahl von Fragen aus, erh&auml;ltst du eine Auswertung nach der letzten Frage. Hast du dich f&uuml;r &bdquo;alle&lbquo; entschieden, so siehst du Auswertung, a) nach der letzten verf&uuml;gbaren Frage oder b) wenn du die Spielrunde &uuml;ber das x-Symbol unten rechts beendest, zum Beispiel schon nach 11 Fragen.</p>
+
+        <p>Die Auswertung im Freien Modus zeigt dir an, wie viel Prozent der Fragen du richtig beantwortet hast.</p>
+
+        <div class="screenshotbox"><img src="{{ asset('info/freier-modus-auswertung.jpg','img') }}" alt="Freier Modus: Auswertung"/></div>
+
+        <div class="infobox">Im Freien Modus gibt es keinen Überspringen-Joker.</div>
+
+        <div class="infobox">Die Variante mit allen Fragen eignet sich besonders f&uuml;r Situationen, in denen du nicht absehen kannst, wie viel Zeit dir zum Spielen bleibt. Musst du das Spiel abrupt beenden, erh&auml;ltst du trotzdem &uuml;ber x-Symbol eine Auswertung.</div>
+
+        <a name="fragetypen"></a>
+        <h2>Fragetypen</h2>
+        <p>Um das Quiz f&uuml;r euch m&ouml;glichst abwechslungsreich zu gestalten, trefft ihr auf unterschiedliche Fragentypen. Wir stellen sie euch hier vor!</p>
+
+        <h3>Fragen mit einer richtigen Antwort</h3>
+
+        <p>Das ist der gel&auml;ufigste Fragentyp in unserem Quiz. Unter den Antwortm&ouml;glichkeiten befindet sich nur eine korrekte. Deine Aufgabe ist es, diese zu finden. Alle anderen Antwortm&ouml;glichkeiten sind falsch.</p>
+
+        <h3>Fragen mit mehreren richtigen Antworten</h3>
+
+        <p>Hier wird es schon kniffliger. Wir haben auch Fragen eingeschleust, bei denen es mehrere richtige Antwortm&ouml;glichkeiten gibt.</p>
+        <p>
+            <strong>Beispiel:</strong><br/>
+            <p class="example-question">Frage: Was ist eine Br&uuml;cke in K&ouml;ln? (W&auml;hle 2.)</strong>
+        </p>
+        A: Zoobr&uuml;cke (richtig)<br/>
+        B: Potsdamer Br&uuml;cke (falsch)<br/>
+        C: Hohenzollernbr&uuml;cke (richtig)<br/>
+        D: Rudolf-Wissell-Br&uuml;cke (falsch)</p>
+
+    <p>Du erkennst diesen Fragetyp ganz einfach daran, dass wir dir direkt hinter der Frage sagen, wie viele korrekte Antworten du ausw&auml;hlen musst &ndash; im obigen Beispiel &bdquo;(W&auml;hle 2.)&ldquo;.</p>
+
+    <p>Ber&uuml;hre nacheinander die korrekten Antworten. Sobald du die letzte davon angetippt hast, stoppt die Zeit, und du gewinnst einen Punkt.</p>
+
+    <h3>Sortier-Fragen</h3>
+
+    <p>Bei diesen Fragen sieht der Antwort-Bereich ganz anders aus. Die Antwortm&ouml;glichkeiten befinden sich in der Mitte, links ist ein roter Bereich mit einem Kreuz-Symbol, recht ist ein gr&uuml;ner Bereich mit einem Kreis-Symbol.</p>
+
+    <div class="screenshotbox"><img src="{{ asset('info/sortier-frage.jpg','img') }}" alt="Sortier-Frage"/></div>
+
+    <p>Deine Aufgabe ist ganz einfach: Zieh die richtigen Antworten aus der Mitte in den gr&uuml;nen Bereich, die falschen in den roten Bereich (&bdquo;drag and drop&ldquo;). Das machst du so lange, bis du alle Fragen korrekt zugeordnet hast. Das funktioniert mit der Computer-Maus genauso gut wie mit dem Finger.</p>
+
+    <p>
+        <strong>Beispiel:</strong><br/>
+        <p class="example-question">Frage: Was ist eine K&ouml;lner Sehensw&uuml;rdigkeit?</p>
+        A: Prater<br/>
+        (falsch &rarr; roter Bereich)<br/>
+        B: Schokoladenmuseum<br/>
+        (richtig &rarr; gr&uuml;ner Bereich)<br/>
+        C: K&ouml;lner Dom<br/>
+        (richtig &rarr; gr&uuml;ner Bereich)<br/>
+        D: Empire State Building<br/>
+        (falsch &rarr; roter Bereich)</p>
+
+    <p>Erst wenn du alle Antworten richtig verschoben hast, erh&auml;ltst du einen Punkt. Also: Gib Gas!</p>
+
+    <div class="infobox">Bei Sortier-Fragen ist der 50-50-Joker deaktiviert.</div>
+
+    <h3>Besonderheiten</h3>
+
+    <p>Das Quiz soll abwechslungsreich sein. Daher haben wir uns bei einigen Fragen ein paar Kniffe &uuml;berlegt&hellip;</p>
+
+    <p>
+        <strong>Fragen mit Bildern</strong><br/>
+        Unter der Frage blenden wir ein Bild ein, auf das sich die Frage bezieht. Mal zeigen wir nur einen Ausschnitt, mal manipulieren wir das Motiv. Lass dich &uuml;berraschen.</p>
+
+    <div class="screenshotbox"><img src="{{ asset('info/bildfrage.jpg','img') }}" alt="Frage mit Bild"/></div>
+
+    <p>
+        <strong>Fragen mit L&uuml;cken</strong><br/>
+        L&uuml;ckentexte kennst du sicherlich aus der Schule. Genauso funktionieren unsere Fragen. W&auml;hle eine oder mehrere Antworten aus, die eine oder mehrere L&uuml;cken f&uuml;llen.</p>
+
+    <div class="screenshotbox"><img src="{{ asset('info/frage-mit-luecke.jpg','img') }}" alt="Frage mit L&uuml;cke"/></div>
+
+    <p>
+        <strong>Frage ohne Frage?!</strong><br/>
+        Bei einigen Fragen ist dein Um-die-Ecke-Denken gefragt. Es ist nicht auf den ersten Blick ersichtlich, was wir von dir wollen. Mal erwartet dich keine Frage, sondern ein Aussagesatz, mal spielen wir mit Sprichw&ouml;rtern oder verdrehen Buchstaben. Bleib gelassen, denk quer und sahn den Punkt ab.</p>
+
+    <a name="joker"></a>
+    <h2>Joker</h2>
+    <p>Die Helfer in der Not! Wenn du auf dem Schlauch stehst, setz einen Joker ein. Aber denk dran: Du hast von jeder Sorte nur einen.</p>
+    <h3>Pause-Joker</h3>
+    <div class="joker-icons"><img src="{{ asset('info/joker-pause.jpg','img') }}" alt="Pause-Joker"/></div>
+    <p>Du musst jede Frage in einer bestimmten Zeit beantworten. Der Pause-Joker stoppt den Countdown und verschafft dir Zeit zum Nachdenken (&hellip; oder Googeln ;-)).</p>
+    <h3>Überspringen-Joker</h3>
+    <div class="joker-icons"><img src="{{ asset('info/joker-ueberspringen.jpg','img') }}" alt="Überspringen-Joker"/></div>
+    <p>N&auml;chste Frage bitte: Ber&uuml;hrst du den Überspringen-Joker, wird dir die n&auml;chste Frage eingeblendet. Er eignet sich also f&uuml;r Themen, von denen du gar keine Ahnung hast.</p>
+    <div class="infobox">Im Freien Modus ist der Überspringen-Joker deaktiviert.</div>
+    <div class="infobox">F&uuml;r die Frage, die du &uuml;berspringst, erh&auml;ltst du keinen Punkt. W&auml;re ja noch sch&ouml;ner.</div>
+    <h3>50-50-Joker</h3>
+    <div class="joker-icons"><img src="{{ asset('info/joker-50-50.jpg','img') }}" alt="50-50-Joker"/></div>
+    <p>Bei diesem Joker werden die Antwortm&ouml;glichkeiten so reduziert, dass nur noch eine richtige und eine falsche Antwortm&ouml;glichkeit &uuml;brigbleiben. Du hast also nach dem Einsetzen dieses Jokers eine echte Fifty-fifty-Chance.</p>
+    <div class="infobox">Bei Fragen mit mehreren richtigen Antworten streichen wir alle richtigen und falschen Antworten heraus, bis nur noch EINE richtige und EINE falsche &uuml;brigbleiben.</div>
+    <div class="infobox">Bei Ja-nein-Fragen ist der 50-50-Joker deaktiviert.</div>
+    <div class="infobox">Auch bei Sortier-Fragen ist der 50-50-Joker deaktiviert.</div>
+
+    <hr/>
+
+    <p>Hast du Fragen oder Anregungen zum
+        {{quiz.title}}? Dann nimm
+        <a href="{{ path('info_contact') }}">Kontakt</a>
+        mit uns auf! Wir beantworten selbstverst&auml;ndlich jeden Hinweis pers&ouml;nlich.</p>
+
+    <button id="btn-home" class="btn btn-grey">{{screen_global_home}}</button>
+
+</div>
+<!-- close #content-wrapper -->
+<div class="minheight"></div>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}

@@ -1,0 +1,89 @@
+<link href="{{ asset('css/dlg.css') }}" type="text/css" rel="stylesheet"/>
+
+<div id="mdl-quiz-feedback" style="" class="mdl-cnt">
+    <div style="text-align:center" class="">
+        <h3 id="dlg-quiz-feedback-h3" style="margin-top:-5px;">{{dlg_quiz_feedback_h3|ph|raw}}</h3>
+    </div>
+    <br>
+    
+    <div id="dlg-quiz-feedback-title" class="textbox" style="font-weight:600;line-height:16px;">
+		<span>{{ data.quiz }}</span>
+	</div>
+    <div id="dlg-quiz-feedback-user" class="textbox" style="font-weight:600;line-height:16px;">
+		<span>{{data.user}}</span>
+	</div>
+    <div class="radio-" style="margin-top:10px;">
+        <div style="width:100%;margin-bottom:5px;">{{dlg_quiz_feedback_q1|ph|raw}}</div>
+        <div>
+            <label class="radio-in">
+                <input id="q1opt1" value="1" type="radio" name="q1opt" {% if data.q1opt=='1' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q1_opt1}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q1opt2" value="1" type="radio" name="q1opt" {% if data.q1opt=='2' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q1_opt2}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q1opt3" value="1" type="radio" name="q1opt" {% if data.q1opt=='3' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q1_opt3}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q1opt4" value="1" type="radio" name="q1opt" {% if data.q1opt=='4' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q1_opt4}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q1opt5" value="1" type="radio" name="q1opt" {% if data.q1opt=='5' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q1_opt5}}
+            </label>
+        </div>
+    </div>
+
+    <div class="radio-" style="margin-top:10px;">
+        <div style="width:100%;margin-bottom:5px;">{{dlg_quiz_feedback_q2|ph|raw}}</div>
+        <div>
+            <label class="radio-in">
+                <input id="q2opt1" value="1" type="radio" name="q2opt" {% if data.q2opt=='1' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q2_opt1}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q2opt2" value="1" type="radio" name="q2opt" {% if data.q2opt=='2' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q2_opt2}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q2opt3" value="1" type="radio" name="q2opt" {% if data.q2opt=='3' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q2_opt3}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q2opt4" value="1" type="radio" name="q2opt" {% if data.q2opt=='4' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q2_opt4}}
+            </label>
+        </div>
+        <div>
+            <label class="radio-in">
+                <input id="q2opt5" value="1" type="radio" name="q2opt" {% if data.q2opt=='5' %} checked{% endif  %}>
+                {{dlg_quiz_feedback_q2_opt5}}
+            </label>
+        </div>
+    </div>
+
+    <input style="width:98%" id="dlg-quiz-feedback-a1" name="q3text" value="{{data.q3text}}">
+    <input style="width:98%" id="dlg-quiz-feedback-a2" name="q4text" value="{{data.q4text}}">
+
+    <div>
+        {{data.user}}
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<!-- The Modal -->
+<div id="mdl-question-new" class="mdl">
+    <!-- Modal content -->
+    <div class="mdl-content">
+        <span class="cls">&times;</span>
+        <div id="mdl-question-new" style="" class="mdl-cnt">
+            <div style="text-align:center" class="">
+                <h3 id="dlg-question-new-h3">{{dlg_question_new_h3}}</h3>
+            </div> 
+            <br>
+            <div id="dlg-question-new-title-1" style="line-height:18px;"> 
+                {{dlg_question_new_title1|ph}}    
+            </div>
+            <br>
+            <form method="post" action="{{ path('dlg_question_new_aj') }}" id="dlg-question-new-form" >
+                <textarea class="form-control"  rows="4" style="width:98%" placeholder="{{dlg_question_new_qn}}" id="dlg-question-new" name="question"  required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')"></textarea> 
+                
+                <input class="form-control" style="width:98%" placeholder="{{dlg_question_new_a1}}" id="dlg-question-new-a1" name="answer1" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')">
+                <input class="form-control" style="width:98%" placeholder="{{dlg_question_new_a2}}" id="dlg-question-new-a2" name="answer2" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')">
+                <input class="form-control" style="width:98%" placeholder="{{dlg_question_new_a3}}" id="dlg-question-new-a3" name="answer3" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')">
+                <input class="form-control" style="width:98%" placeholder="{{dlg_question_new_a4}}" id="dlg-question-new-a4" name="answer4" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')">
+
+                <div id="dlg-question-new-radio" class="radio-" style="margin-top:10px;">
+                    <div style="width:100%;margin-bottom:5px;">{{dlg_question_new_title2}}</div>
+                    <div class="radio">
+                        <label class="radio-in-">
+                            <input id="a1" value="1" type="radio" name="answerc"  required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')"> 
+                                {{dlg_question_new_a1}}
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label class="radio-in-">
+                            <input id="a2" value="2" type="radio" name="answerc" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')"> 
+                                {{dlg_question_new_a2}}
+                        </label>
+                    </div>
+                    <div class="radio">  
+                        <label class="radio-in-">
+                            <input id="a3" value="3" type="radio" name="answerc" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')"> 
+                                {{dlg_question_new_a3}}
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label class="radio-in-">
+                            <input id="a4" value="4" type="radio" name="answerc" required oninvalid="this.setCustomValidity('Bitte fülle das Feld aus.')" oninput="setCustomValidity('')"> 
+                                {{dlg_question_new_a4}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkbox" style="margin-top:5px;">
+                    <label>
+                        <input id="an" value="1" type="checkbox" name="answern" class="checkbox" checked> 
+                            {{dlg_question_new_an}}
+                    </label>
+                </div>
+
+                <button id="dlg-question-new-send" type="submit" class="btn btn-mail-signup">{{dlg_question_button_send}}</button>
+            </form>
+            <button id="dlg-question-new-x" class="btn btn-mail-signup" style="display:none">{{dlg_question_button_close}}</button>
+        </div>
+    </div>
+</div>
