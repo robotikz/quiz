@@ -64,8 +64,9 @@
 </div>
 {% if loop.index is divisible by(5) %}
     {% set bi = (loop.index / 5) %}
+    {% set ph_name = "[#start_text_button_" ~ bi ~ "#]" %}
     <p>
-        {{"[#start_text_button_" ~ bi ~ "#]"|ph|raw}}
+        {{ph_name|ph|raw}}
     </p>
     {% if quiz.guestallow == 1 %}
         <a id="btn-play-guest" style="" class="btn btn-mail" onclick="gtmEPush(_, 'Start CTA 5 Questions {{bi}} Click');" href="{{ path('start1') }}">{{ screen_login_link_playbig|ph(quiz)|raw }}</a>

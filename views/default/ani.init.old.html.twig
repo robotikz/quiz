@@ -141,7 +141,8 @@
 {% block master_content %}
     <div class="content-wrapper startseite">
 
-        <div class="logo-container">
+        
+       <div class="logo-container">
             <a href="{{ path('home') }}">
                 <img 
                     class="startscreen-logo"
@@ -151,11 +152,9 @@
             </a>
             <h1 class="logo-claim">{{"[#quiz_claim#]"|ph|raw}}</h1>
             <br/>
-            {# <h4 class="label-play">{{"[#quiz_description#]"|ph|raw}}</h4> #}
-            <h4 class="label-play">{{"[#start_text_intro#]"|ph|raw}}</h4>
+            <h4 class="label-play">{{"[#quiz_description#]"|ph|raw}}</h4>
         </div>
 
-            {% include "default/ani.questions.html.twig" %}
 
         {% if app.user and app.user.status != 9 %}
             <div class="start-grey-line"></div>
@@ -167,16 +166,12 @@
             {# <a id="btn-reg" class="btn btn-mail" onclick="gtmEPush(_, 'Sign-up CTA Click');" href="{{ path('security_reg') }}">{{ screen_signup_button_signup }}</a> #}
         {% endif %}
 
-        <p>
-            {{"[#welcome_text_introduction#]"|ph|raw}}
-        </p>
-
         {% block ani %}
             {# animation html #}
         {% endblock %}
-        
+
         <p>
-            {{"[#seo_text_introduction#]"|ph|raw}}
+            {{"[#welcome_text_introduction#]"|ph|raw}}
         </p>
         
         {% if quiz.guestallow == 1 %}

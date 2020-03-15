@@ -546,7 +546,7 @@
 
     // stage content:
     (lib.quizintroductioneffzeh = function(mode, startPosition, loop) {
-        if (loop == null) { loop = false; }
+        // if (loop == null) { loop = false; }
         this.initialize(mode, startPosition, loop, {});
 
         // timeline functions:
@@ -573,11 +573,11 @@
             Can also be used to stop/pause the timeline of movieclips.
             */
 
-            this.stop();
+            // this.stop();
         }
 
         // actions tween:
-        this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(181).call(this.frame_181).wait(1));
+        this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(181).call(this.frame_181).wait(50));
 
         // button-area
         this.buttonquiz = new lib.button();

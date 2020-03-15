@@ -71,7 +71,7 @@ class DefaultController extends QController {
 
 		//dump($request->cookies->get('quiz_ani_dnd'));
 		// return $this->render ( 'default/ani.dnd.html.twig', array () );
-		return $this->render ( 'default/ani.6'.'.html.twig', array () );
+		return $this->render ( 'default/ani.7'.'.html.twig', array () );
 	}
 
 	/**
